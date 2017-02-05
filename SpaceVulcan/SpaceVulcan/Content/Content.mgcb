@@ -13,33 +13,33 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Ending.wav
+#begin Music/Ending.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Ending.wav
+/build:Music/Ending.wav
 
-#begin Level1.wav
+#begin Music/Level1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Level1.wav
+/build:Music/Level1.wav
 
-#begin Level2.wav
+#begin Music/Level2.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Level2.wav
+/build:Music/Level2.wav
 
-#begin Level3.wav
+#begin Music/Level3.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Level3.wav
+/build:Music/Level3.wav
 
-#begin TitleScreen.wav
+#begin Music/TitleScreen.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:TitleScreen.wav
+/build:Music/TitleScreen.wav
 
