@@ -8,13 +8,14 @@ namespace SpaceVulcan
     /// </summary>
     public static class Program
     {
+        public static GameLoop game;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            using (var game = new GameLoop())
+            using (game = new GameLoop())
                 game.Run();
         }
     }
