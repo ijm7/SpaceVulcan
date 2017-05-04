@@ -40,7 +40,7 @@
 
 #begin Music/TitleScreen.wav
 /importer:WavImporter
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/TitleScreen.wav
 
@@ -103,4 +103,10 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:Fonts/MenuTitle.spritefont
+
+#begin SoundEffects/sfx_menu_move1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_menu_move1.wav
 

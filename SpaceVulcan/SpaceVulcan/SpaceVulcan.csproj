@@ -50,6 +50,7 @@
     <Compile Include="Model\Projectiles\Projectile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ScrollingBackground.cs" />
     <Compile Include="View\States\DrawShipSelect.cs" />
     <Compile Include="View\States\DrawTopMenu.cs" />
   </ItemGroup>
@@ -79,7 +80,6 @@
     <Folder Include="Model\Interfaces\" />
     <Folder Include="Model\Levels\" />
     <Folder Include="Model\Obstacles\" />
-    <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

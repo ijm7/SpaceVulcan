@@ -4,7 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Controller.States;
 using SpaceVulcan.Model;
-using SpaceVulcan.View.States;
+using SpaceVulcan.Util;
+using SpaceVulcan.Util.States;
 using System.Text;
 
 namespace SpaceVulcan
@@ -23,7 +24,8 @@ namespace SpaceVulcan
         UpdateTopMenu updateTopMenu;
         public Menus menuList;
         KeyboardState previousState;
-
+        bool checkPress=false;
+        float elapsed;
 
         public GameLoop()
         {
@@ -44,7 +46,7 @@ namespace SpaceVulcan
             base.Initialize();
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             /*graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;*/
             graphics.ApplyChanges();
@@ -88,11 +90,19 @@ namespace SpaceVulcan
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             KeyboardState state = Keyboard.GetState();
+            System.Text.StringBuilder sb = new StringBuilder();
+            foreach (var key in state.GetPressedKeys())
+                sb.Append("Key: ").Append(key).Append(" pressed ");
 
+            if (sb.Length > 0 & previousState!=state)
+            {
+                checkPress = true;
+            }
             switch (_state)
             {
                 case GameState.TopMenu:
-                    updateTopMenu.Update(state, previousState, ref _menuSelection);
+                    updateTopMenu.Update(state, previousState, ref _menuSelection, gameTime);
+                    elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
                     break;
                 case GameState.ShipSelect:
                     //UpdateGameplay(deltaTime);
@@ -119,13 +129,14 @@ namespace SpaceVulcan
             switch (_state)
             {
                 case GameState.TopMenu:
-                    drawTopMenu.Draw(_menuSelection);
+                    drawTopMenu.Draw(_menuSelection, checkPress, gameTime, elapsed);
                     break;
                 case GameState.ShipSelect:
                     //DrawGameplay(deltaTime);
                     break;
             }
             spriteBatch.End();
+            checkPress = false;
             base.Draw(gameTime);
         }
     }

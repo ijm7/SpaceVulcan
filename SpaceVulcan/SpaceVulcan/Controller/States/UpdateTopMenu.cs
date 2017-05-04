@@ -13,8 +13,9 @@ namespace SpaceVulcan.Controller.States
     {
         public UpdateTopMenu()
         {
+
         }
-        public void Update(KeyboardState state, KeyboardState previousState, ref MenuSelection _menuSelection)
+        public void Update(KeyboardState state, KeyboardState previousState, ref MenuSelection _menuSelection, GameTime gameTime)
         {
             if (state.IsKeyDown(Keys.Up) & !previousState.IsKeyDown(Keys.Up))
             {

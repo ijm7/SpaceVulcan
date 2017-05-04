@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpaceVulcan.View.States
+namespace SpaceVulcan.Util.States
 {
     class DrawShipSelect
     {
