@@ -2,7 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Controller;
+using SpaceVulcan.Controller.States;
+using SpaceVulcan.Model;
 using SpaceVulcan.View.States;
+using System.Text;
 
 namespace SpaceVulcan
 {
@@ -11,16 +14,21 @@ namespace SpaceVulcan
     /// </summary>
     public class GameLoop : Game
     {
-        GameState _state;
+        public GameState _state;
+        public Setup setup;
+        public MenuSelection _menuSelection;
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         DrawTopMenu drawTopMenu;
+        UpdateTopMenu updateTopMenu;
+        public Menus menuList;
+        KeyboardState previousState;
 
 
         public GameLoop()
         {
             graphics = new GraphicsDeviceManager(this);
-
+            menuList = new Menus();
             Content.RootDirectory = "Content";
         }
 
@@ -36,11 +44,16 @@ namespace SpaceVulcan
             base.Initialize();
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             /*graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;*/
             graphics.ApplyChanges();
+            updateTopMenu = new UpdateTopMenu();
+            drawTopMenu = new DrawTopMenu();
             _state = GameState.TopMenu;
+            _menuSelection = MenuSelection.Play;
+            menuList.mainMenu = 0;
+            previousState = Keyboard.GetState();
         }
 
         /// <summary>
@@ -74,19 +87,22 @@ namespace SpaceVulcan
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            // TODO: Add your update logic here
+            KeyboardState state = Keyboard.GetState();
 
-            base.Update(gameTime);
             switch (_state)
             {
                 case GameState.TopMenu:
-                    //UpdateMainMenu(deltaTime);
+                    updateTopMenu.Update(state, previousState, ref _menuSelection);
                     break;
                 case GameState.ShipSelect:
                     //UpdateGameplay(deltaTime);
                     break;
-
             }
+            System.Diagnostics.Debug.WriteLine("Number in Loop" + menuList.mainMenu);
+            // TODO: Add your update logic here
+            previousState = state;
+            base.Update(gameTime);
+            
         }
 
         /// <summary>
@@ -95,22 +111,22 @@ namespace SpaceVulcan
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
+            
             spriteBatch.Begin();/*
             spriteBatch.DrawString(font, "MenuOptions" + score, new Vector2(100, 100), Color.Black);*/
                                 // TODO: Add your drawing code here
+
             switch (_state)
             {
                 case GameState.TopMenu:
-                    drawTopMenu = new DrawTopMenu(gameTime);
-                    drawTopMenu.Draw();
+                    drawTopMenu.Draw(_menuSelection);
                     break;
                 case GameState.ShipSelect:
                     //DrawGameplay(deltaTime);
                     break;
             }
             spriteBatch.End();
-            
+            base.Draw(gameTime);
         }
     }
 }

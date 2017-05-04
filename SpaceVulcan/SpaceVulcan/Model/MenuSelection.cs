@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpaceVulcan.Controller
+namespace SpaceVulcan.Model
 {
-    public enum GameState
+    public enum MenuSelection
     {
-        TopMenu,ShipSelect,Level1,Level2,Level3,End,Controls,Exit,
+        Play=0,Controls=1,Exit=2,
     }
 }

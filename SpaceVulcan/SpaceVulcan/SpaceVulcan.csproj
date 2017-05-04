@@ -40,9 +40,12 @@
   <ItemGroup>
     <Compile Include="Controller\GameLoop.cs" />
     <Compile Include="Controller\GameState.cs" />
+    <Compile Include="Controller\Setup.cs" />
     <Compile Include="Controller\States\UpdateShipSelect.cs" />
     <Compile Include="Controller\States\UpdateTopMenu.cs" />
     <Compile Include="Model\Enemies\Enemy.cs" />
+    <Compile Include="Model\Menus.cs" />
+    <Compile Include="Model\MenuSelection.cs" />
     <Compile Include="Model\Players\Player.cs" />
     <Compile Include="Model\Projectiles\Projectile.cs" />
     <Compile Include="Program.cs" />

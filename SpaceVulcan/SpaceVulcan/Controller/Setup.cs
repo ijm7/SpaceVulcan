@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpaceVulcan.Controller
 {
-    public enum GameState
+    public class Setup
     {
-        TopMenu,ShipSelect,Level1,Level2,Level3,End,Controls,Exit,
     }
 }
