@@ -16,11 +16,11 @@ namespace SpaceVulcan.Model.Enemies
             this.speed = speed;
             this.type = type;
         }
-        int shield { get; set; }
-        int armour { get; set; }
-        int speed { get; set; }
-        int type { get; set; }
-        int location { get; set; }
-        Projectile weapon { get; set; }
+        private int shield { get; set; }
+        private int armour { get; set; }
+        private int speed { get; set; }
+        private int type { get; set; }
+        private int location { get; set; }
+        private Projectile weapon { get; set; }
     }
 }

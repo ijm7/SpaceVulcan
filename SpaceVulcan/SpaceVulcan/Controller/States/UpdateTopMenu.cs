@@ -8,5 +8,9 @@ namespace SpaceVulcan.Controller.States
 {
     class UpdateTopMenu
     {
+        public void Update()
+        {
+
+        }
     }
 }

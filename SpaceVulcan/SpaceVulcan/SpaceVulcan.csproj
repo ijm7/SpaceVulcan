@@ -43,7 +43,6 @@
     <Compile Include="Controller\States\UpdateShipSelect.cs" />
     <Compile Include="Controller\States\UpdateTopMenu.cs" />
     <Compile Include="Model\Enemies\Enemy.cs" />
-    <Compile Include="Model\Interfaces\IEnemy.cs" />
     <Compile Include="Model\Players\Player.cs" />
     <Compile Include="Model\Projectiles\Projectile.cs" />
     <Compile Include="Program.cs" />
@@ -73,9 +72,11 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\Bosses\" />
+    <Folder Include="Model\Fonts\" />
+    <Folder Include="Model\Interfaces\" />
     <Folder Include="Model\Levels\" />
     <Folder Include="Model\Obstacles\" />
+    <Folder Include="Util\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Controller;
+using SpaceVulcan.View.States;
 
 namespace SpaceVulcan
 {
@@ -11,16 +12,15 @@ namespace SpaceVulcan
     public class GameLoop : Game
     {
         GameState _state;
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        private SpriteFont font;
-        private int score = 0;
-        
+        public GraphicsDeviceManager graphics;
+        public SpriteBatch spriteBatch;
+        DrawTopMenu drawTopMenu;
+
 
         public GameLoop()
         {
             graphics = new GraphicsDeviceManager(this);
-            
+
             Content.RootDirectory = "Content";
         }
 
@@ -37,7 +37,10 @@ namespace SpaceVulcan
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             graphics.IsFullScreen = true;
+            /*graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;*/
             graphics.ApplyChanges();
+            _state = GameState.TopMenu;
         }
 
         /// <summary>
@@ -48,7 +51,8 @@ namespace SpaceVulcan
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = Content.Load<SpriteFont>("Fonts/MenuOptions");
+
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -70,7 +74,6 @@ namespace SpaceVulcan
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            score++;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -82,7 +85,7 @@ namespace SpaceVulcan
                 case GameState.ShipSelect:
                     //UpdateGameplay(deltaTime);
                     break;
-                
+
             }
         }
 
@@ -92,21 +95,22 @@ namespace SpaceVulcan
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
-            spriteBatch.DrawString(font, "MenuOptions" + score, new Vector2(100, 100), Color.Black);
-            // TODO: Add your drawing code here
-            spriteBatch.End();
             base.Draw(gameTime);
+            spriteBatch.Begin();/*
+            spriteBatch.DrawString(font, "MenuOptions" + score, new Vector2(100, 100), Color.Black);*/
+                                // TODO: Add your drawing code here
             switch (_state)
             {
                 case GameState.TopMenu:
-                    //DrawMainMenu(deltaTime);
+                    drawTopMenu = new DrawTopMenu(gameTime);
+                    drawTopMenu.Draw();
                     break;
                 case GameState.ShipSelect:
                     //DrawGameplay(deltaTime);
                     break;
-
             }
+            spriteBatch.End();
+            
         }
+    }
 }
