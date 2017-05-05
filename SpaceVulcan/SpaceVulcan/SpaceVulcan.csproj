@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controller\ButtonType.cs" />
     <Compile Include="Controller\GameLoop.cs" />
     <Compile Include="Controller\GameState.cs" />
     <Compile Include="Controller\Setup.cs" />

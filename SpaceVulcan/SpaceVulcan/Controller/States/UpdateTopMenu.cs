@@ -15,10 +15,11 @@ namespace SpaceVulcan.Controller.States
         {
 
         }
-        public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuSelection _menuSelection, ref GameState _state, GameTime gameTime)
+        public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuSelection _menuSelection, ref GameState _state, ref ButtonType _buttonType, GameTime gameTime)
         {
             if (keyState.IsKeyDown(Keys.Up) & !previousState.IsKeyDown(Keys.Up))
             {
+                _buttonType = ButtonType.move;
                 if ((int)_menuSelection > 0)
                 {
                     //menuList.mainMenu--;
@@ -31,6 +32,7 @@ namespace SpaceVulcan.Controller.States
             }
             if (keyState.IsKeyDown(Keys.Down) & !previousState.IsKeyDown(Keys.Down))
             {
+                _buttonType = ButtonType.move;
                 if ((int)_menuSelection < 2)
                 {
                     //menuList.mainMenu++;
@@ -43,6 +45,7 @@ namespace SpaceVulcan.Controller.States
             }
             if (keyState.IsKeyDown(Keys.Enter) & !previousState.IsKeyDown(Keys.Enter))
             {
+                _buttonType = ButtonType.enter;
                 switch (_menuSelection)
                 {
                     case MenuSelection.Play:
@@ -56,6 +59,7 @@ namespace SpaceVulcan.Controller.States
                         break;
                 }
             }
+            
             //System.Diagnostics.Debug.WriteLine(menuList.mainMenu);
         }
     }

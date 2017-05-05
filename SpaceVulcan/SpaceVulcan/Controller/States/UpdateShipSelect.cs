@@ -13,10 +13,11 @@ namespace SpaceVulcan.Controller.States
 {
     class UpdateShipSelect
     {
-        public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuShipSelect _menuShipSelect, ref GameState _state, GameTime gameTime, ref Player player)
+        public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuShipSelect _menuShipSelect, ref GameState _state, ref ButtonType _buttonType, GameTime gameTime, ref Player player)
         {
             if (keyState.IsKeyDown(Keys.Left) & !previousState.IsKeyDown(Keys.Left))
             {
+                _buttonType = ButtonType.move;
                 if ((int)_menuShipSelect > 0)
                 {
                     //menuList.mainMenu--;
@@ -29,6 +30,7 @@ namespace SpaceVulcan.Controller.States
             }
             if (keyState.IsKeyDown(Keys.Right) & !previousState.IsKeyDown(Keys.Right))
             {
+                _buttonType = ButtonType.move;
                 if ((int)_menuShipSelect < 2)
                 {
                     //menuList.mainMenu++;
@@ -41,6 +43,7 @@ namespace SpaceVulcan.Controller.States
             }
             if (keyState.IsKeyDown(Keys.Enter) & !previousState.IsKeyDown(Keys.Enter))
             {
+                _buttonType = ButtonType.enter;
                 ProjectileType _projectileType;
                 switch (_menuShipSelect)
                 {
@@ -59,6 +62,12 @@ namespace SpaceVulcan.Controller.States
                 }
                 _state = GameState.Level1;
             }
+            if (keyState.IsKeyDown(Keys.Back) & !previousState.IsKeyDown(Keys.Back))
+            {
+                _buttonType = ButtonType.back;
+                _state = GameState.TopMenu;
+            }
+            
         }
     }
 }

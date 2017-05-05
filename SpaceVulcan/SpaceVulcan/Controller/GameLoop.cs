@@ -19,6 +19,7 @@ namespace SpaceVulcan
         public GameState _state;
         public MenuSelection _menuSelection;
         public MenuShipSelect _menuShipSelect;
+        public ButtonType _buttonType;
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         public Player player;
@@ -28,7 +29,6 @@ namespace SpaceVulcan
         UpdateShipSelect updateShipSelect;
         public Menus menuList;
         KeyboardState previousState;
-        bool checkPress=false;
         float elapsed;
 
         public GameLoop()
@@ -50,7 +50,7 @@ namespace SpaceVulcan
             base.Initialize();
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             /*graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;*/
             graphics.ApplyChanges();
@@ -60,6 +60,7 @@ namespace SpaceVulcan
             drawShipSelect = new DrawShipSelect();
             _state = GameState.TopMenu;
             _menuSelection = MenuSelection.Play;
+            _buttonType = ButtonType.nil;
             _menuShipSelect = MenuShipSelect.Laser;
             menuList.mainMenu = 0;
             previousState = Keyboard.GetState();
@@ -97,25 +98,27 @@ namespace SpaceVulcan
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             KeyboardState keyState = Keyboard.GetState();
-            System.Text.StringBuilder sb = new StringBuilder();
+            /*System.Text.StringBuilder sb = new StringBuilder();
             foreach (var key in keyState.GetPressedKeys())
                 sb.Append("Key: ").Append(key).Append(" pressed ");
 
             if (sb.Length > 0 & previousState!=keyState)
             {
                 checkPress = true;
-            }
+            }*/
             elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             switch (_state)
             {
                 case GameState.TopMenu:
-                    updateTopMenu.Update(keyState, previousState, ref _menuSelection, ref _state, gameTime);
+                    updateTopMenu.Update(keyState, previousState, ref _menuSelection, ref _state, ref _buttonType, gameTime);
                     break;
                 case GameState.ShipSelect:
-                    updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, gameTime, ref player);
+                    updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, ref _buttonType, gameTime, ref player);
+                    break;
+                case GameState.Exit:
+                    Exit();
                     break;
             }
-            System.Diagnostics.Debug.WriteLine("Number in Loop" + menuList.mainMenu);
             // TODO: Add your update logic here
             previousState = keyState;
             base.Update(gameTime);
@@ -133,15 +136,15 @@ namespace SpaceVulcan
             switch (_state)
             {
                 case GameState.TopMenu:
-                    drawTopMenu.Draw(_menuSelection, checkPress, gameTime, elapsed);
+                    drawTopMenu.Draw(_menuSelection, _buttonType, gameTime, elapsed);
                     break;
                 case GameState.ShipSelect:
-                    drawShipSelect.Draw(_menuShipSelect, checkPress, gameTime, elapsed);
+                    drawShipSelect.Draw(_menuShipSelect, _buttonType, gameTime, elapsed);
                     //DrawGameplay(deltaTime);
                     break;
             }
             spriteBatch.End();
-            checkPress = false;
+            _buttonType = ButtonType.nil;
             base.Draw(gameTime);
         }
     }

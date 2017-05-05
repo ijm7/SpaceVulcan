@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using SpaceVulcan.Controller;
 using SpaceVulcan.Model;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace SpaceVulcan.Util.States
         private Texture2D background;
         private Texture2D[] backSquares;
         private Texture2D[] ships;
-        private Song song;
+        //private Song song; REMEMBER THAT YOU WILL HAVE TO MAKE THE SONG FOR FIRST LEVEL PLAY HERE TO CUT OFF MEDIAPLAYER
         List<SoundEffect> soundEffects;
         public DrawShipSelect()
         {
@@ -37,11 +38,13 @@ namespace SpaceVulcan.Util.States
             this.mediumStandardFont = content.Load<SpriteFont>("Fonts/MediumStandard");
             this.largeStandardFont = content.Load<SpriteFont>("Fonts/LargeStandard");
             this.background = content.Load<Texture2D>("Backgrounds/Stars2");
-            this.song = content.Load<Song>("Music/TitleScreen");
+            //this.song = content.Load<Song>("Music/TitleScreen");
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_move1"));
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select2"));
             this.graphicsDevice = Program.game.GraphicsDevice;
-            MediaPlayer.Play(song);
-            MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(song);
+            //MediaPlayer.IsRepeating = true;
             backSquares = new Texture2D[3];
             ships = new Texture2D[3];
             ships[0] = content.Load<Texture2D>("PlayerSprites/lasership");
@@ -49,14 +52,15 @@ namespace SpaceVulcan.Util.States
             ships[2] = content.Load<Texture2D>("PlayerSprites/missilecruiser2");
             for (int i = 0; i < 3; i++)
             {
-                backSquares[i] = new Texture2D(graphicsDevice, 480, 700);
+                backSquares[i] = new Texture2D(graphicsDevice, 480, 600);
                 backSquares[i].CreateBorder(5, Color.White);
             }
             menuBackground = new ScrollingBackground();
             menuBackground.Load(graphicsDevice, background);
         }
-        public void Draw(MenuShipSelect _menuShipSelect, bool checkPress, GameTime gameTime, float elapsed)
+        public void Draw(MenuShipSelect _menuShipSelect, ButtonType _buttonType, GameTime gameTime, float elapsed)
         {
+
             menuBackground.Update(elapsed * 25);
             menuBackground.Draw(spriteBatch);
             /*Texture2D rect = new Texture2D(graphicsDevice, 80, 30);
@@ -124,9 +128,17 @@ namespace SpaceVulcan.Util.States
                 spriteBatch.Draw(backSquares[i], new Vector2(120 + j, 300), Color.White);
                 j += 600;
             }
-            if (checkPress)
+            switch (_buttonType)
             {
-                soundEffects[0].Play();
+                case ButtonType.enter:
+                    soundEffects[0].Play();
+                    break;
+                case ButtonType.move:
+                    soundEffects[1].Play();
+                    break;
+                case ButtonType.back:
+                    soundEffects[2].Play();
+                    break;
             }
 
         }

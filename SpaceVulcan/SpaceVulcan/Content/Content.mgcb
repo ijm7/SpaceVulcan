@@ -16,25 +16,25 @@
 
 #begin Music/Ending.wav
 /importer:WavImporter
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/Ending.wav
 
 #begin Music/Level1.wav
 /importer:WavImporter
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/Level1.wav
 
 #begin Music/Level2.wav
 /importer:WavImporter
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/Level2.wav
 
 #begin Music/Level3.wav
 /importer:WavImporter
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/Level3.wav
 
@@ -127,4 +127,22 @@
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
 /build:Fonts/SmallStandard.spritefont
+
+#begin SoundEffects/sfx_menu_select1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_menu_select1.wav
+
+#begin SoundEffects/sfx_sound_neutral7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_sound_neutral7.wav
+
+#begin SoundEffects/sfx_menu_select2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_menu_select2.wav
 

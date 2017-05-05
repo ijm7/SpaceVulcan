@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using SpaceVulcan.Controller;
 using SpaceVulcan.Model;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,9 @@ namespace SpaceVulcan.Util.States
             this.menuOptions = content.Load<SpriteFont>("Fonts/MenuOptions");
             this.background = content.Load<Texture2D>("Backgrounds/Stars2");
             this.song = content.Load<Song>("Music/TitleScreen");
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_move1"));
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select2"));
             this.graphicsDevice = Program.game.GraphicsDevice;
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
@@ -45,7 +48,7 @@ namespace SpaceVulcan.Util.States
 
         
 
-        public void Draw(MenuSelection _menuSelection, bool checkPress, GameTime gameTime, float elapsed)
+        public void Draw(MenuSelection _menuSelection, ButtonType _buttonType, GameTime gameTime, float elapsed)
         {
             menuBackground.Update(elapsed * 25);
             menuBackground.Draw(spriteBatch);
@@ -69,9 +72,17 @@ namespace SpaceVulcan.Util.States
                     spriteBatch.DrawString(menuOptions, ">", new Vector2(800, 725), Color.Red);
                     break;
             }
-            if (checkPress)
+            switch (_buttonType)
             {
-                soundEffects[0].Play();
+                case ButtonType.enter:
+                    soundEffects[0].Play();
+                    break;
+                case ButtonType.move:
+                    soundEffects[1].Play();
+                    break;
+                case ButtonType.back:
+                    soundEffects[2].Play();
+                    break;
             }
         }
     }
