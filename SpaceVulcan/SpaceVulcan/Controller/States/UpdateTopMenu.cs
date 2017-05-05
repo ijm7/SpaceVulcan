@@ -15,22 +15,45 @@ namespace SpaceVulcan.Controller.States
         {
 
         }
-        public void Update(KeyboardState state, KeyboardState previousState, ref MenuSelection _menuSelection, GameTime gameTime)
+        public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuSelection _menuSelection, ref GameState _state, GameTime gameTime)
         {
-            if (state.IsKeyDown(Keys.Up) & !previousState.IsKeyDown(Keys.Up))
+            if (keyState.IsKeyDown(Keys.Up) & !previousState.IsKeyDown(Keys.Up))
             {
                 if ((int)_menuSelection > 0)
                 {
                     //menuList.mainMenu--;
                     _menuSelection = (MenuSelection)(int)_menuSelection - 1;
                 }
+                else
+                {
+                    _menuSelection = (MenuSelection)2;
+                }
             }
-            if (state.IsKeyDown(Keys.Down) & !previousState.IsKeyDown(Keys.Down))
+            if (keyState.IsKeyDown(Keys.Down) & !previousState.IsKeyDown(Keys.Down))
             {
                 if ((int)_menuSelection < 2)
                 {
                     //menuList.mainMenu++;
                     _menuSelection = (MenuSelection)(int)_menuSelection + 1;
+                }
+                else
+                {
+                    _menuSelection = (MenuSelection)0;
+                }
+            }
+            if (keyState.IsKeyDown(Keys.Enter) & !previousState.IsKeyDown(Keys.Enter))
+            {
+                switch (_menuSelection)
+                {
+                    case MenuSelection.Play:
+                        _state = GameState.ShipSelect;
+                        break;
+                    case MenuSelection.Controls:
+                        _state = GameState.Controls;
+                        break;
+                    case MenuSelection.Exit:
+                        _state = GameState.Exit;
+                        break;
                 }
             }
             //System.Diagnostics.Debug.WriteLine(menuList.mainMenu);

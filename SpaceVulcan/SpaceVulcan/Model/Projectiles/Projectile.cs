@@ -6,7 +6,22 @@ using System.Threading.Tasks;
 
 namespace SpaceVulcan.Model.Projectiles
 {
-    class Projectile
+    public class Projectile
     {
+        public Projectile(int w, int h, int x, int y, int damage, ProjectileType projectileType)
+        {
+            this.w = w;
+            this.h = h;
+            this.x = x;
+            this.y = y;
+            this.damage = damage;
+            this.projectileType = projectileType;
+        }   
+        int w { get; set; }
+        int h { get; set; }
+        int x { get; set; }
+        int y { get; set; }
+        int damage { get; set; }
+        ProjectileType projectileType { get; set; }
     }
 }

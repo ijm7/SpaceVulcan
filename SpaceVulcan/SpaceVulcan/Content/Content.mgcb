@@ -110,3 +110,21 @@
 /processorParam:Quality=Best
 /build:SoundEffects/sfx_menu_move1.wav
 
+#begin Fonts/LargeStandard.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/LargeStandard.spritefont
+
+#begin Fonts/MediumStandard.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/MediumStandard.spritefont
+
+#begin Fonts/SmallStandard.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/SmallStandard.spritefont
+

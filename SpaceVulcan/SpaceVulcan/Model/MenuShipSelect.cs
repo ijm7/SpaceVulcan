@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SpaceVulcan.Model
 {
-    public enum MenuSelection
+    public enum MenuShipSelect
     {
-        Play,Controls,Exit,
+        Laser,Mass,Missile,
     }
 }

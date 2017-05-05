@@ -46,11 +46,14 @@
     <Compile Include="Model\Enemies\Enemy.cs" />
     <Compile Include="Model\Menus.cs" />
     <Compile Include="Model\MenuSelection.cs" />
+    <Compile Include="Model\MenuShipSelect.cs" />
     <Compile Include="Model\Players\Player.cs" />
     <Compile Include="Model\Projectiles\Projectile.cs" />
+    <Compile Include="Model\Projectiles\ProjectileType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\ScrollingBackground.cs" />
+    <Compile Include="Util\TextureTools.cs" />
     <Compile Include="View\States\DrawShipSelect.cs" />
     <Compile Include="View\States\DrawTopMenu.cs" />
   </ItemGroup>

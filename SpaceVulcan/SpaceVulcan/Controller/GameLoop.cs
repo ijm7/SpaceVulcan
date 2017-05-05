@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Controller.States;
 using SpaceVulcan.Model;
+using SpaceVulcan.Model.Players;
 using SpaceVulcan.Util;
 using SpaceVulcan.Util.States;
 using System.Text;
@@ -16,12 +17,15 @@ namespace SpaceVulcan
     public class GameLoop : Game
     {
         public GameState _state;
-        public Setup setup;
         public MenuSelection _menuSelection;
+        public MenuShipSelect _menuShipSelect;
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
+        public Player player;
         DrawTopMenu drawTopMenu;
+        DrawShipSelect drawShipSelect;
         UpdateTopMenu updateTopMenu;
+        UpdateShipSelect updateShipSelect;
         public Menus menuList;
         KeyboardState previousState;
         bool checkPress=false;
@@ -51,9 +55,12 @@ namespace SpaceVulcan
             graphics.PreferredBackBufferHeight = 720;*/
             graphics.ApplyChanges();
             updateTopMenu = new UpdateTopMenu();
+            updateShipSelect = new UpdateShipSelect();
             drawTopMenu = new DrawTopMenu();
+            drawShipSelect = new DrawShipSelect();
             _state = GameState.TopMenu;
             _menuSelection = MenuSelection.Play;
+            _menuShipSelect = MenuShipSelect.Laser;
             menuList.mainMenu = 0;
             previousState = Keyboard.GetState();
         }
@@ -89,28 +96,28 @@ namespace SpaceVulcan
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            KeyboardState state = Keyboard.GetState();
+            KeyboardState keyState = Keyboard.GetState();
             System.Text.StringBuilder sb = new StringBuilder();
-            foreach (var key in state.GetPressedKeys())
+            foreach (var key in keyState.GetPressedKeys())
                 sb.Append("Key: ").Append(key).Append(" pressed ");
 
-            if (sb.Length > 0 & previousState!=state)
+            if (sb.Length > 0 & previousState!=keyState)
             {
                 checkPress = true;
             }
+            elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             switch (_state)
             {
                 case GameState.TopMenu:
-                    updateTopMenu.Update(state, previousState, ref _menuSelection, gameTime);
-                    elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    updateTopMenu.Update(keyState, previousState, ref _menuSelection, ref _state, gameTime);
                     break;
                 case GameState.ShipSelect:
-                    //UpdateGameplay(deltaTime);
+                    updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, gameTime, ref player);
                     break;
             }
             System.Diagnostics.Debug.WriteLine("Number in Loop" + menuList.mainMenu);
             // TODO: Add your update logic here
-            previousState = state;
+            previousState = keyState;
             base.Update(gameTime);
             
         }
@@ -120,18 +127,16 @@ namespace SpaceVulcan
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
-            
-            spriteBatch.Begin();/*
+        {            spriteBatch.Begin();/*
             spriteBatch.DrawString(font, "MenuOptions" + score, new Vector2(100, 100), Color.Black);*/
                                 // TODO: Add your drawing code here
-
             switch (_state)
             {
                 case GameState.TopMenu:
                     drawTopMenu.Draw(_menuSelection, checkPress, gameTime, elapsed);
                     break;
                 case GameState.ShipSelect:
+                    drawShipSelect.Draw(_menuShipSelect, checkPress, gameTime, elapsed);
                     //DrawGameplay(deltaTime);
                     break;
             }
