@@ -1,8 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Model;
+using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Players;
 using SpaceVulcan.Model.Projectiles;
+using SpaceVulcan.Util;
+using SpaceVulcan.View.States;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +17,7 @@ namespace SpaceVulcan.Controller.States
 {
     class UpdateShipSelect
     {
-        public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuShipSelect _menuShipSelect, ref GameState _state, ref ButtonType _buttonType, GameTime gameTime, ref Player player)
+        public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuShipSelect _menuShipSelect, ref GameState _state, ref ButtonType _buttonType, GameTime gameTime, ref Player player, ref DrawLevel drawLevel, ref UpdateLevel updateLevel, ref Dictionary<int, List<Enemy>> levelOneGenerator)
         {
             if (keyState.IsKeyDown(Keys.Left) & !previousState.IsKeyDown(Keys.Left))
             {
@@ -43,24 +47,35 @@ namespace SpaceVulcan.Controller.States
             }
             if (keyState.IsKeyDown(Keys.Enter) & !previousState.IsKeyDown(Keys.Enter))
             {
+                LevelCreator levelOneCreator = new LevelCreator();
                 _buttonType = ButtonType.enter;
                 ProjectileType _projectileType;
+                drawLevel = new DrawLevel();
+                levelOneGenerator = levelOneCreator.BuildLevelOne();
+                updateLevel = new UpdateLevel(gameTime, levelOneGenerator);
+                Vector2 defaultPosition = new Vector2(960,800);
+
                 switch (_menuShipSelect)
                 {
+                    
                     case MenuShipSelect.Laser:
                         _projectileType = ProjectileType.Laser;
-                        player = new Model.Players.Player(500, 500, 0, 15, 5, 1.0, 25, 25, _projectileType);
+                        
+                        player = new Player(defaultPosition, 100, 100, 5, 15, 5, 0.07, 170, 100, _projectileType, false, 0);
+                        player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/Lasership");
+
                         break;
                     case MenuShipSelect.Mass:
                         _projectileType = ProjectileType.MassDriver;
-                        player = new Model.Players.Player(500, 500, 0, 15, 10, 0.5, 25, 25, _projectileType);
-                        break;
+                        player = new Player(defaultPosition, 100, 100, 0, 15, 10, 0.5, 170, 100, _projectileType, false, 0);
+                        break;  
                     case MenuShipSelect.Missile:
                         _projectileType = ProjectileType.Missile;
-                        player = new Model.Players.Player(500, 500, 0, 15, 50, 0.1, 25, 25, _projectileType);
+                        player = new Player(defaultPosition, 100, 100, 0, 15, 50, 1.0, 170, 100, _projectileType, false, 0);
                         break;
                 }
                 _state = GameState.Level1;
+                
             }
             if (keyState.IsKeyDown(Keys.Back) & !previousState.IsKeyDown(Keys.Back))
             {

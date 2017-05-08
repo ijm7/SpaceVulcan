@@ -4,9 +4,13 @@ using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Controller.States;
 using SpaceVulcan.Model;
+using SpaceVulcan.Model.Enemies;
+using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
-using SpaceVulcan.Util;
-using SpaceVulcan.Util.States;
+using SpaceVulcan.Model.Projectiles;
+using SpaceVulcan.View.States;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace SpaceVulcan
@@ -23,13 +27,23 @@ namespace SpaceVulcan
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         public Player player;
+        public Level level;
         DrawTopMenu drawTopMenu;
         DrawShipSelect drawShipSelect;
         UpdateTopMenu updateTopMenu;
         UpdateShipSelect updateShipSelect;
+        UpdateLevel updateLevel;
+        DrawLevel drawLevel;
         public Menus menuList;
         KeyboardState previousState;
         float elapsed;
+        float shotCounter;
+        int timer;
+        int prevTimer;
+        public List<Projectile> projectileList;
+        Dictionary<int, List<Enemy>> currentLevel = new Dictionary<int, List<Enemy>>();
+        List<Enemy> existingEnemies = new List<Enemy>();
+        // bool spawnAllowed; Maybe here?
 
         public GameLoop()
         {
@@ -56,14 +70,16 @@ namespace SpaceVulcan
             graphics.ApplyChanges();
             updateTopMenu = new UpdateTopMenu();
             updateShipSelect = new UpdateShipSelect();
-            drawTopMenu = new DrawTopMenu();
+            drawTopMenu = DrawTopMenu.Instance; //Implement rest of singletons later
             drawShipSelect = new DrawShipSelect();
+            
             _state = GameState.TopMenu;
             _menuSelection = MenuSelection.Play;
             _buttonType = ButtonType.nil;
             _menuShipSelect = MenuShipSelect.Laser;
             menuList.mainMenu = 0;
             previousState = Keyboard.GetState();
+            projectileList = new List<Projectile>();
         }
 
         /// <summary>
@@ -107,13 +123,20 @@ namespace SpaceVulcan
                 checkPress = true;
             }*/
             elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            timer +=  (int)Math.Floor(elapsed);
+            shotCounter += elapsed;
+            //System.Diagnostics.Debug.WriteLine(timer);
             switch (_state)
             {
                 case GameState.TopMenu:
                     updateTopMenu.Update(keyState, previousState, ref _menuSelection, ref _state, ref _buttonType, gameTime);
                     break;
                 case GameState.ShipSelect:
-                    updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, ref _buttonType, gameTime, ref player);
+                    updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, ref _buttonType, gameTime, ref player, ref drawLevel, ref updateLevel, ref currentLevel);
+                    break;
+                case GameState.Level1:
+                    updateLevel.Update(ref player, keyState, shotCounter, ref projectileList, gameTime, ref existingEnemies);
                     break;
                 case GameState.Exit:
                     Exit();
@@ -121,6 +144,7 @@ namespace SpaceVulcan
             }
             // TODO: Add your update logic here
             previousState = keyState;
+            prevTimer = timer;
             base.Update(gameTime);
             
         }
@@ -141,6 +165,10 @@ namespace SpaceVulcan
                 case GameState.ShipSelect:
                     drawShipSelect.Draw(_menuShipSelect, _buttonType, gameTime, elapsed);
                     //DrawGameplay(deltaTime);
+                    break;
+                case GameState.Level1:
+                    drawLevel.Draw(player, elapsed, projectileList, existingEnemies);
+                    player.firing = false;
                     break;
             }
             spriteBatch.End();

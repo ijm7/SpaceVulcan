@@ -1,4 +1,6 @@
-﻿using SpaceVulcan.Model.Projectiles;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceVulcan.Model.Projectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,11 @@ namespace SpaceVulcan.Model.Players
 {
     public class Player
     {
-        public Player(int x, int y, int score, int speed, int damage, double fireRate, int armour, int shield, ProjectileType _projectileType)
+        public Player(Vector2 position, int w, int h, int score, int speed, int damage, double fireRate, double armour, double shield, ProjectileType _projectileType, bool firing, float lastShot)
         {
-            this.x = x;
-            this.y = y;
+            this.position = position;
+            this.w = w;
+            this.h = h;
             this.score = score;
             this.speed = speed;
             this.damage = damage;
@@ -20,15 +23,29 @@ namespace SpaceVulcan.Model.Players
             this.armour = armour;
             this.shield = shield;
             this._projectileType = _projectileType;
+            this.firing = firing;
+            this.lastShot = lastShot;
         }
-        int x { get; set; }
-        int y { get; set; }
-        int score { get; set; }
-        int speed { get; set; }
-        int damage { get; set; }
-        double fireRate { get; set; }
-        int armour { get; set; }
-        int shield { get; set; }
-        ProjectileType _projectileType { get; set; }
+        public Texture2D sprite { get; set; }
+        public Vector2 position { get; set; }
+        public int w { get; set; }
+        public int h { get; set; }
+        public int score { get; set; }
+        public int speed { get; set; }
+        public int damage { get; set; }
+        public double fireRate { get; set; }
+        public double armour { get; set; }
+        public double shield { get; set; }
+        public ProjectileType _projectileType { get; set; }
+        public bool firing { get; set; }
+        public float lastShot { get; set; }
+        public Rectangle boundingBox
+        {
+            get
+            {
+                return new Rectangle((int)position.X, (int)position.Y, sprite.Width/2, sprite.Height/2);
+            }
+        }
+
     }
 }

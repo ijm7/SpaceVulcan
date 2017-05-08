@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +10,33 @@ namespace SpaceVulcan.Model.Projectiles
 {
     public class Projectile
     {
-        public Projectile(int w, int h, int x, int y, int damage, ProjectileType projectileType)
+        public Projectile(Vector2 position, int damage, int speed, ProjectileType _projectileType, ProjectileDirection _projectileDirection)
         {
-            this.w = w;
-            this.h = h;
-            this.x = x;
-            this.y = y;
+            this.position = position;
             this.damage = damage;
-            this.projectileType = projectileType;
-        }   
-        int w { get; set; }
-        int h { get; set; }
-        int x { get; set; }
-        int y { get; set; }
-        int damage { get; set; }
-        ProjectileType projectileType { get; set; }
+            this.speed = speed;
+            this._projectileType = _projectileType;
+            this._projectileDirection = _projectileDirection;
+        }
+        public Projectile(int damage, int speed, ProjectileType _projectileType, ProjectileDirection _projectileDirection)
+        {
+            this.damage = damage;
+            this.speed = speed;
+            this._projectileType = _projectileType;
+            this._projectileDirection = _projectileDirection;
+        }
+        public Vector2 position { get; set; }
+        public int damage { get; set; }
+        public int speed { get; set; }
+        public ProjectileType _projectileType { get; set; }
+        public ProjectileDirection _projectileDirection { get; set; }
+        public Texture2D sprite { get; set; }
+        public Rectangle boundingBox
+        {
+            get
+            {
+                return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height);
+            }
+        }
     }
 }

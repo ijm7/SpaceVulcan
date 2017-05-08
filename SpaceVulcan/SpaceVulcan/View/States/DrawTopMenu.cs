@@ -5,17 +5,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Model;
+using SpaceVulcan.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpaceVulcan.Util.States
+namespace SpaceVulcan.View.States
 {
     
-    public class DrawTopMenu
+    public sealed class DrawTopMenu
     {
+        private static readonly DrawTopMenu instance = new DrawTopMenu();
         private ContentManager content = Program.game.Content;
         private SpriteBatch spriteBatch;
         private SpriteFont menuTitle;
@@ -26,10 +28,13 @@ namespace SpaceVulcan.Util.States
         private GraphicsDevice graphicsDevice;
         ScrollingBackground menuBackground;
 
-        public DrawTopMenu()
+        static DrawTopMenu()
+        {
+
+        }
+        private DrawTopMenu()
         {
             soundEffects = new List<SoundEffect>();
-            
             this.spriteBatch = Program.game.spriteBatch;
             this.menuTitle = content.Load<SpriteFont>("Fonts/MenuTitle");
             this.menuOptions = content.Load<SpriteFont>("Fonts/MenuOptions");
@@ -46,7 +51,13 @@ namespace SpaceVulcan.Util.States
             //menuList.mainMenu = 0;
         }
 
-        
+        public static DrawTopMenu Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
 
         public void Draw(MenuSelection _menuSelection, ButtonType _buttonType, GameTime gameTime, float elapsed)
         {
@@ -58,7 +69,6 @@ namespace SpaceVulcan.Util.States
             spriteBatch.DrawString(menuOptions, "Play", new Vector2(850, 575), Color.White);
             spriteBatch.DrawString(menuOptions, "Controls", new Vector2(775, 650), Color.White);
             spriteBatch.DrawString(menuOptions, "Exit", new Vector2(850, 725), Color.White);
-            System.Diagnostics.Debug.WriteLine("Current menu = " + _menuSelection);
             //System.Diagnostics.Debug.WriteLine("Current menu variable = " + menuList.mainMenu);
             switch (_menuSelection)
             {

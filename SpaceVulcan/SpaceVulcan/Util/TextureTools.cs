@@ -34,5 +34,16 @@ namespace SpaceVulcan.Util
             }
             texture.SetData(colors);
         }
+
+        //http://stackoverflow.com/questions/5751732/draw-rectangle-in-xna-using-spritebatch
+        public static Vector2 CreateRectangle(int w, int h, int x, int y, Color color, float luminosity)
+        {
+            Texture2D rect = new Texture2D(Program.game.GraphicsDevice, w, h);
+            Color[] data = new Color[w * h];
+            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate * luminosity;
+            rect.SetData(data);
+            Vector2 coor = new Vector2(x, y);
+            return coor;
+        }
     }
 }

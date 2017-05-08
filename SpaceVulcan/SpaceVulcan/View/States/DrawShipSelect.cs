@@ -5,13 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Model;
+using SpaceVulcan.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpaceVulcan.Util.States
+namespace SpaceVulcan.View.States
 {
     public class DrawShipSelect
     {
@@ -88,11 +89,12 @@ namespace SpaceVulcan.Util.States
             spriteBatch.DrawString(smallStandardFont, "they are well suited for", new Vector2(750, 790), Color.White);
             spriteBatch.DrawString(smallStandardFont, "beginners.", new Vector2(750, 820), Color.White);
             //MISSILES                                 Laser ship has a very high
+            
             spriteBatch.DrawString(smallStandardFont, "Missiles do very high", new Vector2(1350, 700), Color.White);
             spriteBatch.DrawString(smallStandardFont, "damage but have a low fire", new Vector2(1350, 730), Color.White);
             spriteBatch.DrawString(smallStandardFont, "rate. Missiles are more ", new Vector2(1350, 760), Color.White);
             spriteBatch.DrawString(smallStandardFont, "suited to experienced", new Vector2(1350, 790), Color.White);
-            spriteBatch.DrawString(smallStandardFont, "players.", new Vector2(1350, 820), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "players." + elapsed, new Vector2(1350, 820), Color.White);
             for (int i = 0, j = 0; i < 3 ; i++)
             {
                 if (i == 1)

@@ -39,22 +39,33 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controller\ButtonType.cs" />
+    <Compile Include="Controller\CollisionChecker.cs" />
+    <Compile Include="Controller\GameArea.cs" />
     <Compile Include="Controller\GameLoop.cs" />
     <Compile Include="Controller\GameState.cs" />
     <Compile Include="Controller\Setup.cs" />
+    <Compile Include="Controller\States\UpdateLevel.cs" />
     <Compile Include="Controller\States\UpdateShipSelect.cs" />
     <Compile Include="Controller\States\UpdateTopMenu.cs" />
+    <Compile Include="Model\Backgrounds.cs" />
     <Compile Include="Model\Enemies\Enemy.cs" />
+    <Compile Include="Model\Enemies\EnemyType.cs" />
+    <Compile Include="Model\Levels\Level.cs" />
     <Compile Include="Model\Menus.cs" />
     <Compile Include="Model\MenuSelection.cs" />
     <Compile Include="Model\MenuShipSelect.cs" />
     <Compile Include="Model\Players\Player.cs" />
     <Compile Include="Model\Projectiles\Projectile.cs" />
+    <Compile Include="Model\Projectiles\ProjectileDirection.cs" />
     <Compile Include="Model\Projectiles\ProjectileType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\EnemyGenerator.cs" />
+    <Compile Include="Util\LevelCreator.cs" />
+    <Compile Include="Util\ProjectileGenerator.cs" />
     <Compile Include="Util\ScrollingBackground.cs" />
     <Compile Include="Util\TextureTools.cs" />
+    <Compile Include="View\States\DrawLevel.cs" />
     <Compile Include="View\States\DrawShipSelect.cs" />
     <Compile Include="View\States\DrawTopMenu.cs" />
   </ItemGroup>
@@ -82,7 +93,6 @@
   <ItemGroup>
     <Folder Include="Model\Fonts\" />
     <Folder Include="Model\Interfaces\" />
-    <Folder Include="Model\Levels\" />
     <Folder Include="Model\Obstacles\" />
   </ItemGroup>
   <ItemGroup>
