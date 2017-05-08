@@ -27,6 +27,7 @@ namespace SpaceVulcan.Model.Enemies
             secondaryDestination = new Vector2 (0);
             this.lastSpawn = 0;
             this.nextSpawn = 0;
+            destroyed = false;
         }
         public Enemy(Vector2 position, Vector2 destination, Vector2 secondaryDestination, bool looping, int hp, int speed, double damage, bool firstDestination, int score, Projectile projectile, int id, EnemyType _enemyType, double fireRate)
         {
@@ -46,6 +47,7 @@ namespace SpaceVulcan.Model.Enemies
             this.fireRate = fireRate;
             this.lastSpawn = 0;
             this.nextSpawn = 0;
+            destroyed = false;
         }
 
         public Vector2 position { get; set; }
@@ -63,6 +65,7 @@ namespace SpaceVulcan.Model.Enemies
         public Texture2D sprite { get; set; }
         public double lastSpawn { get; set; }
         public double nextSpawn { get; set; }
+        public bool destroyed { get; set; }
         public Rectangle boundingBox
         {
             get

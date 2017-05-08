@@ -316,14 +316,21 @@ namespace SpaceVulcan.Controller.States
                     {
                         existingEnemies[j].hp -= (int)projectileList[i].damage;
                         //projectileList.Remove(projectileList[i]);
-                        projectilesToRemove.Add(i);
+                        if (!projectilesToRemove.Contains(i))
+                        {
+                            projectilesToRemove.Add(i);
+                        }
 
                     }
                     if (existingEnemies[j].hp <= 0)
                     {
-                        player.score += existingEnemies[j].score;
+                        
                         //existingEnemies.Remove(existingEnemies[j]);
-                        enemiesToRemove.Add(j);
+                        if (!enemiesToRemove.Contains(j))
+                        {
+                            player.score += existingEnemies[j].score;
+                            enemiesToRemove.Add(j);
+                        }
                     }
                 }
             }
@@ -347,7 +354,10 @@ namespace SpaceVulcan.Controller.States
                         player.shield -= projectileList[i].damage;
                     }
                     //projectileList.Remove(projectileList[i]);
-                    projectilesToRemove.Add(i);
+                    if (!projectilesToRemove.Contains(i))
+                    {
+                        projectilesToRemove.Add(i);
+                    }
                 }
             }
             for (int i = 0; i < projectileList.Count; i++)
@@ -355,7 +365,10 @@ namespace SpaceVulcan.Controller.States
                 if (!CollisionChecker.checkProjectileBounds(projectileList[i]))
                 {
                     //projectileList.Remove(projectileList[i]);
-                    projectilesToRemove.Add(i);
+                    if (!projectilesToRemove.Contains(i))
+                    {
+                        projectilesToRemove.Add(i);
+                    }
                 }
             }
             for (int i = 0; i < projectilesToRemove.Count; i++)
