@@ -64,7 +64,7 @@ namespace SpaceVulcan.View.States
         public void Draw(Player player, float elapsed, List<Projectile> projectileList, List<Enemy> existingEnemies)
         {
             DrawBackground(elapsed);
-            DrawBackGUI();
+            DrawBackGUI(player);
             DrawPlayer(player);
             if (existingEnemies.Count!=0)
             {
@@ -76,7 +76,7 @@ namespace SpaceVulcan.View.States
 
         }
 
-        private void DrawBackGUI()
+        private void DrawBackGUI(Player player)
         {
             Color skirtColor = new Color(38, 38, 38);
             Color inlayColorLight = new Color(45, 45, 45);
@@ -97,8 +97,8 @@ namespace SpaceVulcan.View.States
             spriteBatch.Draw(sideGUI[9], new Rectangle(1490, 840, 400, 200), inlayColorDark);
             spriteBatch.Draw(sideGUI[10], new Rectangle(1520, 980, 340, 60), skirtColor);
             spriteBatch.DrawString(mediumStandardFont, "SPACE VULCAN", new Vector2(40, 25), Color.White);
-            spriteBatch.DrawString(mediumStandardFont, "SCORE: ", new Vector2(40, 95), Color.White);
-            spriteBatch.DrawString(mediumStandardFont, "0", new Vector2(230, 95), Color.White);
+            spriteBatch.DrawString(mediumStandardFont, "SCORE: "+ player.score, new Vector2(40, 95), Color.White);
+            spriteBatch.DrawString(mediumStandardFont, "", new Vector2(230, 95), Color.White);
             spriteBatch.DrawString(smallStandardFont, "DIALOG", new Vector2(40, 455), Color.White);
             spriteBatch.DrawString(smallStandardFont, "SPECIAL ABILITIES", new Vector2(1555, 40), Color.White);
             spriteBatch.DrawString(smallStandardFont, "ARMOUR", new Vector2(1540, 1000), Color.White);
@@ -125,6 +125,7 @@ namespace SpaceVulcan.View.States
         {
             for (int i = 0; i < projectileList.Count; i++)
             {
+                spriteBatch.Draw(sideGUI[14], projectileList[i].boundingBox, Color.Yellow);
                 spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position);
 
             }
@@ -150,6 +151,7 @@ namespace SpaceVulcan.View.States
             {
                 if (existingEnemies[i].boundingBox.Right < GameArea.RIGHT && existingEnemies[i].boundingBox.Left > GameArea.LEFT)
                 {
+                    spriteBatch.Draw(sideGUI[15], existingEnemies[i].boundingBox, Color.Yellow);
                     spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position);
                 }
             }

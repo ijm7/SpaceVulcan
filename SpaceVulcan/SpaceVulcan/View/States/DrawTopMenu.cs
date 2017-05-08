@@ -44,8 +44,8 @@ namespace SpaceVulcan.View.States
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_move1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select2"));
             this.graphicsDevice = Program.game.GraphicsDevice;
-            MediaPlayer.Play(song);
-            MediaPlayer.IsRepeating = true;
+            //MediaPlayer.Play(song);
+            //MediaPlayer.IsRepeating = true;
             menuBackground = new ScrollingBackground();
             menuBackground.Load(graphicsDevice, background);
             //menuList.mainMenu = 0;

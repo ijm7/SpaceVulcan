@@ -136,7 +136,7 @@ namespace SpaceVulcan
                     updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, ref _buttonType, gameTime, ref player, ref drawLevel, ref updateLevel, ref currentLevel);
                     break;
                 case GameState.Level1:
-                    updateLevel.Update(ref player, keyState, shotCounter, ref projectileList, gameTime, ref existingEnemies);
+                    updateLevel.Update(ref player, keyState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state);
                     break;
                 case GameState.Exit:
                     Exit();

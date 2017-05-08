@@ -27,8 +27,8 @@ namespace SpaceVulcan.Util
 
         public Dictionary<int, List<Enemy>> BuildLevelOne()
         {
-            timeList.Add(EnemyGenerator.createGrunt(-20, -20, 500,40));
-            timeList.Add(EnemyGenerator.createGrunt(2000, -20, 1200, 40));
+            timeList.Add(EnemyGenerator.createGrunt(-20, -20, 500,40,1,0.1));
+            timeList.Add(EnemyGenerator.createGrunt(2000, -20, 1200, 40,1,0.1));
             levelCatalogue.Add(5, timeList);
             return levelCatalogue;
             

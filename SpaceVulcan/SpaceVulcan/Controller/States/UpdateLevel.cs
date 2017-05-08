@@ -17,22 +17,26 @@ namespace SpaceVulcan.Controller.States
         int levelStartTime;
         float trackerTime;
         int marker;
+        int projectileMarker;
         Dictionary<int, List<Enemy>> levelDictionary;
-        
+        Random rnd;
+
+
         List<Enemy> newEnemies;
         public UpdateLevel(GameTime start, Dictionary<int, List<Enemy>> levelDictionary)
         {
             levelStartTime = 0;
             marker = 0;
             this.levelDictionary = levelDictionary;
+            rnd = new Random();
         }
 
-        public void Update(ref Player player, KeyboardState keyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies)
+        public void Update(ref Player player, KeyboardState keyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies, ref GameState _state)
         {
 
             trackerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             levelStartTime = (int)Math.Floor(trackerTime);
-
+            
             System.Diagnostics.Debug.WriteLine(levelStartTime);
             if (keyState.IsKeyDown(Keys.Right))
             {
@@ -98,25 +102,30 @@ namespace SpaceVulcan.Controller.States
             {
                 player.firing = false;
             }
-            updateProjectiles(ref projectileList, player);
+            
             updateShield(ref player, keyState);
             spawnEnemies(ref existingEnemies);
             if (existingEnemies.Count!=0)
             {
                 moveEnemies(ref existingEnemies);
             }
-            checkProjectileColissions(ref projectileList, ref existingEnemies, ref player);
+            newEnemyProjectile(ref projectileList, existingEnemies);
+            updateProjectiles(ref projectileList, player);
+            checkProjectileCollisions(ref projectileList, ref existingEnemies, ref player);
+            checkEnd(ref _state);
         }
 
         public void NewPlayerProjectile(Player player, ref List<Projectile> projectileList)
         {
             Projectile projectile;
-            Vector2 initialProjectilePosition = new Vector2(player.position.X + 40, player.boundingBox.Top);
+            Vector2 initialProjectilePosition = new Vector2(0);
             switch (player._projectileType)
             {
                 case ProjectileType.Laser:
                     projectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Laser, ProjectileDirection.North);
                     projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
+                    Vector2 newProjectilePosition = new Vector2(player.position.X + 40, player.boundingBox.Top - projectile.boundingBox.Height);
+                    projectile.position = newProjectilePosition;
                     projectileList.Add(projectile);
                     break;
                 case ProjectileType.MassDriver:
@@ -158,7 +167,12 @@ namespace SpaceVulcan.Controller.States
                             break;
                     }
                 }
+                /*if (CollisionChecker.checkProjectileBounds(projectileList[i]))
+                {
+                    projectileList.Remove(projectileList[i]);
+                }*/
             }
+            
         }
 
         private void updateShield(ref Player player, KeyboardState keyState)
@@ -290,22 +304,111 @@ namespace SpaceVulcan.Controller.States
             }
         }
 
-        private void checkProjectileColissions(ref List<Projectile> projectileList, ref List<Enemy> existingEnemies, ref Player player)
+        private void checkProjectileCollisions(ref List<Projectile> projectileList, ref List<Enemy> existingEnemies, ref Player player)
         {
+            List<int> projectilesToRemove = new List<int>();
+            List<int> enemiesToRemove = new List<int>();
             for (int i = 0; i < projectileList.Count; i++)
             {
                 for (int j = 0; j < existingEnemies.Count; j++)
                 {
                     if (projectileList[i].boundingBox.Intersects(existingEnemies[j].boundingBox))
                     {
-                        existingEnemies[j].hp -= projectileList[i].damage;
-                        projectileList.Remove(projectileList[i]);
+                        existingEnemies[j].hp -= (int)projectileList[i].damage;
+                        //projectileList.Remove(projectileList[i]);
+                        projectilesToRemove.Add(i);
+
                     }
-                    if (existingEnemies[j].hp < 1)
+                    if (existingEnemies[j].hp <= 0)
                     {
-                        existingEnemies.Remove(existingEnemies[j]);
+                        player.score += existingEnemies[j].score;
+                        //existingEnemies.Remove(existingEnemies[j]);
+                        enemiesToRemove.Add(j);
                     }
                 }
+            }
+            for (int i = 0; i < enemiesToRemove.Count; i++)
+            {
+                existingEnemies.RemoveAt(enemiesToRemove.ElementAt(i));
+            }
+            for (int i = 0; i < projectileList.Count; i++)
+            {
+                if (player.boundingBox.Intersects(projectileList[i].boundingBox))
+                {
+                    if (player.shield - projectileList[i].damage < 0)
+                    {
+                        double difference = player.shield - projectileList[i].damage;
+                        player.shield -= projectileList[i].damage;
+                        player.shield -= difference;
+                        player.armour += difference * 2;
+                    }
+                    else
+                    {
+                        player.shield -= projectileList[i].damage;
+                    }
+                    //projectileList.Remove(projectileList[i]);
+                    projectilesToRemove.Add(i);
+                }
+            }
+            for (int i = 0; i < projectileList.Count; i++)
+            {
+                if (!CollisionChecker.checkProjectileBounds(projectileList[i]))
+                {
+                    //projectileList.Remove(projectileList[i]);
+                    projectilesToRemove.Add(i);
+                }
+            }
+            for (int i = 0; i < projectilesToRemove.Count; i++)
+            {
+                projectileList.RemoveAt(projectilesToRemove.ElementAt(i));
+            }
+            
+            for (int i = 0; i < existingEnemies.Count; i++)
+            {
+                if (player.boundingBox.Intersects(existingEnemies[i].boundingBox))
+                {
+                    player.armour -= 0.1;
+                }
+            }
+            projectilesToRemove.Clear();
+            enemiesToRemove.Clear();
+        }
+
+        private void newEnemyProjectile(ref List<Projectile> projectileList, List<Enemy> existingEnemies)
+        {
+            Vector2 initialProjectilePosition = new Vector2(0);
+            for (int i = 0; i < existingEnemies.Count; i++)
+            {
+                //int test = rnd.Next(1, 15);
+                //if (test == 3)
+                if (trackerTime + existingEnemies[i].fireRate/10 > existingEnemies[i].nextSpawn)
+                {
+                    Projectile projectile = (Projectile)existingEnemies[i].projectile.Clone();
+                    Vector2 newProjectilePosition = new Vector2(existingEnemies[i].position.X + existingEnemies[i].boundingBox.Width/2, existingEnemies[i].boundingBox.Bottom);
+                    projectile.position = newProjectilePosition;
+                    if (CollisionChecker.checkProjectileBounds(projectile))
+                    {
+                        existingEnemies[i].nextSpawn = trackerTime + existingEnemies[i].fireRate;
+                        existingEnemies[i].lastSpawn = trackerTime;
+                        projectileList.Add(projectile);
+                    }
+                }
+            }
+        }
+
+        private void checkEnd(ref GameState _state)
+        {
+            int dictChecker = 0;
+            foreach (var enemyList in levelDictionary.Values)
+            {
+                if (enemyList.Count != 0)
+                {
+                    dictChecker++;
+                }
+            }
+            if (dictChecker==0 && _state == GameState.Level1)
+            {
+                _state = GameState.Level2;
             }
         }
     }

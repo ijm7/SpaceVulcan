@@ -11,7 +11,7 @@ namespace SpaceVulcan.Model.Enemies
 {
     public class Enemy
     {
-        public Enemy(Vector2 position, Vector2 destination, int hp, int speed, int damage, int type, int score, Projectile projectile, int id, EnemyType _enemyType)
+        public Enemy(Vector2 position, Vector2 destination, int hp, int speed, double damage, int type, int score, Projectile projectile, int id, EnemyType _enemyType, double fireRate)
         {
             this.position = position;
             this.destination = destination;
@@ -22,10 +22,13 @@ namespace SpaceVulcan.Model.Enemies
             this.projectile = projectile;
             this.id = id;
             this._enemyType = _enemyType;
+            this.fireRate = fireRate;
             firstDestination = false;
             secondaryDestination = new Vector2 (0);
+            this.lastSpawn = 0;
+            this.nextSpawn = 0;
         }
-        public Enemy(Vector2 position, Vector2 destination, Vector2 secondaryDestination, bool looping, int hp, int speed, int damage, bool firstDestination, int score, Projectile projectile, int id, EnemyType _enemyType)
+        public Enemy(Vector2 position, Vector2 destination, Vector2 secondaryDestination, bool looping, int hp, int speed, double damage, bool firstDestination, int score, Projectile projectile, int id, EnemyType _enemyType, double fireRate)
         {
             this.position = position;
             this.destination = destination;
@@ -40,6 +43,9 @@ namespace SpaceVulcan.Model.Enemies
             this.id = id;
             this._enemyType = _enemyType;
             firstDestination = false;
+            this.fireRate = fireRate;
+            this.lastSpawn = 0;
+            this.nextSpawn = 0;
         }
 
         public Vector2 position { get; set; }
@@ -55,6 +61,8 @@ namespace SpaceVulcan.Model.Enemies
         public int id { get; set; }
         public EnemyType _enemyType { get; set; }
         public Texture2D sprite { get; set; }
+        public double lastSpawn { get; set; }
+        public double nextSpawn { get; set; }
         public Rectangle boundingBox
         {
             get
@@ -62,5 +70,6 @@ namespace SpaceVulcan.Model.Enemies
                 return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height);
             }
         }
+        public double fireRate { get; set; }
     }
 }

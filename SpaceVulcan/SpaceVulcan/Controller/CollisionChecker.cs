@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using SpaceVulcan.Model.Enemies;
+using SpaceVulcan.Model.Projectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,28 @@ namespace SpaceVulcan.Controller
 {
     public static class CollisionChecker
     {
-        public static Vector2 checkPlayerBounds(Vector2 intendedLocation)
+        public static bool checkProjectileBounds(Projectile currentProjectile)
         {
-            return intendedLocation;
+            if (currentProjectile.boundingBox.Top > GameArea.BOTTOM)
+            {
+                return false;
+            }
+            else if (currentProjectile.boundingBox.Bottom < GameArea.TOP)
+            {
+                return false;
+            }
+            else if (currentProjectile.boundingBox.Right < GameArea.LEFT)
+            {
+                return false;
+            }
+            else if (currentProjectile.boundingBox.Left > GameArea.RIGHT)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
     }

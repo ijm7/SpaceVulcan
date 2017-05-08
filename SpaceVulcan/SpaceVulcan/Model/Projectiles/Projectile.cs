@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace SpaceVulcan.Model.Projectiles
 {
-    public class Projectile
+    public class Projectile : ICloneable
     {
-        public Projectile(Vector2 position, int damage, int speed, ProjectileType _projectileType, ProjectileDirection _projectileDirection)
+        public Projectile(Vector2 position, double damage, int speed, ProjectileType _projectileType, ProjectileDirection _projectileDirection)
         {
             this.position = position;
             this.damage = damage;
@@ -18,7 +18,7 @@ namespace SpaceVulcan.Model.Projectiles
             this._projectileType = _projectileType;
             this._projectileDirection = _projectileDirection;
         }
-        public Projectile(int damage, int speed, ProjectileType _projectileType, ProjectileDirection _projectileDirection)
+        public Projectile(double damage, int speed, ProjectileType _projectileType, ProjectileDirection _projectileDirection)
         {
             this.damage = damage;
             this.speed = speed;
@@ -26,7 +26,7 @@ namespace SpaceVulcan.Model.Projectiles
             this._projectileDirection = _projectileDirection;
         }
         public Vector2 position { get; set; }
-        public int damage { get; set; }
+        public double damage { get; set; }
         public int speed { get; set; }
         public ProjectileType _projectileType { get; set; }
         public ProjectileDirection _projectileDirection { get; set; }
@@ -37,6 +37,11 @@ namespace SpaceVulcan.Model.Projectiles
             {
                 return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height);
             }
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }
