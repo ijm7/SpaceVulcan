@@ -74,5 +74,6 @@ namespace SpaceVulcan.Model.Enemies
             }
         }
         public double fireRate { get; set; }
+        public string dialog { get; set; }
     }
 }

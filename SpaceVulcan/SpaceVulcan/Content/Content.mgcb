@@ -44,30 +44,6 @@
 /processorParam:Quality=Best
 /build:Music/TitleScreen.wav
 
-#begin PlayerSprites/lasership.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:PlayerSprites/lasership.png
-
-#begin PlayerSprites/missilecruiser2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:PlayerSprites/missilecruiser2.png
-
 #begin PlayerSprites/massdrivership4.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -487,4 +463,100 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundEffects/sfx_wpn_laser8.wav
+
+#begin PlayerSprites\missilecruiser2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayerSprites\missilecruiser2.png
+
+#begin PlayerSprites\lasership.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayerSprites\lasership.png
+
+#begin SoundEffects/sfx_exp_short_hard14.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_exp_short_hard14.wav
+
+#begin SoundEffects/sfx_weapon_shotgun2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_weapon_shotgun2.wav
+
+#begin SoundEffects/sfx_damage_hit5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_damage_hit5.wav
+
+#begin SoundEffects/sfx_wpn_missilelaunch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_wpn_missilelaunch.wav
+
+#begin SoundEffects/sfx_sounds_pause1_in.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_sounds_pause1_in.wav
+
+#begin SoundEffects/sfx_sounds_pause1_out.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_sounds_pause1_out.wav
+
+#begin SoundEffects/sfx_damage_hit3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_damage_hit3.wav
+
+#begin SoundEffects/sfx_sounds_error2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_sounds_error2.wav
+
+#begin SoundEffects/sfx_lowhealth_alarmloop1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_lowhealth_alarmloop1.wav
+
+#begin SoundEffects/sfx_alarm_loop7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/sfx_alarm_loop7.wav
+
+#begin Backgrounds/IslandsMap.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Backgrounds/IslandsMap.png
 

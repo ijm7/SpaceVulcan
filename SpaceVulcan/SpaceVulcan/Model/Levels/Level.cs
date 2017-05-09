@@ -1,4 +1,6 @@
-﻿using SpaceVulcan.Model.Enemies;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
+using SpaceVulcan.Model.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +11,14 @@ namespace SpaceVulcan.Model.Levels
 {
     public class Level
     {
-        public Level(List<Enemy> enemies, Backgrounds _backgrounds)
+        public Level(Dictionary<int, List<Enemy>> enemyDictionary, Texture2D background, Song song)
         {
-            this.enemies = enemies;
-            this._backgrounds = _backgrounds;
+            this.enemyDictionary = enemyDictionary;
+            this.background = background;
+            this.song = song;
         }
-        public List<Enemy> enemies { get; set; }
-        public Backgrounds _backgrounds { get; set; }
+        public Dictionary<int, List<Enemy>> enemyDictionary { get; set; }
+        public Texture2D background { get; set; }
+        public Song song { get; set; }
     }
 }

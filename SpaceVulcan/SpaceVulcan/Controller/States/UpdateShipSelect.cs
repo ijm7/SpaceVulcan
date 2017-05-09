@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Model;
 using SpaceVulcan.Model.Enemies;
+using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
 using SpaceVulcan.Model.Projectiles;
 using SpaceVulcan.Util;
@@ -50,9 +51,11 @@ namespace SpaceVulcan.Controller.States
                 LevelCreator levelOneCreator = new LevelCreator();
                 _buttonType = ButtonType.enter;
                 ProjectileType _projectileType;
-                drawLevel = new DrawLevel();
-                levelOneGenerator = levelOneCreator.BuildLevelOne();
-                updateLevel = new UpdateLevel(gameTime, levelOneGenerator);
+                
+                Level firstLevel = levelOneCreator.BuildLevelOne();
+                
+                updateLevel = new UpdateLevel(gameTime, firstLevel);
+                drawLevel = new DrawLevel(firstLevel);
                 Vector2 defaultPosition = new Vector2(960,800);
 
                 switch (_menuShipSelect)
@@ -61,17 +64,18 @@ namespace SpaceVulcan.Controller.States
                     case MenuShipSelect.Laser:
                         _projectileType = ProjectileType.Laser;
                         
-                        player = new Player(defaultPosition, 100, 100, 5, 15, 5, 0.07, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 5, 15, 3, 0.04, 170, 6, _projectileType, false, 0);
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/Lasership");
-
                         break;
                     case MenuShipSelect.Mass:
                         _projectileType = ProjectileType.MassDriver;
-                        player = new Player(defaultPosition, 100, 100, 0, 15, 10, 0.5, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 0, 15, 20, 0.2, 170, 100, _projectileType, false, 0);
+                        player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/massdrivership4");
                         break;  
                     case MenuShipSelect.Missile:
                         _projectileType = ProjectileType.Missile;
-                        player = new Player(defaultPosition, 100, 100, 0, 15, 50, 1.0, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 0, 15, 50, 0.5, 170, 100, _projectileType, false, 0);
+                        player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/missilecruiser2");
                         break;
                 }
                 _state = GameState.Level1;

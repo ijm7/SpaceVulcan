@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpaceVulcan.Model;
 using SpaceVulcan.Model.Enemies;
+using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
 using SpaceVulcan.Model.Projectiles;
 using System;
@@ -23,20 +25,20 @@ namespace SpaceVulcan.Controller.States
 
 
         List<Enemy> newEnemies;
-        public UpdateLevel(GameTime start, Dictionary<int, List<Enemy>> levelDictionary)
+        public UpdateLevel(GameTime start, Level currentLevel)
         {
             levelStartTime = 0;
             marker = 0;
-            this.levelDictionary = levelDictionary;
+            this.levelDictionary = currentLevel.enemyDictionary;
             rnd = new Random();
         }
 
-        public void Update(ref Player player, KeyboardState keyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies, ref GameState _state)
+        public void Update(ref Player player, KeyboardState keyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies, ref GameState _state, ref EventTracker eventTracker)
         {
-
+            eventTracker = new EventTracker();
             trackerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             levelStartTime = (int)Math.Floor(trackerTime);
-            
+
             System.Diagnostics.Debug.WriteLine(levelStartTime);
             if (keyState.IsKeyDown(Keys.Right))
             {
@@ -87,7 +89,7 @@ namespace SpaceVulcan.Controller.States
             if (keyState.IsKeyDown(Keys.Space))
             {
                 float canShoot = elapsed - player.lastShot;
-                if (canShoot>player.fireRate)
+                if (canShoot > player.fireRate)
                 {
                     player.firing = true;
                     player.lastShot = elapsed;
@@ -102,39 +104,63 @@ namespace SpaceVulcan.Controller.States
             {
                 player.firing = false;
             }
-            
+
             updateShield(ref player, keyState);
             spawnEnemies(ref existingEnemies);
-            if (existingEnemies.Count!=0)
+            if (existingEnemies.Count != 0)
             {
                 moveEnemies(ref existingEnemies);
             }
             newEnemyProjectile(ref projectileList, existingEnemies);
             updateProjectiles(ref projectileList, player);
-            checkProjectileCollisions(ref projectileList, ref existingEnemies, ref player);
-            checkEnd(ref _state);
+            checkProjectileCollisions(ref projectileList, ref existingEnemies, ref player, ref eventTracker);
+            checkEnd(ref _state, existingEnemies);
         }
 
         public void NewPlayerProjectile(Player player, ref List<Projectile> projectileList)
         {
             Projectile projectile;
+            Projectile secondaryProjectile;
+            Projectile tertiaryProjectile;
             Vector2 initialProjectilePosition = new Vector2(0);
             switch (player._projectileType)
             {
                 case ProjectileType.Laser:
                     projectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Laser, ProjectileDirection.North);
                     projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
-                    Vector2 newProjectilePosition = new Vector2(player.position.X + 40, player.boundingBox.Top - projectile.boundingBox.Height);
-                    projectile.position = newProjectilePosition;
+                    Vector2 newLaserProjectilePosition = new Vector2(player.position.X + player.boundingBox.Width/2 - projectile.boundingBox.Width/2, player.boundingBox.Top - projectile.boundingBox.Height);
+                    projectile.position = newLaserProjectilePosition;
                     projectileList.Add(projectile);
                     break;
                 case ProjectileType.MassDriver:
                     projectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North);
+                    secondaryProjectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North);
+                    projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
+                    secondaryProjectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
+                    Vector2 newMassProjectilePosition = new Vector2(player.position.X + 10, player.boundingBox.Top - projectile.boundingBox.Height);
+                    Vector2 newSecondaryMassProjectilePosition = new Vector2(player.boundingBox.Right - 10 - projectile.boundingBox.Width, player.boundingBox.Top - projectile.boundingBox.Height);
+                    projectile.position = newMassProjectilePosition;
+                    secondaryProjectile.position = newSecondaryMassProjectilePosition;
                     projectileList.Add(projectile);
+                    projectileList.Add(secondaryProjectile);
                     break;
                 case ProjectileType.Missile:
                     projectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North);
+                    secondaryProjectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North);
+                    tertiaryProjectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North);
+
+                    projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
+                    secondaryProjectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
+                    tertiaryProjectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
+                    Vector2 newMissileProjectilePosition = new Vector2(player.position.X, player.boundingBox.Top - projectile.boundingBox.Height);
+                    Vector2 newSecondaryMissileProjectilePosition = new Vector2(player.position.X + player.boundingBox.Width / 2 - projectile.boundingBox.Width / 2, player.boundingBox.Top - projectile.boundingBox.Height);
+                    Vector2 newTertiaryMissileProjectilePosition = new Vector2(player.boundingBox.Right - projectile.boundingBox.Width, player.boundingBox.Top - projectile.boundingBox.Height);
+                    projectile.position = newMissileProjectilePosition;
+                    secondaryProjectile.position = newSecondaryMissileProjectilePosition;
+                    tertiaryProjectile.position = newTertiaryMissileProjectilePosition;
                     projectileList.Add(projectile);
+                    projectileList.Add(secondaryProjectile);
+                    projectileList.Add(tertiaryProjectile);
                     break;
             }
         }
@@ -143,43 +169,28 @@ namespace SpaceVulcan.Controller.States
         {
             for (int i = 0; i < projectileList.Count; i++)
             {
-                if (projectileList[i]._projectileType == ProjectileType.Laser)
-                { 
-                    switch (projectileList[i]._projectileDirection)
-                    {
-                        case ProjectileDirection.North:
-                            projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y - 20);
-                            break;
-                        case ProjectileDirection.South:
-                            projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y + 20);
-                            break;
-                    }
-                }
-                else if (projectileList[i]._projectileType == ProjectileType.Missile)
+                switch (projectileList[i]._projectileDirection)
                 {
-                    switch (projectileList[i]._projectileDirection)
-                    {
-                        case ProjectileDirection.North:
-                            projectileList[i].position = new Vector2(player.position.X, projectileList[i].position.Y - 20);
-                            break;
-                        case ProjectileDirection.South:
-                            projectileList[i].position = new Vector2(player.position.X, projectileList[i].position.Y + 20);
-                            break;
-                    }
+                    case ProjectileDirection.North:
+                        projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y - 20);
+                        break;
+                    case ProjectileDirection.South:
+                        projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y + 20);
+                        break;
                 }
-                /*if (CollisionChecker.checkProjectileBounds(projectileList[i]))
-                {
-                    projectileList.Remove(projectileList[i]);
-                }*/
             }
-            
+            /*if (CollisionChecker.checkProjectileBounds(projectileList[i]))
+            {
+                projectileList.Remove(projectileList[i]);
+            }*/
+          
         }
 
         private void updateShield(ref Player player, KeyboardState keyState)
         {
-            if (player.shield < 170 && keyState.IsKeyUp(Keys.Space))
+            if (player.shield < 170 && player.firing==false)
             {
-                player.shield += 0.01;
+                player.shield += player.regenerationRate;
             }
         }
 
@@ -191,6 +202,7 @@ namespace SpaceVulcan.Controller.States
                 {
                     newEnemies = levelDictionary[levelStartTime];
                     existingEnemies = existingEnemies.Concat(newEnemies).ToList();
+                    levelDictionary.Remove(levelStartTime);
                 }
                 marker = levelStartTime;
             }
@@ -304,7 +316,7 @@ namespace SpaceVulcan.Controller.States
             }
         }
 
-        private void checkProjectileCollisions(ref List<Projectile> projectileList, ref List<Enemy> existingEnemies, ref Player player)
+        private void checkProjectileCollisions(ref List<Projectile> projectileList, ref List<Enemy> existingEnemies, ref Player player, ref EventTracker eventTracker)
         {
             List<int> projectilesToRemove = new List<int>();
             List<int> enemiesToRemove = new List<int>();
@@ -315,6 +327,7 @@ namespace SpaceVulcan.Controller.States
                     if (projectileList[i].boundingBox.Intersects(existingEnemies[j].boundingBox))
                     {
                         existingEnemies[j].hp -= (int)projectileList[i].damage;
+                        eventTracker.enemyHitRecorded = true;
                         //projectileList.Remove(projectileList[i]);
                         if (!projectilesToRemove.Contains(i))
                         {
@@ -324,7 +337,7 @@ namespace SpaceVulcan.Controller.States
                     }
                     if (existingEnemies[j].hp <= 0)
                     {
-                        
+                        eventTracker.destroyed = true;
                         //existingEnemies.Remove(existingEnemies[j]);
                         if (!enemiesToRemove.Contains(j))
                         {
@@ -334,14 +347,21 @@ namespace SpaceVulcan.Controller.States
                     }
                 }
             }
-            for (int i = 0; i < enemiesToRemove.Count; i++)
+            for (int i = projectilesToRemove.Count - 1; i >= 0; i--)
+            {
+                projectileList.RemoveAt(projectilesToRemove.ElementAt(i));
+            }
+            projectilesToRemove.Clear();
+            for (int i = enemiesToRemove.Count - 1; i >= 0; i--)
             {
                 existingEnemies.RemoveAt(enemiesToRemove.ElementAt(i));
+                
             }
             for (int i = 0; i < projectileList.Count; i++)
             {
                 if (player.boundingBox.Intersects(projectileList[i].boundingBox))
                 {
+                    eventTracker.playerHitRecorded = true;
                     if (player.shield - projectileList[i].damage < 0)
                     {
                         double difference = player.shield - projectileList[i].damage;
@@ -360,7 +380,12 @@ namespace SpaceVulcan.Controller.States
                     }
                 }
             }
-            for (int i = 0; i < projectileList.Count; i++)
+            for (int i = projectilesToRemove.Count - 1; i >= 0; i--)
+            {
+                projectileList.RemoveAt(projectilesToRemove.ElementAt(i));
+            }
+            projectilesToRemove.Clear();
+            for (int i = 0; i<projectileList.Count(); i++)
             {
                 if (!CollisionChecker.checkProjectileBounds(projectileList[i]))
                 {
@@ -371,7 +396,7 @@ namespace SpaceVulcan.Controller.States
                     }
                 }
             }
-            for (int i = 0; i < projectilesToRemove.Count; i++)
+            for (int i = projectilesToRemove.Count - 1; i >= 0; i--)
             {
                 projectileList.RemoveAt(projectilesToRemove.ElementAt(i));
             }
@@ -380,7 +405,10 @@ namespace SpaceVulcan.Controller.States
             {
                 if (player.boundingBox.Intersects(existingEnemies[i].boundingBox))
                 {
+                    eventTracker.playerHitRecorded = true;
                     player.armour -= 0.1;
+                    player.shield -= 0.2;
+
                 }
             }
             projectilesToRemove.Clear();
@@ -409,16 +437,15 @@ namespace SpaceVulcan.Controller.States
             }
         }
 
-        private void checkEnd(ref GameState _state)
+        private void checkEnd(ref GameState _state, List<Enemy> existingEnemies)
         {
             int dictChecker = 0;
-            foreach (var enemyList in levelDictionary.Values)
+            //THIS WORKS PROBABLY
+            if (levelDictionary.Count!=0 || existingEnemies.Count!=0)
             {
-                if (enemyList.Count != 0)
-                {
-                    dictChecker++;
-                }
+                dictChecker++;
             }
+            
             if (dictChecker==0 && _state == GameState.Level1)
             {
                 _state = GameState.Level2;

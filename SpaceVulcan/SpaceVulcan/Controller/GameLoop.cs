@@ -23,6 +23,7 @@ namespace SpaceVulcan
         public GameState _state;
         public MenuSelection _menuSelection;
         public MenuShipSelect _menuShipSelect;
+        public EventTracker eventTracker;
         public ButtonType _buttonType;
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -72,7 +73,7 @@ namespace SpaceVulcan
             updateShipSelect = new UpdateShipSelect();
             drawTopMenu = DrawTopMenu.Instance; //Implement rest of singletons later
             drawShipSelect = new DrawShipSelect();
-            
+            eventTracker = new EventTracker();
             _state = GameState.TopMenu;
             _menuSelection = MenuSelection.Play;
             _buttonType = ButtonType.nil;
@@ -136,7 +137,7 @@ namespace SpaceVulcan
                     updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, ref _buttonType, gameTime, ref player, ref drawLevel, ref updateLevel, ref currentLevel);
                     break;
                 case GameState.Level1:
-                    updateLevel.Update(ref player, keyState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state);
+                    updateLevel.Update(ref player, keyState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state, ref eventTracker);
                     break;
                 case GameState.Exit:
                     Exit();
@@ -167,7 +168,7 @@ namespace SpaceVulcan
                     //DrawGameplay(deltaTime);
                     break;
                 case GameState.Level1:
-                    drawLevel.Draw(player, elapsed, projectileList, existingEnemies);
+                    drawLevel.Draw(player, elapsed, projectileList, existingEnemies, eventTracker);
                     player.firing = false;
                     break;
             }

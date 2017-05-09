@@ -25,6 +25,7 @@ namespace SpaceVulcan.Model.Players
             this._projectileType = _projectileType;
             this.firing = firing;
             this.lastShot = lastShot;
+            regenerationRate = 0.01;
         }
         public Texture2D sprite { get; set; }
         public Vector2 position { get; set; }
@@ -39,6 +40,7 @@ namespace SpaceVulcan.Model.Players
         public ProjectileType _projectileType { get; set; }
         public bool firing { get; set; }
         public float lastShot { get; set; }
+        public double regenerationRate { get; set; }
         public Rectangle boundingBox
         {
             get

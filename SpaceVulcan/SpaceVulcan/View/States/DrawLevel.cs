@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
+using SpaceVulcan.Model;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
@@ -32,25 +33,40 @@ namespace SpaceVulcan.View.States
         private Texture2D projectile;
         private Song song;
         List<SoundEffect> soundEffects;
+        List<SoundEffectInstance> soundEffectInstanceList;
         ScrollingBackground gameBackground;
 
-        public DrawLevel(/*Level level*/)
+        public DrawLevel(Level level)
         {
             soundEffects = new List<SoundEffect>();
-            SoundEffect.MasterVolume = 0.3f;
-            this.song = content.Load<Song>("Music/Level1");
-            //MediaPlayer.Play(song);
-            //MediaPlayer.IsRepeating = true;
+            soundEffectInstanceList = new List<SoundEffectInstance>();
+            SoundEffect.MasterVolume = 0.5f;
+            this.song = level.song;
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
             this.spriteBatch = Program.game.spriteBatch;
             this.graphicsDevice = Program.game.GraphicsDevice;
+            graphicsDevice.Clear(Color.Black);
             playerShip = content.Load<Texture2D>("PlayerSprites/Lasership");
             this.menuOptions = content.Load<SpriteFont>("Fonts/MenuOptions");
             this.smallStandardFont = content.Load<SpriteFont>("Fonts/SmallStandard");
             this.mediumStandardFont = content.Load<SpriteFont>("Fonts/MediumStandard");
             this.largeStandardFont = content.Load<SpriteFont>("Fonts/LargeStandard");
-            background = content.Load<Texture2D>("Backgrounds/Stars2");
+            background = level.background;
             projectile = content.Load<Texture2D>("Projectiles/Laser");
-            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_wpn_laser8"));
+            //SoundEffects
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_wpn_laser8")); //0
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_weapon_shotgun2")); //1
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_wpn_missilelaunch")); //2
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_alarm_loop7")); //3
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_damage_hit5")); //4
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_exp_short_hard14")); //5
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_lowhealth_alarmloop1"));//6
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_sounds_error2"));//7
+            for (int i = 0; i < soundEffects.Count; i++)
+            {
+                soundEffectInstanceList.Add(soundEffects.ElementAt(i).CreateInstance());
+            }
             sideGUI = new Texture2D[20];
             for (int i = 0; i < 20; i++)
             {
@@ -61,7 +77,7 @@ namespace SpaceVulcan.View.States
             gameBackground.Load(graphicsDevice, background);
         }
 
-        public void Draw(Player player, float elapsed, List<Projectile> projectileList, List<Enemy> existingEnemies)
+        public void Draw(Player player, float elapsed, List<Projectile> projectileList, List<Enemy> existingEnemies, EventTracker eventTracker)
         {
             DrawBackground(elapsed);
             DrawBackGUI(player);
@@ -72,7 +88,7 @@ namespace SpaceVulcan.View.States
             }
             DrawProjectiles(projectileList);
             DrawHealth(player);
-            DrawSoundEffects(player);
+            DrawSoundEffects(player, eventTracker);
 
         }
 
@@ -96,6 +112,7 @@ namespace SpaceVulcan.View.States
             spriteBatch.Draw(sideGUI[8], new Rectangle(1490, 20, 400, 400), inlayColorDark);
             spriteBatch.Draw(sideGUI[9], new Rectangle(1490, 840, 400, 200), inlayColorDark);
             spriteBatch.Draw(sideGUI[10], new Rectangle(1520, 980, 340, 60), skirtColor);
+            spriteBatch.Draw(player.sprite, new Vector2(40,650) ,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(mediumStandardFont, "SPACE VULCAN", new Vector2(40, 25), Color.White);
             spriteBatch.DrawString(mediumStandardFont, "SCORE: "+ player.score, new Vector2(40, 95), Color.White);
             spriteBatch.DrawString(mediumStandardFont, "", new Vector2(230, 95), Color.White);
@@ -103,19 +120,37 @@ namespace SpaceVulcan.View.States
             spriteBatch.DrawString(smallStandardFont, "SPECIAL ABILITIES", new Vector2(1555, 40), Color.White);
             spriteBatch.DrawString(smallStandardFont, "ARMOUR", new Vector2(1540, 1000), Color.White);
             spriteBatch.DrawString(smallStandardFont, "SHIELD", new Vector2(1745, 1000), Color.White);
+            if (player._projectileType == ProjectileType.Laser)
+            {
+                spriteBatch.DrawString(smallStandardFont, "VINDICATOR", new Vector2(40, 880), Color.White);
+            }
+            else if (player._projectileType == ProjectileType.MassDriver)
+            {
+                spriteBatch.DrawString(smallStandardFont, "AGMENMON", new Vector2(40, 880), Color.White);
+            }
+            else if (player._projectileType == ProjectileType.Missile)
+            {
+                spriteBatch.DrawString(smallStandardFont, "WILDCAT", new Vector2(40, 880), Color.White);
+            }
+            spriteBatch.DrawString(smallStandardFont, "Shield: " + Math.Floor(player.shield), new Vector2(40, 900), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Armour: " + Math.Floor(player.armour), new Vector2(40, 920), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Weapon Type: " + player._projectileType, new Vector2(40, 940), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Ship Speed: "+ player.speed, new Vector2(40,960), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Weapon Damage: " + player.damage, new Vector2(40, 980), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Regeneration: " + player.regenerationRate, new Vector2(40, 1000), Color.White);
         }
 
         private void DrawBackground(float elapsed)
         {
             spriteBatch.Draw(sideGUI[5], new Rectangle(30, 800, 900, 150), Color.Wheat);
-            gameBackground.Update(elapsed * 25);
+            gameBackground.Update(elapsed * 60);
             gameBackground.Draw(spriteBatch);
 
         }
 
         private void DrawPlayer(Player player)
         {
-            spriteBatch.Draw(sideGUI[13], player.boundingBox, Color.Yellow);
+            //spriteBatch.Draw(sideGUI[13], player.boundingBox, Color.Yellow);
             spriteBatch.Draw(player.sprite, player.position, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(playerShip, new Rectangle((int)player.position.X,(int)player.position.Y,1,1)), Color.White);
 
@@ -125,18 +160,46 @@ namespace SpaceVulcan.View.States
         {
             for (int i = 0; i < projectileList.Count; i++)
             {
-                spriteBatch.Draw(sideGUI[14], projectileList[i].boundingBox, Color.Yellow);
+                //spriteBatch.Draw(sideGUI[14], projectileList[i].boundingBox, Color.Yellow);
                 spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position);
 
             }
         }
 
-        private void DrawSoundEffects(Player player)
+        private void DrawSoundEffects(Player player, EventTracker eventTracker)
         {
             if (player.firing)
             {
-                soundEffects[0].Play();
+                if (player._projectileType == ProjectileType.Laser && soundEffectInstanceList[0].State == SoundState.Stopped)
+                {
+                    soundEffectInstanceList[0].Play();
+                }
+                else if (player._projectileType == ProjectileType.MassDriver)
+                {
+                    soundEffects[1].Play();
+                }
+                else if (player._projectileType == ProjectileType.Missile)
+                {
+                    soundEffects[2].Play();
+                }
             }
+            if (player.shield < 10 && soundEffectInstanceList[6].State == SoundState.Stopped)
+            {
+                soundEffectInstanceList[6].Play();
+            }
+            if (eventTracker.enemyHitRecorded && soundEffectInstanceList[4].State == SoundState.Stopped)
+            {
+                soundEffectInstanceList[4].Play();
+            }
+            if (eventTracker.playerHitRecorded && soundEffectInstanceList[7].State == SoundState.Stopped)
+            {
+                soundEffectInstanceList[7].Play();
+            }
+            if (eventTracker.destroyed)
+            {
+                soundEffects[5].Play();
+            }
+
         }
 
         private void DrawHealth(Player player)
@@ -151,8 +214,8 @@ namespace SpaceVulcan.View.States
             {
                 if (existingEnemies[i].boundingBox.Right < GameArea.RIGHT && existingEnemies[i].boundingBox.Left > GameArea.LEFT)
                 {
-                    spriteBatch.Draw(sideGUI[15], existingEnemies[i].boundingBox, Color.Yellow);
-                    spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position);
+                    //spriteBatch.Draw(sideGUI[15], existingEnemies[i].boundingBox, Color.Yellow);
+                    spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position, null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.FlipVertically, 0f);
                 }
             }
         }

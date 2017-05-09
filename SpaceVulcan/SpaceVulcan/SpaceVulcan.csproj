@@ -50,6 +50,7 @@
     <Compile Include="Model\Backgrounds.cs" />
     <Compile Include="Model\Enemies\Enemy.cs" />
     <Compile Include="Model\Enemies\EnemyType.cs" />
+    <Compile Include="Model\EventTracker.cs" />
     <Compile Include="Model\Levels\Level.cs" />
     <Compile Include="Model\Menus.cs" />
     <Compile Include="Model\MenuSelection.cs" />
