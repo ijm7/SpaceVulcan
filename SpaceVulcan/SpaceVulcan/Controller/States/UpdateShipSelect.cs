@@ -51,10 +51,10 @@ namespace SpaceVulcan.Controller.States
                 LevelCreator levelOneCreator = new LevelCreator();
                 _buttonType = ButtonType.enter;
                 ProjectileType _projectileType;
+                _state = GameState.Level1;
+                Level firstLevel = levelOneCreator.BuildLevel(_state);
                 
-                Level firstLevel = levelOneCreator.BuildLevelOne();
-                
-                updateLevel = new UpdateLevel(gameTime, firstLevel);
+                updateLevel = new UpdateLevel(firstLevel);
                 drawLevel = new DrawLevel(firstLevel);
                 Vector2 defaultPosition = new Vector2(960,800);
 
@@ -78,7 +78,7 @@ namespace SpaceVulcan.Controller.States
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/missilecruiser2");
                         break;
                 }
-                _state = GameState.Level1;
+                
                 
             }
             if (keyState.IsKeyDown(Keys.Back) & !previousState.IsKeyDown(Keys.Back))

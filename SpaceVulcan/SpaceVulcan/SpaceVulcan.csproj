@@ -44,7 +44,11 @@
     <Compile Include="Controller\GameLoop.cs" />
     <Compile Include="Controller\GameState.cs" />
     <Compile Include="Controller\Setup.cs" />
+    <Compile Include="Controller\States\UpdateEnd.cs" />
+    <Compile Include="Controller\States\UpdateGameOver.cs" />
+    <Compile Include="Controller\States\UpdateIntermission.cs" />
     <Compile Include="Controller\States\UpdateLevel.cs" />
+    <Compile Include="Controller\States\UpdatePause.cs" />
     <Compile Include="Controller\States\UpdateShipSelect.cs" />
     <Compile Include="Controller\States\UpdateTopMenu.cs" />
     <Compile Include="Model\Backgrounds.cs" />
@@ -66,7 +70,11 @@
     <Compile Include="Util\ProjectileGenerator.cs" />
     <Compile Include="Util\ScrollingBackground.cs" />
     <Compile Include="Util\TextureTools.cs" />
+    <Compile Include="View\States\DrawEnd.cs" />
+    <Compile Include="View\States\DrawGameOver.cs" />
+    <Compile Include="View\States\DrawIntermission.cs" />
     <Compile Include="View\States\DrawLevel.cs" />
+    <Compile Include="View\States\DrawPause.cs" />
     <Compile Include="View\States\DrawShipSelect.cs" />
     <Compile Include="View\States\DrawTopMenu.cs" />
   </ItemGroup>

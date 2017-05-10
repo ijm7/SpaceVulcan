@@ -63,6 +63,7 @@ namespace SpaceVulcan.View.States
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_exp_short_hard14")); //5
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_lowhealth_alarmloop1"));//6
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_sounds_error2"));//7
+            soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select1"));
             for (int i = 0; i < soundEffects.Count; i++)
             {
                 soundEffectInstanceList.Add(soundEffects.ElementAt(i).CreateInstance());
@@ -75,6 +76,7 @@ namespace SpaceVulcan.View.States
             }
             gameBackground = new ScrollingBackground();
             gameBackground.Load(graphicsDevice, background);
+            soundEffects[8].Play();
         }
 
         public void Draw(Player player, float elapsed, List<Projectile> projectileList, List<Enemy> existingEnemies, EventTracker eventTracker)
@@ -199,6 +201,7 @@ namespace SpaceVulcan.View.States
             {
                 soundEffects[5].Play();
             }
+
 
         }
 

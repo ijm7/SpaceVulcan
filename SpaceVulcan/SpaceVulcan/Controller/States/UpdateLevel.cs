@@ -6,6 +6,7 @@ using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
 using SpaceVulcan.Model.Projectiles;
+using SpaceVulcan.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,21 +23,34 @@ namespace SpaceVulcan.Controller.States
         int projectileMarker;
         Dictionary<int, List<Enemy>> levelDictionary;
         Random rnd;
-
-
+        LevelCreator levelCreator;
         List<Enemy> newEnemies;
-        public UpdateLevel(GameTime start, Level currentLevel)
+        public UpdateLevel(Level currentLevel)
         {
             levelStartTime = 0;
             marker = 0;
             this.levelDictionary = currentLevel.enemyDictionary;
             rnd = new Random();
+            levelCreator = new LevelCreator();
+            
         }
 
-        public void Update(ref Player player, KeyboardState keyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies, ref GameState _state, ref EventTracker eventTracker)
+        public void Update(ref Player player, KeyboardState keyState, KeyboardState prevKeyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies, ref GameState _state, ref EventTracker eventTracker, ref UpdateLevel updateLevel)
         {
             eventTracker = new EventTracker();
-            trackerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (_state == GameState.Level1)
+            {
+                eventTracker.prevLevel = 0;
+            }
+            else if (_state == GameState.Level2)
+            {
+                eventTracker.prevLevel = 1;
+            }
+            else
+            {
+                eventTracker.prevLevel = 2;
+            }
+                trackerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             levelStartTime = (int)Math.Floor(trackerTime);
 
             System.Diagnostics.Debug.WriteLine(levelStartTime);
@@ -85,6 +99,10 @@ namespace SpaceVulcan.Controller.States
                     player.position = new Vector2(player.position.X, GameArea.BOTTOM - player.boundingBox.Height);
                 }
             }
+            if (keyState.IsKeyDown(Keys.Enter) & !prevKeyState.IsKeyDown(Keys.Enter))
+            {
+                _state = GameState.Pause;
+            }
 
             if (keyState.IsKeyDown(Keys.Space))
             {
@@ -105,7 +123,7 @@ namespace SpaceVulcan.Controller.States
                 player.firing = false;
             }
 
-            updateShield(ref player, keyState);
+            updateShield(ref player, keyState, ref _state);
             spawnEnemies(ref existingEnemies);
             if (existingEnemies.Count != 0)
             {
@@ -114,7 +132,7 @@ namespace SpaceVulcan.Controller.States
             newEnemyProjectile(ref projectileList, existingEnemies);
             updateProjectiles(ref projectileList, player);
             checkProjectileCollisions(ref projectileList, ref existingEnemies, ref player, ref eventTracker);
-            checkEnd(ref _state, existingEnemies);
+            checkEnd(ref _state, existingEnemies, ref eventTracker, ref updateLevel, ref player, ref projectileList);
         }
 
         public void NewPlayerProjectile(Player player, ref List<Projectile> projectileList)
@@ -186,8 +204,12 @@ namespace SpaceVulcan.Controller.States
           
         }
 
-        private void updateShield(ref Player player, KeyboardState keyState)
+        private void updateShield(ref Player player, KeyboardState keyState, ref GameState _state)
         {
+            if (player.armour < 0)
+            {
+                _state = GameState.GameOver;
+            }
             if (player.shield < 170 && player.firing==false)
             {
                 player.shield += player.regenerationRate;
@@ -437,7 +459,7 @@ namespace SpaceVulcan.Controller.States
             }
         }
 
-        private void checkEnd(ref GameState _state, List<Enemy> existingEnemies)
+        private void checkEnd(ref GameState _state, List<Enemy> existingEnemies, ref EventTracker eventTracker, ref UpdateLevel updateLevel, ref Player player, ref List<Projectile> projectileList)
         {
             int dictChecker = 0;
             //THIS WORKS PROBABLY
@@ -446,9 +468,30 @@ namespace SpaceVulcan.Controller.States
                 dictChecker++;
             }
             
-            if (dictChecker==0 && _state == GameState.Level1)
+            if (dictChecker==0)
             {
-                _state = GameState.Level2;
+                projectileList.Clear();
+                eventTracker.playerHitRecorded = false;
+                eventTracker.enemyHitRecorded = false;
+                eventTracker.destroyed = false;
+                player.firing = false;
+                player.armour = 170;
+                player.shield = 170;
+                if (_state == GameState.Level1)
+                {
+                    eventTracker.prevLevel = 1;
+                    _state = GameState.Intermission;
+                }
+                else if (_state == GameState.Level2)
+                {
+                    eventTracker.prevLevel = 2;
+                    _state = GameState.Intermission;
+                }
+                else
+                {
+                    _state = GameState.End;
+                }
+                    
             }
         }
     }

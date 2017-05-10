@@ -23,7 +23,6 @@ namespace SpaceVulcan.View.States
         private SpriteFont menuTitle;
         private SpriteFont menuOptions;
         private Texture2D background;
-        private Song song;
         List<SoundEffect> soundEffects;
         private GraphicsDevice graphicsDevice;
         ScrollingBackground menuBackground;
@@ -39,13 +38,11 @@ namespace SpaceVulcan.View.States
             this.menuTitle = content.Load<SpriteFont>("Fonts/MenuTitle");
             this.menuOptions = content.Load<SpriteFont>("Fonts/MenuOptions");
             this.background = content.Load<Texture2D>("Backgrounds/Stars2");
-            this.song = content.Load<Song>("Music/TitleScreen");
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_move1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select2"));
             this.graphicsDevice = Program.game.GraphicsDevice;
-            MediaPlayer.Play(song);
-            MediaPlayer.IsRepeating = true;
+            
             menuBackground = new ScrollingBackground();
             menuBackground.Load(graphicsDevice, background);
             //menuList.mainMenu = 0;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Controller.States;
 using SpaceVulcan.Model;
@@ -29,12 +30,21 @@ namespace SpaceVulcan
         public SpriteBatch spriteBatch;
         public Player player;
         public Level level;
-        DrawTopMenu drawTopMenu;
-        DrawShipSelect drawShipSelect;
+        
         UpdateTopMenu updateTopMenu;
         UpdateShipSelect updateShipSelect;
         UpdateLevel updateLevel;
+        UpdateIntermission updateIntermission;
+        UpdatePause updatePause;
+        UpdateGameOver updateGameOver;
+        UpdateEnd updateEnd;
+        DrawTopMenu drawTopMenu;
+        DrawShipSelect drawShipSelect;
         DrawLevel drawLevel;
+        DrawIntermission drawIntermission;
+        DrawPause drawPause;
+        DrawGameOver drawGameOver;
+        DrawEnd drawEnd;
         public Menus menuList;
         KeyboardState previousState;
         float elapsed;
@@ -42,8 +52,8 @@ namespace SpaceVulcan
         int timer;
         int prevTimer;
         public List<Projectile> projectileList;
-        Dictionary<int, List<Enemy>> currentLevel = new Dictionary<int, List<Enemy>>();
-        List<Enemy> existingEnemies = new List<Enemy>();
+        Dictionary<int, List<Enemy>> currentLevel;
+        List<Enemy> existingEnemies;
         // bool spawnAllowed; Maybe here?
 
         public GameLoop()
@@ -63,6 +73,14 @@ namespace SpaceVulcan
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+            loader();
+        }
+
+        public void loader()
+        {
+            Song song = Content.Load<Song>("Music/TitleScreen");
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
             //graphics.IsFullScreen = true;
@@ -71,8 +89,16 @@ namespace SpaceVulcan
             graphics.ApplyChanges();
             updateTopMenu = new UpdateTopMenu();
             updateShipSelect = new UpdateShipSelect();
+            updateIntermission = new UpdateIntermission();
+            updatePause = new UpdatePause();
+            updateGameOver = new UpdateGameOver();
+            updateEnd = new UpdateEnd();
+            drawIntermission = new DrawIntermission();
             drawTopMenu = DrawTopMenu.Instance; //Implement rest of singletons later
             drawShipSelect = new DrawShipSelect();
+            drawPause = new DrawPause();
+            drawGameOver = new DrawGameOver();
+            drawEnd = new DrawEnd();
             eventTracker = new EventTracker();
             _state = GameState.TopMenu;
             _menuSelection = MenuSelection.Play;
@@ -81,6 +107,8 @@ namespace SpaceVulcan
             menuList.mainMenu = 0;
             previousState = Keyboard.GetState();
             projectileList = new List<Projectile>();
+            currentLevel = new Dictionary<int, List<Enemy>>();
+            existingEnemies = new List<Enemy>();
         }
 
         /// <summary>
@@ -137,7 +165,27 @@ namespace SpaceVulcan
                     updateShipSelect.Update(keyState, previousState, ref _menuShipSelect, ref _state, ref _buttonType, gameTime, ref player, ref drawLevel, ref updateLevel, ref currentLevel);
                     break;
                 case GameState.Level1:
-                    updateLevel.Update(ref player, keyState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state, ref eventTracker);
+                    updateLevel.Update(ref player, keyState,previousState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state, ref eventTracker, ref updateLevel);
+                    break;
+                case GameState.Intermission:
+                    updateIntermission.Update(keyState,previousState, eventTracker,ref _state, ref updateLevel, ref drawLevel);
+                    break;
+                case GameState.Level2:
+                    updateLevel.Update(ref player, keyState, previousState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state, ref eventTracker, ref updateLevel);
+                    break;
+                case GameState.Level3:
+                    updateLevel.Update(ref player, keyState, previousState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state, ref eventTracker, ref updateLevel);
+                    break;
+                case GameState.Pause:
+                    updatePause.Update(keyState, previousState, ref _state, eventTracker);
+                    break;
+                case GameState.GameOver:
+                    drawTopMenu = null;
+                    updateGameOver.Update(keyState, ref _state);
+                    break;
+                case GameState.End:
+                    drawTopMenu = null;
+                    updateEnd.Update(keyState, ref _state);
                     break;
                 case GameState.Exit:
                     Exit();
@@ -169,6 +217,30 @@ namespace SpaceVulcan
                     break;
                 case GameState.Level1:
                     drawLevel.Draw(player, elapsed, projectileList, existingEnemies, eventTracker);
+                    player.firing = false;
+                    break;
+                case GameState.Intermission:
+                    drawIntermission.Draw();
+                    player.firing = false;
+                    break;
+                case GameState.Level2:
+                    drawLevel.Draw(player, elapsed, projectileList, existingEnemies, eventTracker);
+                    player.firing = false;
+                    break;
+                case GameState.Level3:
+                    drawLevel.Draw(player, elapsed, projectileList, existingEnemies, eventTracker);
+                    player.firing = false;
+                    break;
+                case GameState.Pause:
+                    drawPause.Draw();
+                    player.firing = false;
+                    break;
+                case GameState.GameOver:
+                    drawGameOver.Draw();
+                    player.firing = false;
+                    break;
+                case GameState.End:
+                    drawEnd.Draw();
                     player.firing = false;
                     break;
             }
