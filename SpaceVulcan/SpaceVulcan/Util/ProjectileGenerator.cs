@@ -10,10 +10,10 @@ namespace SpaceVulcan.Util
 {
     public static class ProjectileGenerator
     {
-        public static Projectile getPlayerProjectile(Vector2 position, int damage, ProjectileType _projectileType)
+        /*public static Projectile getPlayerProjectile(Vector2 position, int damage, ProjectileType _projectileType)
         {
             Projectile projectile = new Projectile(position, damage, 5, _projectileType, ProjectileDirection.North);
             return projectile;
-        }
+        }*/
     }
 }

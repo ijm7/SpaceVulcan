@@ -137,48 +137,55 @@ namespace SpaceVulcan.Controller.States
 
         public void NewPlayerProjectile(Player player, ref List<Projectile> projectileList)
         {
-            Projectile projectile;
-            Projectile secondaryProjectile;
-            Projectile tertiaryProjectile;
+            Projectile[] projectile;
+            Vector2[] newProjectilePosition;
             Vector2 initialProjectilePosition = new Vector2(0);
             switch (player._projectileType)
             {
                 case ProjectileType.Laser:
-                    projectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Laser, ProjectileDirection.North);
-                    projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
-                    Vector2 newLaserProjectilePosition = new Vector2(player.position.X + player.boundingBox.Width/2 - projectile.boundingBox.Width/2, player.boundingBox.Top - projectile.boundingBox.Height);
-                    projectile.position = newLaserProjectilePosition;
-                    projectileList.Add(projectile);
+                    projectile = new Projectile[1];
+                    newProjectilePosition = new Vector2[1];
+                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Laser, ProjectileDirection.North,false);
+                    projectile[0].sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
+                    newProjectilePosition[0] = new Vector2(player.position.X + player.boundingBox.Width/2 - projectile[0].boundingBox.Width/2, player.boundingBox.Top - projectile[0].boundingBox.Height);
+                    projectile[0].position = newProjectilePosition[0];
+                    projectileList.Add(projectile[0]);
                     break;
                 case ProjectileType.MassDriver:
-                    projectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North);
-                    secondaryProjectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North);
-                    projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
-                    secondaryProjectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
-                    Vector2 newMassProjectilePosition = new Vector2(player.position.X + 10, player.boundingBox.Top - projectile.boundingBox.Height);
-                    Vector2 newSecondaryMassProjectilePosition = new Vector2(player.boundingBox.Right - 10 - projectile.boundingBox.Width, player.boundingBox.Top - projectile.boundingBox.Height);
-                    projectile.position = newMassProjectilePosition;
-                    secondaryProjectile.position = newSecondaryMassProjectilePosition;
-                    projectileList.Add(projectile);
-                    projectileList.Add(secondaryProjectile);
+                    projectile = new Projectile[2];
+                    newProjectilePosition = new Vector2[2];
+                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North, false);
+                    projectile[1] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North, false);
+                    for (int i=0; i < projectile.Length; i++)
+                    {
+                        projectile[i].sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
+                    }
+                    newProjectilePosition[0] = new Vector2(player.position.X + 10, player.boundingBox.Top - projectile[0].boundingBox.Height);
+                    newProjectilePosition[1] = new Vector2(player.boundingBox.Right - 10 - projectile[1].boundingBox.Width, player.boundingBox.Top - projectile[1].boundingBox.Height);
+                    for (int i = 0; i < projectile.Length; i++)
+                    {
+                        projectile[i].position = newProjectilePosition[i];
+                        projectileList.Add(projectile[i]);
+                    }
                     break;
                 case ProjectileType.Missile:
-                    projectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North);
-                    secondaryProjectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North);
-                    tertiaryProjectile = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North);
-
-                    projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
-                    secondaryProjectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
-                    tertiaryProjectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
-                    Vector2 newMissileProjectilePosition = new Vector2(player.position.X, player.boundingBox.Top - projectile.boundingBox.Height);
-                    Vector2 newSecondaryMissileProjectilePosition = new Vector2(player.position.X + player.boundingBox.Width / 2 - projectile.boundingBox.Width / 2, player.boundingBox.Top - projectile.boundingBox.Height);
-                    Vector2 newTertiaryMissileProjectilePosition = new Vector2(player.boundingBox.Right - projectile.boundingBox.Width, player.boundingBox.Top - projectile.boundingBox.Height);
-                    projectile.position = newMissileProjectilePosition;
-                    secondaryProjectile.position = newSecondaryMissileProjectilePosition;
-                    tertiaryProjectile.position = newTertiaryMissileProjectilePosition;
-                    projectileList.Add(projectile);
-                    projectileList.Add(secondaryProjectile);
-                    projectileList.Add(tertiaryProjectile);
+                    projectile = new Projectile[3];
+                    newProjectilePosition = new Vector2[3];
+                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North, false);
+                    projectile[1] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North, false);
+                    projectile[2] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North, false);
+                    for (int i = 0; i < projectile.Length; i++)
+                    {
+                        projectile[i].sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
+                    }
+                    newProjectilePosition[0] = new Vector2(player.position.X, player.boundingBox.Top - projectile[0].boundingBox.Height);
+                    newProjectilePosition[1] = new Vector2(player.position.X + player.boundingBox.Width / 2 - projectile[1].boundingBox.Width / 2, player.boundingBox.Top - projectile[1].boundingBox.Height);
+                    newProjectilePosition[2] = new Vector2(player.boundingBox.Right - projectile[2].boundingBox.Width, player.boundingBox.Top - projectile[2].boundingBox.Height);
+                    for (int i = 0; i < projectile.Length; i++)
+                    {
+                        projectile[i].position = newProjectilePosition[i];
+                        projectileList.Add(projectile[i]);
+                    }
                     break;
             }
         }
@@ -346,7 +353,7 @@ namespace SpaceVulcan.Controller.States
             {
                 for (int j = 0; j < existingEnemies.Count; j++)
                 {
-                    if (projectileList[i].boundingBox.Intersects(existingEnemies[j].boundingBox))
+                    if (projectileList[i].boundingBox.Intersects(existingEnemies[j].boundingBox) && projectileList[i].enemy==false)
                     {
                         existingEnemies[j].hp -= (int)projectileList[i].damage;
                         eventTracker.enemyHitRecorded = true;
