@@ -28,6 +28,7 @@ namespace SpaceVulcan.Model.Enemies
             this.lastSpawn = 0;
             this.nextSpawn = 0;
             destroyed = false;
+            shots = 1;
         }
         public Enemy(Vector2 position, Vector2 destination, Vector2 secondaryDestination, bool looping, int hp, int speed, double damage, bool firstDestination, int score, Projectile projectile, int id, EnemyType _enemyType, double fireRate)
         {
@@ -48,6 +49,7 @@ namespace SpaceVulcan.Model.Enemies
             this.lastSpawn = 0;
             this.nextSpawn = 0;
             destroyed = false;
+            shots = 1;
         }
 
         public Vector2 position { get; set; }
@@ -75,5 +77,6 @@ namespace SpaceVulcan.Model.Enemies
         }
         public double fireRate { get; set; }
         public string dialog { get; set; }
+        public int shots { get; set; }
     }
 }

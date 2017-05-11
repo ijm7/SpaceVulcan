@@ -163,7 +163,14 @@ namespace SpaceVulcan.View.States
             for (int i = 0; i < projectileList.Count; i++)
             {
                 //spriteBatch.Draw(sideGUI[14], projectileList[i].boundingBox, Color.Yellow);
-                spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position);
+                if (projectileList[i].enemy == true)
+                {
+                    spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position, null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.FlipVertically, 0f);
+                }
+                else
+                {
+                    spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position);
+                }
 
             }
         }

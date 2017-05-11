@@ -145,7 +145,7 @@ namespace SpaceVulcan.Controller.States
                 case ProjectileType.Laser:
                     projectile = new Projectile[1];
                     newProjectilePosition = new Vector2[1];
-                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Laser, ProjectileDirection.North,false);
+                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 15, ProjectileType.Laser, ProjectileDirection.North,false);
                     projectile[0].sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
                     newProjectilePosition[0] = new Vector2(player.position.X + player.boundingBox.Width/2 - projectile[0].boundingBox.Width/2, player.boundingBox.Top - projectile[0].boundingBox.Height);
                     projectile[0].position = newProjectilePosition[0];
@@ -154,8 +154,8 @@ namespace SpaceVulcan.Controller.States
                 case ProjectileType.MassDriver:
                     projectile = new Projectile[2];
                     newProjectilePosition = new Vector2[2];
-                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North, false);
-                    projectile[1] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.MassDriver, ProjectileDirection.North, false);
+                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 15, ProjectileType.MassDriver, ProjectileDirection.North, false);
+                    projectile[1] = new Projectile(initialProjectilePosition, player.damage, 15, ProjectileType.MassDriver, ProjectileDirection.North, false);
                     for (int i=0; i < projectile.Length; i++)
                     {
                         projectile[i].sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
@@ -171,9 +171,9 @@ namespace SpaceVulcan.Controller.States
                 case ProjectileType.Missile:
                     projectile = new Projectile[3];
                     newProjectilePosition = new Vector2[3];
-                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North, false);
-                    projectile[1] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North, false);
-                    projectile[2] = new Projectile(initialProjectilePosition, player.damage, 5, ProjectileType.Missile, ProjectileDirection.North, false);
+                    projectile[0] = new Projectile(initialProjectilePosition, player.damage, 15, ProjectileType.Missile, ProjectileDirection.North, false);
+                    projectile[1] = new Projectile(initialProjectilePosition, player.damage, 15, ProjectileType.Missile, ProjectileDirection.North, false);
+                    projectile[2] = new Projectile(initialProjectilePosition, player.damage, 15, ProjectileType.Missile, ProjectileDirection.North, false);
                     for (int i = 0; i < projectile.Length; i++)
                     {
                         projectile[i].sprite = Program.game.Content.Load<Texture2D>("Projectiles/Missile");
@@ -197,10 +197,10 @@ namespace SpaceVulcan.Controller.States
                 switch (projectileList[i]._projectileDirection)
                 {
                     case ProjectileDirection.North:
-                        projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y - 20);
+                        projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y - projectileList[i].speed);
                         break;
                     case ProjectileDirection.South:
-                        projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y + 20);
+                        projectileList[i].position = new Vector2(projectileList[i].position.X, projectileList[i].position.Y + projectileList[i].speed);
                         break;
                 }
             }
@@ -388,7 +388,7 @@ namespace SpaceVulcan.Controller.States
             }
             for (int i = 0; i < projectileList.Count; i++)
             {
-                if (player.boundingBox.Intersects(projectileList[i].boundingBox))
+                if (player.boundingBox.Intersects(projectileList[i].boundingBox) && projectileList[i].enemy == true)
                 {
                     eventTracker.playerHitRecorded = true;
                     if (player.shield - projectileList[i].damage < 0)
@@ -447,20 +447,70 @@ namespace SpaceVulcan.Controller.States
         private void newEnemyProjectile(ref List<Projectile> projectileList, List<Enemy> existingEnemies)
         {
             Vector2 initialProjectilePosition = new Vector2(0);
+            Projectile[] projectile;
+            Vector2[] newProjectilePosition;
             for (int i = 0; i < existingEnemies.Count; i++)
             {
                 //int test = rnd.Next(1, 15);
                 //if (test == 3)
                 if (trackerTime + existingEnemies[i].fireRate/10 > existingEnemies[i].nextSpawn)
                 {
-                    Projectile projectile = (Projectile)existingEnemies[i].projectile.Clone();
-                    Vector2 newProjectilePosition = new Vector2(existingEnemies[i].position.X + existingEnemies[i].boundingBox.Width/2, existingEnemies[i].boundingBox.Bottom);
-                    projectile.position = newProjectilePosition;
-                    if (CollisionChecker.checkProjectileBounds(projectile))
+                    if (existingEnemies[i].shots == 1)
                     {
-                        existingEnemies[i].nextSpawn = trackerTime + existingEnemies[i].fireRate;
-                        existingEnemies[i].lastSpawn = trackerTime;
-                        projectileList.Add(projectile);
+                        projectile = new Projectile[1];
+                        newProjectilePosition = new Vector2[1];
+                        projectile[0] = (Projectile)existingEnemies[i].projectile.Clone();
+                        newProjectilePosition[0] = new Vector2(existingEnemies[i].position.X + existingEnemies[i].boundingBox.Width / 2, existingEnemies[i].boundingBox.Bottom);
+                        projectile[0].position = newProjectilePosition[0];
+                        if (CollisionChecker.checkProjectileBounds(projectile[0]))
+                        {
+                            existingEnemies[i].nextSpawn = trackerTime + existingEnemies[i].fireRate;
+                            existingEnemies[i].lastSpawn = trackerTime;
+                            projectileList.Add(projectile[0]);
+                        }
+                    }
+                    else if (existingEnemies[i].shots == 2)
+                    {
+                        projectile = new Projectile[2];
+                        newProjectilePosition = new Vector2[2];
+                        for (int j = 0; j < projectile.Length; j++)
+                        {
+                            projectile[j] = (Projectile)existingEnemies[i].projectile.Clone();
+                        }
+                        newProjectilePosition[0] = new Vector2(existingEnemies[i].position.X + 10, existingEnemies[i].boundingBox.Bottom);
+                        newProjectilePosition[1] = new Vector2(existingEnemies[i].boundingBox.Right - 10 - projectile[1].boundingBox.Width, existingEnemies[i].boundingBox.Bottom);
+                        for (int j = 0; j < projectile.Length; j++)
+                        {
+                            projectile[j].position = newProjectilePosition[j];
+                            if (CollisionChecker.checkProjectileBounds(projectile[0]))
+                            {
+                                existingEnemies[i].nextSpawn = trackerTime + existingEnemies[i].fireRate;
+                                existingEnemies[i].lastSpawn = trackerTime;
+                                projectileList.Add(projectile[j]);
+                            }
+                        }
+                    }
+                    else if (existingEnemies[i].shots == 3)
+                    {
+                        projectile = new Projectile[3];
+                        newProjectilePosition = new Vector2[3];
+                        for (int j = 0; j < projectile.Length; j++)
+                        {
+                            projectile[j] = (Projectile)existingEnemies[i].projectile.Clone();
+                        }
+                        newProjectilePosition[0] = new Vector2(existingEnemies[i].position.X + 10, existingEnemies[i].boundingBox.Bottom);
+                        newProjectilePosition[1] = new Vector2(existingEnemies[i].position.X + existingEnemies[i].boundingBox.Width / 2, existingEnemies[i].boundingBox.Bottom);
+                        newProjectilePosition[2] = new Vector2(existingEnemies[i].boundingBox.Right - projectile[2].boundingBox.Width, existingEnemies[i].boundingBox.Bottom);
+                        for (int j = 0; j < projectile.Length; j++)
+                        {
+                            projectile[j].position = newProjectilePosition[j];
+                            if (CollisionChecker.checkProjectileBounds(projectile[0]))
+                            {
+                                existingEnemies[i].nextSpawn = trackerTime + existingEnemies[i].fireRate;
+                                existingEnemies[i].lastSpawn = trackerTime;
+                                projectileList.Add(projectile[j]);
+                            }
+                        }
                     }
                 }
             }
