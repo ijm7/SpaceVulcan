@@ -63,41 +63,56 @@ namespace SpaceVulcan.Util
                 timeList = new List<Enemy>();
                 for (int i = 0, j = 0; i < 2; i++, j += 180)
                 {
-                    timeList.Add(EnemyGenerator.createBasicGrunt(820 + j, -400, 820 + j, 100, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(680 + j, -100, 680 + j, 900, 1, 0.1, 1));
                 }
-                levelCatalogue.Add(3, timeList);
-                //WAVE 2 5 GRUNT
+                levelCatalogue.Add(1, timeList);
+                //WAVE
                 timeList = new List<Enemy>();
-                for (int i = 0, j = 0; i < 5; i++, j+=180)
+                for (int i = 0, j = 0; i < 2; i++, j += 180)
                 {
-                    timeList.Add(EnemyGenerator.createBasicGrunt(500+j, -400, 500+j, 100, 1, 0.1,1));
-
+                    timeList.Add(EnemyGenerator.createBasicGrunt(590+j, -100, 590 + j, 600, 1, 0.1, 1));
                 }
                 levelCatalogue.Add(10, timeList);
-                //WAVE 3 5 GRUNT
+                //
                 timeList = new List<Enemy>();
-                for (int i = 0, j = 0; i < 5; i++, j += 180)
+                for (int i = 0, j = 0; i < 2; i++, j += 180)
                 {
-                    timeList.Add(EnemyGenerator.createBasicGrunt(590 + j, -400, 590 + j, 100, 1, 0.1, 1));
-
+                    timeList.Add(EnemyGenerator.createBasicGrunt(770 + j, -100, 770 + j, 600, 1, 0.1, 1));
                 }
                 levelCatalogue.Add(15, timeList);
-                //WAVE 4 10 GRUNT
+                //
                 timeList = new List<Enemy>();
-                for (int i = 0, j = 0; i < 10; i++, j += 90)
+                for (int i = 0, j = 0; i < 2; i++, j += 180)
                 {
-                    timeList.Add(EnemyGenerator.createBasicGrunt(1420 - j - 84, -400, 1400-j-84, 180, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -100, 500 + j, 600, 1, 0.1, 1));
+                }
+                levelCatalogue.Add(20, timeList);
+                //WAVE 2 5 GRUNT
+                timeList = new List<Enemy>();
+                for (int i = 0, j = 0; i < 4; i++, j+=180)
+                {
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500+j, -100, 500+j, 600, 1, 0.1,1));
 
                 }
-                levelCatalogue.Add(25, timeList);
-                //WAVE 5 10 GRUNT
+                levelCatalogue.Add(30, timeList);
+                //WAVE 3 5 GRUNT
                 timeList = new List<Enemy>();
-                for (int i = 0, j = 0; i < 10; i++, j += 90)
+                for (int i = 0, j = 0; i < 4; i++, j += 180)
                 {
-                    timeList.Add(EnemyGenerator.createBasicGrunt(1420 - j - 84, -400, 1400 - j - 84, 40, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(590 + j, -100, 590 + j, 100, 1, 0.1, 1));
 
                 }
                 levelCatalogue.Add(40, timeList);
+                //FIRST LEFT WAVE
+                timeList = new List<Enemy>();
+                for (int i = 0, j = 0; i < 4; i++, j += 80)
+                {
+                    timeList = new List<Enemy>();
+                    timeList.Add(EnemyGenerator.createFastGrunt(300, 100 + j, 1139-j*2, 110 + j, 6, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createFastGrunt(1600, 100 + j, 571+j*2, 110 + j, 6, 0.1, 1));
+                    levelCatalogue.Add(45+i, timeList);
+                }
+
             }
             else if (_state == GameState.Level2)
             {
@@ -114,8 +129,8 @@ namespace SpaceVulcan.Util
                 for (int i = 5; i < 50; i += 5)
                 {
                     timeList = new List<Enemy>();
-                    timeList.Add(EnemyGenerator.createBasicGrunt(0, 100, 501, 40, 1, 0.1,1));
-                    timeList.Add(EnemyGenerator.createBasicGrunt(2000, 100, 1300, 40, 1, 0.1,1));
+                    timeList.Add(EnemyGenerator.createFastGrunt(0, 100, 671, 40, 6, 0.1,1));
+                    timeList.Add(EnemyGenerator.createFastGrunt(2000, 100, 1239, 40, 6, 0.1,1));
                     levelCatalogue.Add(i, timeList);
                 }
             }

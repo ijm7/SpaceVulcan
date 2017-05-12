@@ -51,6 +51,7 @@
     <Compile Include="Controller\States\UpdatePause.cs" />
     <Compile Include="Controller\States\UpdateShipSelect.cs" />
     <Compile Include="Controller\States\UpdateTopMenu.cs" />
+    <Compile Include="Model\Abilities\Ability.cs" />
     <Compile Include="Model\Backgrounds.cs" />
     <Compile Include="Model\Enemies\Enemy.cs" />
     <Compile Include="Model\Enemies\EnemyType.cs" />

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceVulcan.Model.Abilities;
 using SpaceVulcan.Model.Projectiles;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace SpaceVulcan.Model.Players
             this.lastShot = lastShot;
             regenerationRate = 0.01;
         }
+        public List<Ability> abilityList { get; set; }
         public Texture2D sprite { get; set; }
         public Vector2 position { get; set; }
         public int w { get; set; }
@@ -45,7 +47,7 @@ namespace SpaceVulcan.Model.Players
         {
             get
             {
-                return new Rectangle((int)position.X, (int)position.Y, sprite.Width/2, sprite.Height/2);
+                return new Rectangle((int)position.X, (int)position.Y, (sprite.Width/5)*2, (sprite.Height/5)*2);
             }
         }
 

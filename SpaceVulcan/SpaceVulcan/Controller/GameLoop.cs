@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Controller.States;
 using SpaceVulcan.Model;
+using SpaceVulcan.Model.Abilities;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;

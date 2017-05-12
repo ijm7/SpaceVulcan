@@ -153,7 +153,7 @@ namespace SpaceVulcan.View.States
         private void DrawPlayer(Player player)
         {
             //spriteBatch.Draw(sideGUI[13], player.boundingBox, Color.Yellow);
-            spriteBatch.Draw(player.sprite, player.position, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(player.sprite, player.position, null, Color.White, 0f, Vector2.Zero, 0.4f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(playerShip, new Rectangle((int)player.position.X,(int)player.position.Y,1,1)), Color.White);
 
         }
@@ -165,11 +165,11 @@ namespace SpaceVulcan.View.States
                 //spriteBatch.Draw(sideGUI[14], projectileList[i].boundingBox, Color.Yellow);
                 if (projectileList[i].enemy == true)
                 {
-                    spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position, null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.FlipVertically, 0f);
+                    spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.FlipVertically, 0f);
                 }
                 else
                 {
-                    spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position);
+                    spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
                 }
 
             }
@@ -225,7 +225,7 @@ namespace SpaceVulcan.View.States
                 if (existingEnemies[i].boundingBox.Right < GameArea.RIGHT && existingEnemies[i].boundingBox.Left > GameArea.LEFT)
                 {
                     //spriteBatch.Draw(sideGUI[15], existingEnemies[i].boundingBox, Color.Yellow);
-                    spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position, null, Color.White, 0f, Vector2.Zero, 1.0f, SpriteEffects.FlipVertically, 0f);
+                    spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.FlipVertically, 0f);
                 }
             }
         }

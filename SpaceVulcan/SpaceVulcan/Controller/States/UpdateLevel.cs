@@ -381,7 +381,8 @@ namespace SpaceVulcan.Controller.States
                 projectileList.RemoveAt(projectilesToRemove.ElementAt(i));
             }
             projectilesToRemove.Clear();
-            for (int i = enemiesToRemove.Count - 1; i >= 0; i--)
+            //for (int i = enemiesToRemove.Count - 1; i >= 0; i--)
+            for (int i = 0; i<enemiesToRemove.Count; i++)
             {
                 existingEnemies.RemoveAt(enemiesToRemove.ElementAt(i));
                 
@@ -453,7 +454,7 @@ namespace SpaceVulcan.Controller.States
             {
                 //int test = rnd.Next(1, 15);
                 //if (test == 3)
-                if (trackerTime + existingEnemies[i].fireRate/10 > existingEnemies[i].nextSpawn)
+                if (trackerTime + existingEnemies[i].fireRate/10 > existingEnemies[i].nextSpawn && existingEnemies[i].boundingBox.Left>GameArea.LEFT && existingEnemies[i].boundingBox.Right<GameArea.RIGHT)
                 {
                     if (existingEnemies[i].shots == 1)
                     {
