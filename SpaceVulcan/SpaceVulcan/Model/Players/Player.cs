@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SpaceVulcan.Model.Players
 {
-    public class Player
+    public class Player : ICloneable
     {
         public Player(Vector2 position, int w, int h, int score, int speed, int damage, double fireRate, double armour, double shield, ProjectileType _projectileType, bool firing, float lastShot)
         {
@@ -31,6 +31,7 @@ namespace SpaceVulcan.Model.Players
         public List<Ability> abilityList { get; set; }
         public Texture2D sprite { get; set; }
         public Vector2 position { get; set; }
+        public Player playerDefault { get; set; }
         public int w { get; set; }
         public int h { get; set; }
         public int score { get; set; }
@@ -49,6 +50,10 @@ namespace SpaceVulcan.Model.Players
             {
                 return new Rectangle((int)position.X, (int)position.Y, (sprite.Width/5)*2, (sprite.Height/5)*2);
             }
+        }
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
     }

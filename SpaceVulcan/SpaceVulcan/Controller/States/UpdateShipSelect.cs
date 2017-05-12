@@ -55,7 +55,7 @@ namespace SpaceVulcan.Controller.States
                 ProjectileType _projectileType;
                 _state = GameState.Level1;
                 Level firstLevel = levelOneCreator.BuildLevel(_state);
-                
+                Player copyPlayer;
                 updateLevel = new UpdateLevel(firstLevel);
                 drawLevel = new DrawLevel(firstLevel);
                 Vector2 defaultPosition = new Vector2(960,800);
@@ -68,6 +68,7 @@ namespace SpaceVulcan.Controller.States
                         _projectileType = ProjectileType.Laser;
                         
                         player = new Player(defaultPosition, 100, 100, 0, 6, 3, 0.04, 170, 100, _projectileType, false, 0);
+                        
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/Lasership");
                        
                         break;
@@ -82,6 +83,7 @@ namespace SpaceVulcan.Controller.States
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/missilecruiser2");
                         break;
                 }
+                player.playerDefault = (Player)player.Clone();
                 Ability initialAbility = new Ability(initialAbilityIndex);
                 player.abilityList = new List<Ability>();
                 player.abilityList.Add(initialAbility);

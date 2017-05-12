@@ -9,18 +9,21 @@ namespace SpaceVulcan.Model.Abilities
 {
     public class Ability
     {
-        double lastUsed { get; set; }
-        double coolDown { get; set; }
-        int identifier;
-        bool isActive { get; set; }
-        bool isAvailable { get; set; }
+        public double lastUsed { get; set; }
+        public double abilityTime;
+        public double coolDown { get; set; }
+        public int identifier;
+        public bool isActive { get; set; }
+        public bool isAvailable { get; set; }
         public Ability(int identifier)
         {
             this.identifier = identifier;
             lastUsed = 0;
             isActive = false;
             isAvailable = true;
-            coolDown = 34;
+            coolDown = 68;
+            abilityTime = 20;
+            
 
         }
         public int doubleDamage(int damage)
@@ -45,9 +48,9 @@ namespace SpaceVulcan.Model.Abilities
             }
         } 
 
-        public double increaseShieldRenegerationRate(double regenerationRate)
+        public double increaseShieldRegenerationRate(double regenerationRate)
         {
-            return 1.0;
+            return 0.2;
         }
 
         public double increaseFireRate(double fireRate)

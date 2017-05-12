@@ -169,7 +169,7 @@ namespace SpaceVulcan
                     updateLevel.Update(ref player, keyState,previousState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state, ref eventTracker, ref updateLevel);
                     break;
                 case GameState.Intermission:
-                    updateIntermission.Update(keyState,previousState, eventTracker,ref _state, ref updateLevel, ref drawLevel);
+                    updateIntermission.Update(keyState,previousState, eventTracker,ref _state, ref updateLevel, ref drawLevel, ref player);
                     break;
                 case GameState.Level2:
                     updateLevel.Update(ref player, keyState, previousState, shotCounter, ref projectileList, gameTime, ref existingEnemies, ref _state, ref eventTracker, ref updateLevel);

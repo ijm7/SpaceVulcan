@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Model;
+using SpaceVulcan.Model.Abilities;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
@@ -32,11 +33,13 @@ namespace SpaceVulcan.Controller.States
             this.levelDictionary = currentLevel.enemyDictionary;
             rnd = new Random();
             levelCreator = new LevelCreator();
+
             
         }
 
         public void Update(ref Player player, KeyboardState keyState, KeyboardState prevKeyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies, ref GameState _state, ref EventTracker eventTracker, ref UpdateLevel updateLevel)
         {
+            
             eventTracker = new EventTracker();
             if (_state == GameState.Level1)
             {
@@ -87,6 +90,7 @@ namespace SpaceVulcan.Controller.States
                     player.position = new Vector2(player.position.X, 1);
                 }
             }
+            
             if (keyState.IsKeyDown(Keys.Down))
             {
                 //player.position.Y += 10;
@@ -122,7 +126,7 @@ namespace SpaceVulcan.Controller.States
             {
                 player.firing = false;
             }
-
+            updateAbilities(ref player, keyState);
             updateShield(ref player, keyState, ref _state);
             spawnEnemies(ref existingEnemies);
             if (existingEnemies.Count != 0)
@@ -348,7 +352,7 @@ namespace SpaceVulcan.Controller.States
         private void checkProjectileCollisions(ref List<Projectile> projectileList, ref List<Enemy> existingEnemies, ref Player player, ref EventTracker eventTracker)
         {
             List<int> projectilesToRemove = new List<int>();
-            List<int> enemiesToRemove = new List<int>();
+            Queue<int> enemiesToRemove = new Queue<int>();
             for (int i = 0; i < projectileList.Count; i++)
             {
                 for (int j = 0; j < existingEnemies.Count; j++)
@@ -371,7 +375,7 @@ namespace SpaceVulcan.Controller.States
                         if (!enemiesToRemove.Contains(j))
                         {
                             player.score += existingEnemies[j].score;
-                            enemiesToRemove.Add(j);
+                            enemiesToRemove.Enqueue(j);
                         }
                     }
                 }
@@ -535,6 +539,15 @@ namespace SpaceVulcan.Controller.States
                 player.firing = false;
                 player.armour = 170;
                 player.shield = 170;
+
+                for (int i = 0; i < player.abilityList.Count; i++)
+                {
+                    int x = 0;
+                    x = player.abilityList[i].identifier;
+                    Ability newAbility = new Ability(x);
+                    player.abilityList.Remove(player.abilityList[i]);
+                    player.abilityList.Add(newAbility);
+                }
                 if (_state == GameState.Level1)
                 {
                     eventTracker.prevLevel = 1;
@@ -550,6 +563,97 @@ namespace SpaceVulcan.Controller.States
                     _state = GameState.End;
                 }
                     
+            }
+
+        }
+
+        private void updateAbilities(ref Player player, KeyboardState keyState)
+        {
+            for (int i = 0; i < player.abilityList.Count; i++)
+            {
+                
+            }
+            int keyPressed=0;
+            if (keyState.IsKeyDown(Keys.NumPad1))
+            {
+                keyPressed = 1;
+            }
+            else if (keyState.IsKeyDown(Keys.NumPad2))
+            {
+                keyPressed = 2;
+            }
+            else if (keyState.IsKeyDown(Keys.NumPad3))
+            {
+                keyPressed = 3;
+            }
+            keyPressed -= 1;
+            if (keyPressed > -1 && player.abilityList.Count>=keyPressed)
+            {
+                if (player.abilityList[keyPressed].isAvailable)
+                {
+                    player.abilityList[keyPressed].isActive = true;
+                    player.abilityList[keyPressed].isAvailable = false;
+                    player.abilityList[keyPressed].lastUsed = trackerTime;
+                    if (player.abilityList[keyPressed].identifier==1)
+                    {
+                        player.damage = player.abilityList[keyPressed].doubleDamage(player.damage);
+                    }
+                    else if (player.abilityList[keyPressed].identifier == 2)
+                    {
+                        player.speed = player.abilityList[keyPressed].doubleSpeed(player.speed);
+                    }
+                    else if (player.abilityList[keyPressed].identifier == 3)
+                    {
+                        player.armour = player.abilityList[keyPressed].armourRepair(player.armour);
+                    }
+                    else if (player.abilityList[keyPressed].identifier == 4)
+                    {
+                        player.regenerationRate = player.abilityList[keyPressed].increaseShieldRegenerationRate(player.regenerationRate);
+                    }
+                    if (player.abilityList[keyPressed].identifier == 5)
+                    {
+                        player.fireRate = player.abilityList[keyPressed].increaseFireRate(player.fireRate);
+                    }
+                }
+            }
+            for (int i = 0; i < player.abilityList.Count; i++)
+            {
+                if (player.abilityList[i].isActive)
+                {
+                    if (trackerTime - player.abilityList[i].lastUsed > player.abilityList[i].abilityTime)
+                    {
+                        player.abilityList[i].isActive = false;
+                        player.abilityList[i].isAvailable = false;
+                        player.abilityList[i].lastUsed = player.abilityList[i].lastUsed + player.abilityList[i].abilityTime;
+                        if (player.abilityList[i].identifier == 1)
+                        {
+                            player.damage = player.playerDefault.damage;
+                        }
+                        else if (player.abilityList[i].identifier == 2)
+                        {
+                            player.speed = player.playerDefault.speed;
+                        }
+                        else if (player.abilityList[i].identifier == 3)
+                        {
+                            player.armour = player.playerDefault.armour;
+                        }
+                        else if (player.abilityList[i].identifier == 4)
+                        {
+                            player.regenerationRate = player.playerDefault.regenerationRate;
+                        }
+                        if (player.abilityList[i].identifier == 5)
+                        {
+                            player.fireRate = player.playerDefault.fireRate;
+                        }
+                    }
+                }
+                else if (!player.abilityList[i].isAvailable)
+                {
+                    if (trackerTime - player.abilityList[i].lastUsed > player.abilityList[i].coolDown)
+                    {
+                        player.abilityList[i].isAvailable = true;
+                    }
+                }
             }
         }
     }

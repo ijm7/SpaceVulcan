@@ -91,6 +91,7 @@ namespace SpaceVulcan.View.States
             DrawProjectiles(projectileList);
             DrawHealth(player);
             DrawSoundEffects(player, eventTracker);
+            DrawAbilities(player);
 
         }
 
@@ -227,6 +228,49 @@ namespace SpaceVulcan.View.States
                     //spriteBatch.Draw(sideGUI[15], existingEnemies[i].boundingBox, Color.Yellow);
                     spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.FlipVertically, 0f);
                 }
+            }
+        }
+
+        private void DrawAbilities(Player player)
+        {
+            for (int i = 0, j = 0; i < player.abilityList.Count; i++, j+=75)
+            {
+                string ability="";
+                Color placeholderColor;
+                if (player.abilityList[i].identifier == 1)
+                {
+                    ability = "Increase damage";
+                }
+                else if (player.abilityList[i].identifier == 2)
+                {
+                    ability = "Increase speed";
+                }
+                else if (player.abilityList[i].identifier == 3)
+                {
+                    ability = "Repair Armour";
+                }
+                else if (player.abilityList[i].identifier == 4)
+                {
+                    ability = "Increase Shield Regen";
+                }
+                else if (player.abilityList[i].identifier == 5)
+                {
+                    ability = "Increase Fire Rate";
+                }
+                if (player.abilityList[i].isActive)
+                {
+                    placeholderColor = Color.Aqua;
+                }
+                else if (player.abilityList[i].isAvailable)
+                {
+                    placeholderColor = Color.Green;
+                }
+                else
+                {
+                    placeholderColor = Color.Black;
+                }
+                spriteBatch.Draw(sideGUI[8], new Rectangle(1500, 100+j, 380, 50), placeholderColor);
+                spriteBatch.DrawString(smallStandardFont, ability, new Vector2(1505, 115+j), Color.White);
             }
         }
     }
