@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpaceVulcan.Util
@@ -32,7 +33,10 @@ namespace SpaceVulcan.Util
         {
             Texture2D background = null;
             Song song = null;
-            levelCatalogue = BuildLevelDictionary(_state);
+            var thread = new Thread(() => { levelCatalogue = BuildLevelDictionary(_state); });
+            //levelCatalogue = BuildLevelDictionary(_state);
+            thread.Start();
+            thread.Join();
             if (_state == GameState.Level1)
             {
                 background = Program.game.Content.Load<Texture2D>("Backgrounds/IslandsMap");
@@ -103,15 +107,51 @@ namespace SpaceVulcan.Util
 
                 }
                 levelCatalogue.Add(40, timeList);
-                //FIRST LEFT WAVE
+                //DIAGONALS WAVE
                 timeList = new List<Enemy>();
-                for (int i = 0, j = 0; i < 4; i++, j += 80)
+                for (int i = 0, j = 0; i < 4; i++, j += 110)
                 {
                     timeList = new List<Enemy>();
-                    timeList.Add(EnemyGenerator.createFastGrunt(300, 100 + j, 1139-j*2, 110 + j, 6, 0.1, 1));
-                    timeList.Add(EnemyGenerator.createFastGrunt(1600, 100 + j, 571+j*2, 110 + j, 6, 0.1, 1));
-                    levelCatalogue.Add(45+i, timeList);
+                    timeList.Add(EnemyGenerator.createFastGrunt(300, 100 + j, 1261 - j * 2, 110 + j, 6, 0.1, 1));
+                    levelCatalogue.Add(50 + i, timeList);
+
                 }
+                //SECOND DIAGONAL WAVE
+                timeList = new List<Enemy>();
+                for (int i = 0, j = 0; i < 4; i++, j += 130)
+                {
+                    timeList = new List<Enemy>();
+                    timeList.Add(EnemyGenerator.createFastGrunt(1600, 100 + j, 491 + j * 2, 110 + j, 6, 0.1, 1));
+                    levelCatalogue.Add(60 + i, timeList);
+
+                }
+                //COMBINED DIAGONAL WAVE
+                timeList = new List<Enemy>();
+                for (int i = 0, j = 0; i < 4; i++, j += 110)
+                {
+                    timeList = new List<Enemy>();
+                    timeList.Add(EnemyGenerator.createFastGrunt(300, 100 + j, 1261 - j * 2, 110 + j, 6, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createFastGrunt(1600, 100 + j, 491 + j * 2, 110 + j, 6, 0.1, 1));
+                    levelCatalogue.Add(70 + i, timeList);
+                }
+                timeList = new List<Enemy>();
+                for (int i = 0, j = 0; i < 8; i++, j += 120)
+                {
+                    timeList = new List<Enemy>();
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500+j, -40-j, 500+j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -500 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -1000 - j, 500 + j, 400, 5, 10.0, 1));
+                    levelCatalogue.Add(80 + i, timeList);
+                }
+
+
+                //BOSS
+                /*timeList = new List<Enemy>();
+                timeList.Add(EnemyGenerator.createEasyBoss());
+                levelCatalogue.Add(75, timeList);*/
+
+
+
 
             }
             else if (_state == GameState.Level2)

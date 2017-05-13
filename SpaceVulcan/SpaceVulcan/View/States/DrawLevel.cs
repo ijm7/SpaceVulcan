@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpaceVulcan.View.States
@@ -35,7 +36,7 @@ namespace SpaceVulcan.View.States
         List<SoundEffect> soundEffects;
         List<SoundEffectInstance> soundEffectInstanceList;
         ScrollingBackground gameBackground;
-
+        Thread nonInteractiveGUI;
         public DrawLevel(Level level)
         {
             soundEffects = new List<SoundEffect>();
@@ -75,14 +76,22 @@ namespace SpaceVulcan.View.States
                 sideGUI[i].SetData(new[] { Color.White });
             }
             gameBackground = new ScrollingBackground();
+
             gameBackground.Load(graphicsDevice, background);
             soundEffects[8].Play();
+            
+            //nonInteractiveGUI = new Thread(DrawBackGUI);
+            
+
         }
 
         public void Draw(Player player, float elapsed, List<Projectile> projectileList, List<Enemy> existingEnemies, EventTracker eventTracker)
         {
+            //nonInteractiveBackground = new Thread(() => DrawBackground(elapsed));
+            
             DrawBackground(elapsed);
-            DrawBackGUI(player);
+            DrawBackGUI();
+            drawDynamicGUI(player);
             DrawPlayer(player);
             if (existingEnemies.Count!=0)
             {
@@ -95,7 +104,7 @@ namespace SpaceVulcan.View.States
 
         }
 
-        private void DrawBackGUI(Player player)
+        private void DrawBackGUI()
         {
             Color skirtColor = new Color(38, 38, 38);
             Color inlayColorLight = new Color(45, 45, 45);
@@ -115,14 +124,17 @@ namespace SpaceVulcan.View.States
             spriteBatch.Draw(sideGUI[8], new Rectangle(1490, 20, 400, 400), inlayColorDark);
             spriteBatch.Draw(sideGUI[9], new Rectangle(1490, 840, 400, 200), inlayColorDark);
             spriteBatch.Draw(sideGUI[10], new Rectangle(1520, 980, 340, 60), skirtColor);
-            spriteBatch.Draw(player.sprite, new Vector2(40,650) ,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(mediumStandardFont, "SPACE VULCAN", new Vector2(40, 25), Color.White);
-            spriteBatch.DrawString(mediumStandardFont, "SCORE: "+ player.score, new Vector2(40, 95), Color.White);
+            
             spriteBatch.DrawString(mediumStandardFont, "", new Vector2(230, 95), Color.White);
             spriteBatch.DrawString(smallStandardFont, "DIALOG", new Vector2(40, 455), Color.White);
             spriteBatch.DrawString(smallStandardFont, "SPECIAL ABILITIES", new Vector2(1555, 40), Color.White);
             spriteBatch.DrawString(smallStandardFont, "ARMOUR", new Vector2(1540, 1000), Color.White);
             spriteBatch.DrawString(smallStandardFont, "SHIELD", new Vector2(1745, 1000), Color.White);
+        }
+
+        private void drawDynamicGUI(Player player)
+        {
             if (player._projectileType == ProjectileType.Laser)
             {
                 spriteBatch.DrawString(smallStandardFont, "VINDICATOR", new Vector2(40, 880), Color.White);
@@ -135,10 +147,12 @@ namespace SpaceVulcan.View.States
             {
                 spriteBatch.DrawString(smallStandardFont, "WILDCAT", new Vector2(40, 880), Color.White);
             }
+            spriteBatch.Draw(player.sprite, new Vector2(40, 650), null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(mediumStandardFont, "SCORE: " + player.score, new Vector2(40, 95), Color.White);
             spriteBatch.DrawString(smallStandardFont, "Shield: " + Math.Floor(player.shield), new Vector2(40, 900), Color.White);
             spriteBatch.DrawString(smallStandardFont, "Armour: " + Math.Floor(player.armour), new Vector2(40, 920), Color.White);
             spriteBatch.DrawString(smallStandardFont, "Weapon Type: " + player._projectileType, new Vector2(40, 940), Color.White);
-            spriteBatch.DrawString(smallStandardFont, "Ship Speed: "+ player.speed, new Vector2(40,960), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Ship Speed: " + player.speed, new Vector2(40, 960), Color.White);
             spriteBatch.DrawString(smallStandardFont, "Weapon Damage: " + player.damage, new Vector2(40, 980), Color.White);
             spriteBatch.DrawString(smallStandardFont, "Regeneration: " + player.regenerationRate, new Vector2(40, 1000), Color.White);
         }

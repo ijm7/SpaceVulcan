@@ -15,7 +15,12 @@ namespace SpaceVulcan.Model.Abilities
         public int identifier;
         public bool isActive { get; set; }
         public bool isAvailable { get; set; }
+
         public Ability(int identifier)
+        {
+            setup(identifier);
+        }
+        public void setup(int identifier)
         {
             this.identifier = identifier;
             lastUsed = 0;
@@ -23,8 +28,6 @@ namespace SpaceVulcan.Model.Abilities
             isAvailable = true;
             coolDown = 68;
             abilityTime = 20;
-            
-
         }
         public int doubleDamage(int damage)
         {

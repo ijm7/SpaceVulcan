@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpaceVulcan.Controller.States
@@ -54,8 +55,13 @@ namespace SpaceVulcan.Controller.States
                 _buttonType = ButtonType.enter;
                 ProjectileType _projectileType;
                 _state = GameState.Level1;
-                Level firstLevel = levelOneCreator.BuildLevel(_state);
-                Player copyPlayer;
+                GameState copyState = _state;
+                Level firstLevel=null;
+                //Level firstLevel = levelOneCreator.BuildLevel(_state);
+                var thread = new Thread(() => { firstLevel = levelOneCreator.BuildLevel(copyState); });
+                //var thread = new Thread(() => { levelCatalogue = BuildLevelDictionary(_state); });
+                thread.Start();
+                thread.Join();
                 updateLevel = new UpdateLevel(firstLevel);
                 drawLevel = new DrawLevel(firstLevel);
                 Vector2 defaultPosition = new Vector2(960,800);

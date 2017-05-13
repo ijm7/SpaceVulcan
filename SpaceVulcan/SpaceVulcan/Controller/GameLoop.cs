@@ -221,7 +221,7 @@ namespace SpaceVulcan
                     player.firing = false;
                     break;
                 case GameState.Intermission:
-                    drawIntermission.Draw();
+                    drawIntermission.Draw(player);
                     player.firing = false;
                     break;
                 case GameState.Level2:
@@ -245,6 +245,7 @@ namespace SpaceVulcan
                     player.firing = false;
                     break;
             }
+            MediaPlayer.Stop();
             spriteBatch.End();
             _buttonType = ButtonType.nil;
             base.Draw(gameTime);

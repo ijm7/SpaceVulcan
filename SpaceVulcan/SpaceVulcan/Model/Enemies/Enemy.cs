@@ -30,7 +30,7 @@ namespace SpaceVulcan.Model.Enemies
             destroyed = false;
             shots = 1;
         }
-        public Enemy(Vector2 position, Vector2 destination, Vector2 secondaryDestination, bool looping, int hp, int speed, double damage, bool firstDestination, int score, Projectile projectile, int id, EnemyType _enemyType, double fireRate)
+        public Enemy(Vector2 position, Vector2 destination, Vector2 secondaryDestination, bool looping, int hp, int speed, double damage,int type, int score, Projectile projectile, int id, EnemyType _enemyType, double fireRate)
         {
             this.position = position;
             this.destination = destination;
@@ -40,6 +40,7 @@ namespace SpaceVulcan.Model.Enemies
             this.speed = speed;
             this.type = type;
             this.score = score;
+
             this.firstDestination = firstDestination;
             this.projectile = projectile;
             this.id = id;
@@ -55,7 +56,7 @@ namespace SpaceVulcan.Model.Enemies
         public Vector2 position { get; set; }
         public Vector2 destination { get; set; }
         public Vector2 secondaryDestination { get; set; }
-        bool looping { get; set; }
+        public bool looping { get; set; }
         public int hp { get; set; }
         public int speed { get; set; }
         public int type { get; set; }

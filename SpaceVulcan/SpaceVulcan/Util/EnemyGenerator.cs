@@ -23,6 +23,17 @@ namespace SpaceVulcan.Util
             grunt.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/grunt/grunt"+type);
             return grunt;
         }
+        public static Enemy createBasicMassGrunt(int x, int y, int dx, int dy, int type, double damage, int shots)
+        {
+            Vector2 sideOrigin = new Vector2(x, y);
+            Vector2 destination = new Vector2(dx, dy);
+            Projectile projectile = new Projectile(damage, 5, ProjectileType.MassDriver, ProjectileDirection.South, true);
+            projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
+            Enemy grunt = new Enemy(sideOrigin, destination, 75, 1, damage, 0, 25, projectile, type, EnemyType.grunt, 5.0);
+            grunt.shots = shots;
+            grunt.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/grunt/grunt" + type);
+            return grunt;
+        }
 
         public static Enemy createFastGrunt(int x, int y, int dx, int dy, int type, double damage, int shots)
         {
@@ -30,10 +41,23 @@ namespace SpaceVulcan.Util
             Vector2 destination = new Vector2(dx, dy);
             Projectile projectile = new Projectile(damage, 5, ProjectileType.Laser, ProjectileDirection.South, true);
             projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
-            Enemy grunt = new Enemy(sideOrigin, destination, 50, 10, damage, 0, 10, projectile,type, EnemyType.grunt, 5.0);
+            Enemy grunt = new Enemy(sideOrigin, destination, 60, 10, damage, 0, 15, projectile,type, EnemyType.grunt, 5.0);
             grunt.shots = shots;
             grunt.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/grunt/grunt"+type);
             return grunt;
+        }
+
+        public static Enemy createEasyBoss()
+        {
+            Vector2 origin = new Vector2(-200, -200);
+            Vector2 destination = new Vector2(501, 20);
+            Vector2 secondaryDestination = new Vector2(1021,20);
+            Projectile projectile = new Projectile(40, 5, ProjectileType.MassDriver, ProjectileDirection.South, true);
+            projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/MassDriver");
+            Enemy easyBoss = new Enemy(origin, destination, secondaryDestination, true, 2000, 3, 40, 1, 500, projectile, 1, EnemyType.boss, 1);
+            easyBoss.shots = 2;
+            easyBoss.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/boss/level1boss");
+            return easyBoss;
         }
     }
 }

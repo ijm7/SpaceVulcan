@@ -9,6 +9,7 @@ using SpaceVulcan.Model.Players;
 using SpaceVulcan.Model.Projectiles;
 using SpaceVulcan.Util;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -292,6 +293,8 @@ namespace SpaceVulcan.Controller.States
                         }
                     }
                 }
+                /*
+                 
                 if (existingEnemies[i].secondaryDestination.X != 0)
                 {
                     if (existingEnemies[i].position == existingEnemies[i].destination)
@@ -345,6 +348,12 @@ namespace SpaceVulcan.Controller.States
                             }
                         }
                     }
+                }*/
+                if (existingEnemies[i].looping && existingEnemies[i].destination == existingEnemies[i].position)
+                {
+                    Vector2 destCopy = existingEnemies[i].destination;
+                    existingEnemies[i].destination = existingEnemies[i].secondaryDestination;
+                    existingEnemies[i].secondaryDestination = destCopy;
                 }
             }
         }
@@ -352,7 +361,7 @@ namespace SpaceVulcan.Controller.States
         private void checkProjectileCollisions(ref List<Projectile> projectileList, ref List<Enemy> existingEnemies, ref Player player, ref EventTracker eventTracker)
         {
             List<int> projectilesToRemove = new List<int>();
-            Queue<int> enemiesToRemove = new Queue<int>();
+            Stack enemiesToRemove = new Stack();
             for (int i = 0; i < projectileList.Count; i++)
             {
                 for (int j = 0; j < existingEnemies.Count; j++)
@@ -375,7 +384,7 @@ namespace SpaceVulcan.Controller.States
                         if (!enemiesToRemove.Contains(j))
                         {
                             player.score += existingEnemies[j].score;
-                            enemiesToRemove.Enqueue(j);
+                            enemiesToRemove.Push(j);
                         }
                     }
                 }
@@ -388,7 +397,7 @@ namespace SpaceVulcan.Controller.States
             //for (int i = enemiesToRemove.Count - 1; i >= 0; i--)
             for (int i = 0; i<enemiesToRemove.Count; i++)
             {
-                existingEnemies.RemoveAt(enemiesToRemove.ElementAt(i));
+                existingEnemies.RemoveAt((int)enemiesToRemove.Pop());
                 
             }
             for (int i = 0; i < projectileList.Count; i++)
@@ -532,6 +541,8 @@ namespace SpaceVulcan.Controller.States
             
             if (dictChecker==0)
             {
+                double timeBonus;
+                timeBonus = 200 / levelStartTime;
                 projectileList.Clear();
                 eventTracker.playerHitRecorded = false;
                 eventTracker.enemyHitRecorded = false;
@@ -539,14 +550,33 @@ namespace SpaceVulcan.Controller.States
                 player.firing = false;
                 player.armour = 170;
                 player.shield = 170;
+                player.score = player.score * (int)Math.Floor(timeBonus);
 
                 for (int i = 0; i < player.abilityList.Count; i++)
                 {
+                    if (player.abilityList[i].identifier == 1)
+                    {
+                        player.damage = player.playerDefault.damage;
+                    }
+                    else if (player.abilityList[i].identifier == 2)
+                    {
+                        player.speed = player.playerDefault.speed;
+                    }
+                    else if (player.abilityList[i].identifier == 3)
+                    {
+                        player.armour = player.playerDefault.armour;
+                    }
+                    else if (player.abilityList[i].identifier == 4)
+                    {
+                        player.regenerationRate = player.playerDefault.regenerationRate;
+                    }
+                    else if (player.abilityList[i].identifier == 5)
+                    {
+                        player.fireRate = player.playerDefault.fireRate;
+                    }
                     int x = 0;
                     x = player.abilityList[i].identifier;
-                    Ability newAbility = new Ability(x);
-                    player.abilityList.Remove(player.abilityList[i]);
-                    player.abilityList.Add(newAbility);
+                    player.abilityList[i].setup(x);
                 }
                 if (_state == GameState.Level1)
                 {
@@ -641,7 +671,7 @@ namespace SpaceVulcan.Controller.States
                         {
                             player.regenerationRate = player.playerDefault.regenerationRate;
                         }
-                        if (player.abilityList[i].identifier == 5)
+                        else if (player.abilityList[i].identifier == 5)
                         {
                             player.fireRate = player.playerDefault.fireRate;
                         }
