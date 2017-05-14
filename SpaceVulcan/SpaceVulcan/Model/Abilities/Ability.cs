@@ -26,12 +26,12 @@ namespace SpaceVulcan.Model.Abilities
             lastUsed = 0;
             isActive = false;
             isAvailable = true;
-            coolDown = 68;
+            coolDown = 20;
             abilityTime = 20;
         }
         public int doubleDamage(int damage)
         {
-            return damage * 2;
+            return damage * 3;
         }
 
         public int doubleSpeed(int speed)
@@ -41,9 +41,9 @@ namespace SpaceVulcan.Model.Abilities
 
         public double armourRepair(double armour)
         {
-            if (armour < 120)
+            if (armour < 150)
             {
-                return armour + 50;
+                return armour + 20;
             }
             else
             {
@@ -53,7 +53,7 @@ namespace SpaceVulcan.Model.Abilities
 
         public double increaseShieldRegenerationRate(double regenerationRate)
         {
-            return 0.2;
+            return 0.05;
         }
 
         public double increaseFireRate(double fireRate)

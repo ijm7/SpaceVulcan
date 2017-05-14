@@ -53,6 +53,7 @@ namespace SpaceVulcan.Controller.States
                         break;
                     case MenuSelection.Controls:
                         _state = GameState.Controls;
+                        _buttonType = ButtonType.enter;
                         break;
                     case MenuSelection.Exit:
                         _state = GameState.Exit;

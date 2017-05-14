@@ -550,7 +550,7 @@ namespace SpaceVulcan.Controller.States
                 player.firing = false;
                 player.armour = 170;
                 player.shield = 170;
-                player.score = player.score * (int)Math.Floor(timeBonus);
+                player.score = player.score + (int)Math.Floor(timeBonus*100);
 
                 for (int i = 0; i < player.abilityList.Count; i++)
                 {
@@ -604,15 +604,15 @@ namespace SpaceVulcan.Controller.States
                 
             }
             int keyPressed=0;
-            if (keyState.IsKeyDown(Keys.NumPad1))
+            if (keyState.IsKeyDown(Keys.D1) || keyState.IsKeyDown(Keys.NumPad1))
             {
                 keyPressed = 1;
             }
-            else if (keyState.IsKeyDown(Keys.NumPad2))
+            else if (keyState.IsKeyDown(Keys.NumPad2) | keyState.IsKeyDown(Keys.D2))
             {
                 keyPressed = 2;
             }
-            else if (keyState.IsKeyDown(Keys.NumPad3))
+            else if (keyState.IsKeyDown(Keys.NumPad3) | keyState.IsKeyDown(Keys.D3))
             {
                 keyPressed = 3;
             }

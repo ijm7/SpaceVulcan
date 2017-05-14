@@ -46,6 +46,7 @@
     <Compile Include="Controller\Setup.cs" />
     <Compile Include="Controller\States\UpdateEnd.cs" />
     <Compile Include="Controller\States\UpdateGameOver.cs" />
+    <Compile Include="Controller\States\UpdateInstructions.cs" />
     <Compile Include="Controller\States\UpdateIntermission.cs" />
     <Compile Include="Controller\States\UpdateLevel.cs" />
     <Compile Include="Controller\States\UpdatePause.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Util\TextureTools.cs" />
     <Compile Include="View\States\DrawEnd.cs" />
     <Compile Include="View\States\DrawGameOver.cs" />
+    <Compile Include="View\States\DrawInstructions.cs" />
     <Compile Include="View\States\DrawIntermission.cs" />
     <Compile Include="View\States\DrawLevel.cs" />
     <Compile Include="View\States\DrawPause.cs" />

@@ -94,7 +94,7 @@ namespace SpaceVulcan.View.States
             spriteBatch.DrawString(smallStandardFont, "damage but have a low fire", new Vector2(1350, 730), Color.White);
             spriteBatch.DrawString(smallStandardFont, "rate. Missiles are more ", new Vector2(1350, 760), Color.White);
             spriteBatch.DrawString(smallStandardFont, "suited to experienced", new Vector2(1350, 790), Color.White);
-            spriteBatch.DrawString(smallStandardFont, "players." + elapsed, new Vector2(1350, 820), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "players.", new Vector2(1350, 820), Color.White);
             for (int i = 0, j = 0; i < 3 ; i++)
             {
                 if (i == 1)

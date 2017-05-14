@@ -26,7 +26,7 @@ namespace SpaceVulcan.View.States
             graphicsDevice.Clear(Color.Black);
             spriteBatch.DrawString(menuOptions, "LEVEL COMPLETE", new Vector2(655, 400), Color.White);
             spriteBatch.DrawString(menuOptions, "Press ENTER to proceed to next level", new Vector2(185, 600), Color.White);
-            spriteBatch.DrawString(menuOptions, "Current Score" + player.score, new Vector2(200, 800), Color.White);
+            spriteBatch.DrawString(menuOptions, "Current Score: " + player.score, new Vector2(500, 800), Color.White);
 
         }
     }

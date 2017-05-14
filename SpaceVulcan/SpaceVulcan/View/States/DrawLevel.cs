@@ -241,6 +241,10 @@ namespace SpaceVulcan.View.States
                 {
                     //spriteBatch.Draw(sideGUI[15], existingEnemies[i].boundingBox, Color.Yellow);
                     spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.FlipVertically, 0f);
+                    if (existingEnemies[i]._enemyType==EnemyType.boss)
+                    {
+                        spriteBatch.DrawString(smallStandardFont, "BOSS HEALTH: " + existingEnemies[i].hp, new Vector2(50, 500), Color.White);
+                    }
                 }
             }
         }
@@ -265,7 +269,7 @@ namespace SpaceVulcan.View.States
                 }
                 else if (player.abilityList[i].identifier == 4)
                 {
-                    ability = "Increase Shield Regen";
+                    ability = "Increase Regen";
                 }
                 else if (player.abilityList[i].identifier == 5)
                 {
@@ -284,7 +288,7 @@ namespace SpaceVulcan.View.States
                     placeholderColor = Color.Black;
                 }
                 spriteBatch.Draw(sideGUI[8], new Rectangle(1500, 100+j, 380, 50), placeholderColor);
-                spriteBatch.DrawString(smallStandardFont, ability, new Vector2(1505, 115+j), Color.White);
+                spriteBatch.DrawString(smallStandardFont, i+1 + ": " + ability, new Vector2(1505, 115+j), Color.White);
             }
         }
     }

@@ -59,5 +59,17 @@ namespace SpaceVulcan.Util
             easyBoss.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/boss/level1boss");
             return easyBoss;
         }
+
+        public static Enemy createEasyMedium(int x, int y, int dx, int dy, int type, double damage, int shots)
+        {
+            Vector2 sideOrigin = new Vector2(x, y);
+            Vector2 destination = new Vector2(dx, dy);
+            Projectile projectile = new Projectile(damage, 6, ProjectileType.MassDriver, ProjectileDirection.South, true);
+            projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
+            Enemy medium = new Enemy(sideOrigin, destination, 400, 3, damage, 0, 100, projectile, type, EnemyType.medium, 3);
+            medium.shots = shots;
+            medium.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/medium/medium" + type);
+            return medium;
+        }
     }
 }

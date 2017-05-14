@@ -39,6 +39,7 @@ namespace SpaceVulcan
         UpdatePause updatePause;
         UpdateGameOver updateGameOver;
         UpdateEnd updateEnd;
+        UpdateInstructions updateInstructions;
         DrawTopMenu drawTopMenu;
         DrawShipSelect drawShipSelect;
         DrawLevel drawLevel;
@@ -46,6 +47,7 @@ namespace SpaceVulcan
         DrawPause drawPause;
         DrawGameOver drawGameOver;
         DrawEnd drawEnd;
+        DrawInstructions drawInstructions;
         public Menus menuList;
         KeyboardState previousState;
         float elapsed;
@@ -94,12 +96,14 @@ namespace SpaceVulcan
             updatePause = new UpdatePause();
             updateGameOver = new UpdateGameOver();
             updateEnd = new UpdateEnd();
+            updateInstructions = new UpdateInstructions();
             drawIntermission = new DrawIntermission();
             drawTopMenu = DrawTopMenu.Instance; //Implement rest of singletons later
             drawShipSelect = new DrawShipSelect();
             drawPause = new DrawPause();
             drawGameOver = new DrawGameOver();
             drawEnd = new DrawEnd();
+            drawInstructions = new DrawInstructions();
             eventTracker = new EventTracker();
             _state = GameState.TopMenu;
             _menuSelection = MenuSelection.Play;
@@ -191,6 +195,9 @@ namespace SpaceVulcan
                 case GameState.Exit:
                     Exit();
                     break;
+                case GameState.Controls:
+                    updateInstructions.Update(keyState, ref _state, ref _buttonType);
+                    break;
             }
             // TODO: Add your update logic here
             previousState = keyState;
@@ -243,6 +250,9 @@ namespace SpaceVulcan
                 case GameState.End:
                     drawEnd.Draw();
                     player.firing = false;
+                    break;
+                case GameState.Controls:
+                    drawInstructions.Draw(_buttonType);
                     break;
             }
             MediaPlayer.Stop();
