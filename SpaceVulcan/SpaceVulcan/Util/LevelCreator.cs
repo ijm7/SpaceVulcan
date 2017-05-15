@@ -130,7 +130,7 @@ namespace SpaceVulcan.Util
                 for (int i = 0, j = 0; i < 4; i++, j += 110)
                 {
                     timeList = new List<Enemy>();
-                    timeList.Add(EnemyGenerator.createFastGrunt(300, 100 + j, 1261 - j * 2, 110 + j, 6, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createFastGrunt(300, 100 + j, 1271 - j * 2, 110 + j, 6, 0.1, 1));
                     timeList.Add(EnemyGenerator.createFastGrunt(1600, 100 + j, 491 + j * 2, 110 + j, 6, 0.1, 1));
                     levelCatalogue.Add(70 + i, timeList);
                 }
@@ -157,10 +157,102 @@ namespace SpaceVulcan.Util
                     timeList.Add(EnemyGenerator.createBasicGrunt(1310-j, -1250+j, 1310-j, 300, 5, 10.0, 1));
                 }
                 levelCatalogue.Add(130, timeList);
+                //DIAGONAL ATTACK
+                timeList = new List<Enemy>();
+                for (int i = 0, x = 0, y = 0; i < 4; i++, x+=85,y+=62)
+                {
+                    timeList.Add(EnemyGenerator.createBasicGrunt(2482+x, 2001+y, 482+x, 1+y, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(2482 + x+x, 2001 + (y+y), 482 + x, 1 + y + y, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(2482 + x+x+x, 2001 + (y+y+y), 482 + x, 1 + y + y + y, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(2482 - x, 2001 + y, 1353 - x, 1 + y, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(2482 - x - x, 2001 + (y + y), 1353 - x, 1 + y + y, 1, 0.1, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(2482 - x - x - x, 2001 + (y + y + y), 1353 - x, 1 + y + y + y, 1, 0.1, 1));
+                }
+                levelCatalogue.Add(145, timeList);
+                //MASS WAVE 2
+                for (int i = 0, j = 0; i < 8; i++, j += 120)
+                {
+                    timeList = new List<Enemy>();
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -40 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -500 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -1000 - j, 500 + j, 400, 5, 10.0, 1));
+                    if (i < 4)
+                    {
+                        timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2000 - j, 500 + j, 400, 5, 10.0, 1));
+                    }
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2750 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -3500 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -4500 - j, 500 + j, 400, 5, 10.0, 1));
+                    if (i < 4)
+                    {
+                        timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2750 - j, 400 + j, 400, 5, 10.0, 1));
+                    }
+                    levelCatalogue.Add(180 + i, timeList);
+                }
+                //1 Medium
+                timeList = new List<Enemy>();
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(0, 50, 482, 50, 15, 20.0, 1));
+                //timeList.Add(EnemyGenerator.createEasyLoopingMedium(-1500, 250, 482, 250, 15, 20.0, 1));
+                //timeList.Add(EnemyGenerator.createEasyLoopingMedium(-3500, 450, 482, 450, 15, 20.0, 1));
+                levelCatalogue.Add(260, timeList);
+                //Mass WAVE 3
+                for (int i = 0, j = 0; i < 8; i++, j += 120)
+                {
+                    timeList = new List<Enemy>();
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -40 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -500 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -1000 - j, 500 + j, 400, 5, 10.0, 1));
+                    if (i < 4)
+                    {
+                        timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2000 - j, 500 + j, 400, 5, 10.0, 1));
+                    }
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2750 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -3500 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -4500 - j, 500 + j, 400, 5, 10.0, 1));
+                    if (i < 4)
+                    {
+                        timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2750 - j, 400 + j, 400, 5, 10.0, 1));
+                    }
+                    levelCatalogue.Add(320 + i, timeList);
+                }
+                //3 Medium
+                timeList = new List<Enemy>();
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(0, 50, 482, 50, 15, 20.0, 1));
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(-1500, 250, 482, 250, 15, 20.0, 1));
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(-3500, 450, 482, 450, 15, 20.0, 1));
+                
+                levelCatalogue.Add(380, timeList);
+                //4 Medium
+                timeList = new List<Enemy>();
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(0, 50, 482, 50, 15, 25.0, 1));
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(0, 250, 482, 250, 15, 25.0, 1));
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(-480, 50, 482, 250, 15, 25.0, 1));
+                timeList.Add(EnemyGenerator.createEasyLoopingMedium(-480, 250, 482, 250, 15, 25.0, 1));
+                levelCatalogue.Add(460, timeList);
+                //MASS WAVE
+                for (int i = 0, j = 0; i < 8; i++, j += 120)
+                {
+                    timeList = new List<Enemy>();
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -40 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -500 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -1000 - j, 500 + j, 400, 5, 10.0, 1));
+                    if (i < 4)
+                    {
+                        timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2000 - j, 500 + j, 400, 5, 10.0, 1));
+                    }
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2750 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -3500 - j, 500 + j, 400, 2, 2.0, 1));
+                    timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -4500 - j, 500 + j, 400, 5, 10.0, 1));
+                    if (i < 4)
+                    {
+                        timeList.Add(EnemyGenerator.createBasicGrunt(500 + j, -2750 - j, 400 + j, 400, 5, 10.0, 1));
+                    }
+                    levelCatalogue.Add(540 + i, timeList);
+                }
                 //BOSS
-                /*timeList = new List<Enemy>();
+                timeList = new List<Enemy>();
                 timeList.Add(EnemyGenerator.createEasyBoss());
-                levelCatalogue.Add(100, timeList);*/
+                levelCatalogue.Add(600, timeList);
 
 
 

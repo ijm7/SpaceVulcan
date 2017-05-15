@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceVulcan.Controller;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Projectiles;
 using System;
@@ -69,6 +70,19 @@ namespace SpaceVulcan.Util
             Enemy medium = new Enemy(sideOrigin, destination, 400, 3, damage, 0, 100, projectile, type, EnemyType.medium, 3);
             medium.shots = shots;
             medium.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/medium/medium" + type);
+            return medium;
+        }
+        public static Enemy createEasyLoopingMedium(int x, int y, int dx, int dy, int type, double damage, int shots)
+        {
+            Vector2 origin = new Vector2(x, y);
+            Vector2 destination = new Vector2(dx, dy);
+            Vector2 secondaryDestination = new Vector2(0);
+            Projectile projectile = new Projectile(damage, 6, ProjectileType.MassDriver, ProjectileDirection.South, true);
+            projectile.sprite = Program.game.Content.Load<Texture2D>("Projectiles/Laser");
+            Enemy medium = new Enemy(origin, destination, secondaryDestination, true, 2000, 3, damage, type, 500, projectile, 1, EnemyType.medium, 1);
+            medium.sprite = Program.game.Content.Load<Texture2D>("EnemySprites/medium/medium" + type);
+            medium.secondaryDestination = new Vector2(GameArea.RIGHT - medium.boundingBox.Width, dy);
+            medium.shots = shots;
             return medium;
         }
     }

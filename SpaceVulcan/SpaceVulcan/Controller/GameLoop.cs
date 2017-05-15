@@ -255,7 +255,7 @@ namespace SpaceVulcan
                     drawInstructions.Draw(_buttonType);
                     break;
             }
-            MediaPlayer.Stop();
+            //MediaPlayer.Stop();
             spriteBatch.End();
             _buttonType = ButtonType.nil;
             base.Draw(gameTime);
