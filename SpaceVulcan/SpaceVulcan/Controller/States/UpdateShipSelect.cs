@@ -73,19 +73,19 @@ namespace SpaceVulcan.Controller.States
                     case MenuShipSelect.Laser:
                         _projectileType = ProjectileType.Laser;
                         
-                        player = new Player(defaultPosition, 100, 100, 0, 6, 3, 0.04, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 0, 6, 3, 0.04, 170, 170, _projectileType, false, 0);
                         
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/Lasership");
                        
                         break;
                     case MenuShipSelect.Mass:
                         _projectileType = ProjectileType.MassDriver;
-                        player = new Player(defaultPosition, 100, 100, 0, 6, 10, 0.3, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 0, 6, 10, 0.3, 170, 170, _projectileType, false, 0);
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/massdrivership4");
                         break;  
                     case MenuShipSelect.Missile:
                         _projectileType = ProjectileType.Missile;
-                        player = new Player(defaultPosition, 100, 100, 0, 6, 15, 0.6, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 0, 6, 15, 0.6, 170, 170, _projectileType, false, 0);
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/missilecruiser2");
                         break;
                 }

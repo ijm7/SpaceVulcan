@@ -42,6 +42,7 @@ namespace SpaceVulcan.View.States
             soundEffects = new List<SoundEffect>();
             soundEffectInstanceList = new List<SoundEffectInstance>();
             SoundEffect.MasterVolume = 0.3f;
+            
             this.song = level.song;
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
@@ -68,6 +69,7 @@ namespace SpaceVulcan.View.States
             for (int i = 0; i < soundEffects.Count; i++)
             {
                 soundEffectInstanceList.Add(soundEffects.ElementAt(i).CreateInstance());
+                
             }
             sideGUI = new Texture2D[20];
             for (int i = 0; i < 20; i++)

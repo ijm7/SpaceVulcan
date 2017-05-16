@@ -244,7 +244,7 @@ namespace SpaceVulcan
                     player.firing = false;
                     break;
                 case GameState.GameOver:
-                    drawGameOver.Draw();
+                    drawGameOver.Draw(player);
                     player.firing = false;
                     break;
                 case GameState.End:
