@@ -86,7 +86,6 @@ namespace SpaceVulcan.Controller.States
             
             if (keyState.IsKeyDown(Keys.Down))
             {
-                //player.position.Y += 10;
                 if (player.boundingBox.Bottom + player.speed < GameArea.BOTTOM)
                 {
                     player.position = new Vector2(player.position.X, player.position.Y + player.speed);
@@ -403,8 +402,6 @@ namespace SpaceVulcan.Controller.States
             Vector2[] newProjectilePosition;
             for (int i = 0; i < existingEnemies.Count; i++)
             {
-                //int test = rnd.Next(1, 15);
-                //if (test == 3)
                 if (trackerTime + existingEnemies[i].fireRate/10 > existingEnemies[i].nextSpawn && existingEnemies[i].boundingBox.Left>GameArea.LEFT && existingEnemies[i].boundingBox.Right<GameArea.RIGHT)
                 {
                     if (existingEnemies[i].shots == 1)
