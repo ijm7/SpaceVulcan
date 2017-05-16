@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Model;
-using SpaceVulcan.Model.Abilities;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
@@ -12,8 +11,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Controller.States
 {
@@ -22,7 +19,6 @@ namespace SpaceVulcan.Controller.States
         int levelStartTime;
         float trackerTime;
         int marker;
-        int projectileMarker;
         Dictionary<int, List<Enemy>> levelDictionary;
         Random rnd;
         LevelCreator levelCreator;
@@ -31,11 +27,9 @@ namespace SpaceVulcan.Controller.States
         {
             levelStartTime = 0;
             marker = 0;
-            this.levelDictionary = currentLevel.enemyDictionary;
+            levelDictionary = currentLevel.enemyDictionary;
             rnd = new Random();
             levelCreator = new LevelCreator();
-
-            
         }
 
         public void Update(ref Player player, KeyboardState keyState, KeyboardState prevKeyState, float elapsed, ref List<Projectile> projectileList, GameTime gameTime, ref List<Enemy> existingEnemies, ref GameState _state, ref EventTracker eventTracker, ref UpdateLevel updateLevel)
@@ -56,8 +50,6 @@ namespace SpaceVulcan.Controller.States
             }
                 trackerTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             levelStartTime = (int)Math.Floor(trackerTime);
-
-            System.Diagnostics.Debug.WriteLine(levelStartTime);
             if (keyState.IsKeyDown(Keys.Right))
             {
                 if (player.boundingBox.Right + player.speed < GameArea.RIGHT)
@@ -293,62 +285,6 @@ namespace SpaceVulcan.Controller.States
                         }
                     }
                 }
-                /*
-                 
-                if (existingEnemies[i].secondaryDestination.X != 0)
-                {
-                    if (existingEnemies[i].position == existingEnemies[i].destination)
-                    {
-                        existingEnemies[i].firstDestination = true;
-                    }
-                    if (existingEnemies[i].position != existingEnemies[i].secondaryDestination)
-                    {
-                        if (existingEnemies[i].position.X < existingEnemies[i].secondaryDestination.X)
-                        {
-                            if (existingEnemies[i].position.X + existingEnemies[i].speed > existingEnemies[i].secondaryDestination.X)
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].secondaryDestination.X, existingEnemies[i].position.Y);
-                            }
-                            else
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].position.X + existingEnemies[i].speed, existingEnemies[i].position.Y);
-                            }
-                        }
-                        else if (existingEnemies[i].position.X > existingEnemies[i].secondaryDestination.X)
-                        {
-                            if (existingEnemies[i].position.X - existingEnemies[i].speed < existingEnemies[i].secondaryDestination.X)
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].secondaryDestination.X, existingEnemies[i].position.Y);
-                            }
-                            else
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].position.X - existingEnemies[i].speed, existingEnemies[i].position.Y);
-                            }
-                        }
-                        if (existingEnemies[i].position.Y < existingEnemies[i].secondaryDestination.Y)
-                        {
-                            if (existingEnemies[i].position.Y + existingEnemies[i].speed > existingEnemies[i].secondaryDestination.Y)
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].position.X, existingEnemies[i].secondaryDestination.Y);
-                            }
-                            else
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].position.X, existingEnemies[i].position.Y + existingEnemies[i].speed);
-                            }
-                        }
-                        else if (existingEnemies[i].position.Y > existingEnemies[i].secondaryDestination.Y)
-                        {
-                            if (existingEnemies[i].position.Y - existingEnemies[i].speed < existingEnemies[i].secondaryDestination.Y)
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].position.X, existingEnemies[i].secondaryDestination.Y);
-                            }
-                            else
-                            {
-                                existingEnemies[i].position = new Vector2(existingEnemies[i].position.X, existingEnemies[i].position.Y - existingEnemies[i].speed);
-                            }
-                        }
-                    }
-                }*/
                 if (existingEnemies[i].looping && existingEnemies[i].destination == existingEnemies[i].position)
                 {
                     Vector2 destCopy = existingEnemies[i].destination;
@@ -450,8 +386,10 @@ namespace SpaceVulcan.Controller.States
                 {
                     eventTracker.playerHitRecorded = true;
                     player.armour -= 0.1;
-                    player.shield -= 0.2;
-
+                    if (player.shield >= 0.2)
+                    {
+                        player.shield -= 0.2;
+                    }
                 }
             }
             projectilesToRemove.Clear();

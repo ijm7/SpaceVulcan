@@ -13,9 +13,6 @@ using SpaceVulcan.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.View.States
 {
@@ -36,7 +33,6 @@ namespace SpaceVulcan.View.States
         List<SoundEffect> soundEffects;
         List<SoundEffectInstance> soundEffectInstanceList;
         ScrollingBackground gameBackground;
-        Thread nonInteractiveGUI;
         public DrawLevel(Level level)
         {
             soundEffects = new List<SoundEffect>();
@@ -81,16 +77,10 @@ namespace SpaceVulcan.View.States
 
             gameBackground.Load(graphicsDevice, background);
             soundEffects[8].Play();
-            
-            //nonInteractiveGUI = new Thread(DrawBackGUI);
-            
-
         }
 
         public void Draw(Player player, float elapsed, List<Projectile> projectileList, List<Enemy> existingEnemies, EventTracker eventTracker)
         {
-            //nonInteractiveBackground = new Thread(() => DrawBackground(elapsed));
-            
             DrawBackground(elapsed);
             DrawBackGUI();
             drawDynamicGUI(player);
@@ -169,9 +159,7 @@ namespace SpaceVulcan.View.States
 
         private void DrawPlayer(Player player)
         {
-            //spriteBatch.Draw(sideGUI[13], player.boundingBox, Color.Yellow);
             spriteBatch.Draw(player.sprite, player.position, null, Color.White, 0f, Vector2.Zero, 0.4f, SpriteEffects.None, 0f);
-            //spriteBatch.Draw(playerShip, new Rectangle((int)player.position.X,(int)player.position.Y,1,1)), Color.White);
 
         }
 
@@ -179,7 +167,6 @@ namespace SpaceVulcan.View.States
         {
             for (int i = 0; i < projectileList.Count; i++)
             {
-                //spriteBatch.Draw(sideGUI[14], projectileList[i].boundingBox, Color.Yellow);
                 if (projectileList[i].enemy == true)
                 {
                     spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.FlipVertically, 0f);
@@ -241,7 +228,6 @@ namespace SpaceVulcan.View.States
             {
                 if (existingEnemies[i].boundingBox.Right < GameArea.RIGHT && existingEnemies[i].boundingBox.Left > GameArea.LEFT)
                 {
-                    //spriteBatch.Draw(sideGUI[15], existingEnemies[i].boundingBox, Color.Yellow);
                     spriteBatch.Draw(existingEnemies[i].sprite, existingEnemies[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.FlipVertically, 0f);
                     if (existingEnemies[i]._enemyType==EnemyType.boss)
                     {

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Controller.States;
 using SpaceVulcan.Model;
-using SpaceVulcan.Model.Abilities;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Levels;
 using SpaceVulcan.Model.Players;
@@ -13,7 +12,6 @@ using SpaceVulcan.Model.Projectiles;
 using SpaceVulcan.View.States;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SpaceVulcan
 {
@@ -31,7 +29,6 @@ namespace SpaceVulcan
         public SpriteBatch spriteBatch;
         public Player player;
         public Level level;
-        
         UpdateTopMenu updateTopMenu;
         UpdateShipSelect updateShipSelect;
         UpdateLevel updateLevel;
@@ -57,7 +54,6 @@ namespace SpaceVulcan
         public List<Projectile> projectileList;
         Dictionary<int, List<Enemy>> currentLevel;
         List<Enemy> existingEnemies;
-        // bool spawnAllowed; Maybe here?
 
         public GameLoop()
         {
@@ -74,7 +70,6 @@ namespace SpaceVulcan
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
             loader();
         }
@@ -86,9 +81,9 @@ namespace SpaceVulcan
             MediaPlayer.IsRepeating = true;
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            //graphics.IsFullScreen = true;
-            /*graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;*/
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
             updateTopMenu = new UpdateTopMenu();
             updateShipSelect = new UpdateShipSelect();
@@ -122,11 +117,7 @@ namespace SpaceVulcan
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -135,7 +126,6 @@ namespace SpaceVulcan
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -148,19 +138,9 @@ namespace SpaceVulcan
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             KeyboardState keyState = Keyboard.GetState();
-            /*System.Text.StringBuilder sb = new StringBuilder();
-            foreach (var key in keyState.GetPressedKeys())
-                sb.Append("Key: ").Append(key).Append(" pressed ");
-
-            if (sb.Length > 0 & previousState!=keyState)
-            {
-                checkPress = true;
-            }*/
             elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            
             timer +=  (int)Math.Floor(elapsed);
             shotCounter += elapsed;
-            //System.Diagnostics.Debug.WriteLine(timer);
             switch (_state)
             {
                 case GameState.TopMenu:
@@ -199,7 +179,6 @@ namespace SpaceVulcan
                     updateInstructions.Update(keyState, ref _state, ref _buttonType);
                     break;
             }
-            // TODO: Add your update logic here
             previousState = keyState;
             prevTimer = timer;
             base.Update(gameTime);
@@ -211,9 +190,8 @@ namespace SpaceVulcan
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {            spriteBatch.Begin();/*
-            spriteBatch.DrawString(font, "MenuOptions" + score, new Vector2(100, 100), Color.Black);*/
-                                // TODO: Add your drawing code here
+        {
+            spriteBatch.Begin();
             switch (_state)
             {
                 case GameState.TopMenu:
@@ -221,7 +199,6 @@ namespace SpaceVulcan
                     break;
                 case GameState.ShipSelect:
                     drawShipSelect.Draw(_menuShipSelect, _buttonType, gameTime, elapsed);
-                    //DrawGameplay(deltaTime);
                     break;
                 case GameState.Level1:
                     drawLevel.Draw(player, elapsed, projectileList, existingEnemies, eventTracker);
@@ -255,7 +232,6 @@ namespace SpaceVulcan
                     drawInstructions.Draw(_buttonType);
                     break;
             }
-            //MediaPlayer.Stop();
             spriteBatch.End();
             _buttonType = ButtonType.nil;
             base.Draw(gameTime);

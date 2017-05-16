@@ -2,11 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Model.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.View.States
 {
@@ -36,7 +31,7 @@ namespace SpaceVulcan.View.States
             graphicsDevice.Clear(Color.Black);
             spriteBatch.DrawString(menuOptions, "GAME OVER", new Vector2(765, 400), Color.White);
             spriteBatch.DrawString(menuOptions, "FINAL SCORE: " + player.score, new Vector2(675, 500), Color.White);
-            spriteBatch.DrawString(menuOptions, "Press ENTER to return to menu", new Vector2(265, 600), Color.White);
+            spriteBatch.DrawString(menuOptions, "Press ENTER to return to menu", new Vector2(300, 600), Color.White);
 
         }
     }

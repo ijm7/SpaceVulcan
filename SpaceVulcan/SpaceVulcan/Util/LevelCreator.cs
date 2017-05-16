@@ -3,12 +3,8 @@ using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Levels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Util
 {
@@ -34,7 +30,6 @@ namespace SpaceVulcan.Util
             Texture2D background = null;
             Song song = null;
             var thread = new Thread(() => { levelCatalogue = BuildLevelDictionary(_state); });
-            //levelCatalogue = BuildLevelDictionary(_state);
             thread.Start();
             thread.Join();
             if (_state == GameState.Level1)
@@ -55,10 +50,6 @@ namespace SpaceVulcan.Util
             Level newLevel = new Level(levelCatalogue, background, song);        
             return newLevel;
         }
-
-        
-
-
 
         public Dictionary<int, List<Enemy>> BuildLevelDictionary(GameState _state)
         {
@@ -614,9 +605,6 @@ namespace SpaceVulcan.Util
                 timeList.Add(EnemyGenerator.createHardBoss());
                 levelCatalogue.Add(650, timeList);
             }
-            /*timeList = new List<Enemy>();
-            timeList.Add(EnemyGenerator.createBasicGrunt(0, 100, 501, 40, 1, 0.1));
-            levelCatalogue.Add(1, timeList);*/
             return levelCatalogue;
         }
     }

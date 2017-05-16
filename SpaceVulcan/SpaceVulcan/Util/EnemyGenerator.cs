@@ -3,11 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Model.Enemies;
 using SpaceVulcan.Model.Projectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Util
 {
