@@ -581,14 +581,14 @@ namespace SpaceVulcan.Util
                 timeList.Add(EnemyGenerator.createHardLoopingMedium(-1500, 250, 482, 250, 14, 20.0, 3));
                 timeList.Add(EnemyGenerator.createHardLoopingMedium(-3500, 450, 482, 450, 14, 20.0, 3));
 
-                levelCatalogue.Add(420, timeList);
+                levelCatalogue.Add(400, timeList);
                 //4 Medium
                 timeList = new List<Enemy>();
                 timeList.Add(EnemyGenerator.createHardLoopingMedium(0, 50, 482, 50, 14, 20.0, 3));
                 timeList.Add(EnemyGenerator.createHardLoopingMedium(0, 250, 482, 250, 14, 20.0, 3));
                 timeList.Add(EnemyGenerator.createHardLoopingMedium(-480, 50, 482, 50, 14, 20.0, 3));
                 timeList.Add(EnemyGenerator.createHardLoopingMedium(-480, 250, 482, 250, 14, 20.0, 3));
-                levelCatalogue.Add(500, timeList);
+                levelCatalogue.Add(560, timeList);
                 //MASS WAVE
                 for (int i = 0, j = 0; i < 8; i++, j += 120)
                 {
@@ -612,7 +612,7 @@ namespace SpaceVulcan.Util
                 //BOSS
                 timeList = new List<Enemy>();
                 timeList.Add(EnemyGenerator.createHardBoss());
-                levelCatalogue.Add(690, timeList);
+                levelCatalogue.Add(650, timeList);
             }
             /*timeList = new List<Enemy>();
             timeList.Add(EnemyGenerator.createBasicGrunt(0, 100, 501, 40, 1, 0.1));

@@ -617,7 +617,7 @@ namespace SpaceVulcan.Controller.States
                 keyPressed = 3;
             }
             keyPressed -= 1;
-            if (keyPressed > -1 && player.abilityList.Count>=keyPressed)
+            if (keyPressed > -1 && player.abilityList.Count>keyPressed)
             {
                 if (player.abilityList[keyPressed].isAvailable)
                 {

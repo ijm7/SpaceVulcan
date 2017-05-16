@@ -41,7 +41,7 @@ namespace SpaceVulcan.View.States
         {
             soundEffects = new List<SoundEffect>();
             soundEffectInstanceList = new List<SoundEffectInstance>();
-            SoundEffect.MasterVolume = 0.3f;
+            SoundEffect.MasterVolume = 0.4f;
             
             this.song = level.song;
             MediaPlayer.Play(song);
