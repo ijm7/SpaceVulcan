@@ -4,18 +4,29 @@ using SpaceVulcan.Model.Players;
 
 namespace SpaceVulcan.View.States
 {
-    class DrawIntermission
+    public sealed class DrawIntermission
     {
+        private static readonly DrawIntermission instance = new DrawIntermission();
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         SpriteFont menuOptions;
+        static DrawIntermission()
+        {
+
+        }
         public DrawIntermission()
         {
             this.spriteBatch = Program.game.spriteBatch;
             this.graphicsDevice = Program.game.GraphicsDevice;
             this.menuOptions = Program.game.Content.Load<SpriteFont>("Fonts/MenuOptions");
         }
-
+        public static DrawIntermission Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
         public void Draw(Player player)
         {
             graphicsDevice.Clear(Color.Black);

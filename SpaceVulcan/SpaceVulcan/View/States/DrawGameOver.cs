@@ -5,14 +5,18 @@ using SpaceVulcan.Model.Players;
 
 namespace SpaceVulcan.View.States
 {
-    class DrawGameOver
+    public sealed class DrawGameOver
     {
+        private static readonly DrawGameOver instance = new DrawGameOver();
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         SpriteFont menuOptions;
         Song endSong;
         bool songPlaying = false;
+        static DrawGameOver()
+        {
 
+        }
         public DrawGameOver()
         {
             this.spriteBatch = Program.game.spriteBatch;
@@ -20,6 +24,13 @@ namespace SpaceVulcan.View.States
             this.menuOptions = Program.game.Content.Load<SpriteFont>("Fonts/MenuOptions");
             endSong = Program.game.Content.Load<Song>("Music/Ending");
 
+        }
+        public static DrawGameOver Instance
+        {
+            get
+            {
+                return instance;
+            }
         }
         public void Draw(Player player)
         {

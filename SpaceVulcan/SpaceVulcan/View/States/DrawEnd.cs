@@ -5,20 +5,31 @@ using SpaceVulcan.Model.Players;
 
 namespace SpaceVulcan.View.States
 {
-    class DrawEnd
+    public sealed class DrawEnd
     {
+        private static readonly DrawEnd instance = new DrawEnd();
         GraphicsDevice graphicsDevice;
         SpriteBatch spriteBatch;
         SpriteFont menuOptions;
         Song endSong;
         bool songPlaying = false;
+        static DrawEnd()
+        {
+
+        }
         public DrawEnd()
         {
             this.spriteBatch = Program.game.spriteBatch;
             this.graphicsDevice = Program.game.GraphicsDevice;
             this.menuOptions = Program.game.Content.Load<SpriteFont>("Fonts/MenuOptions");
             endSong = Program.game.Content.Load<Song>("Music/Ending");
-
+        }
+        public static DrawEnd Instance
+        {
+            get
+            {
+                return instance;
+            }
         }
         public void Draw(Player player)
         {

@@ -38,7 +38,6 @@ namespace SpaceVulcan.View.States
             soundEffects = new List<SoundEffect>();
             soundEffectInstanceList = new List<SoundEffectInstance>();
             SoundEffect.MasterVolume = 0.4f;
-            
             this.song = level.song;
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
@@ -65,7 +64,6 @@ namespace SpaceVulcan.View.States
             for (int i = 0; i < soundEffects.Count; i++)
             {
                 soundEffectInstanceList.Add(soundEffects.ElementAt(i).CreateInstance());
-                
             }
             sideGUI = new Texture2D[20];
             for (int i = 0; i < 20; i++)
@@ -74,7 +72,6 @@ namespace SpaceVulcan.View.States
                 sideGUI[i].SetData(new[] { Color.White });
             }
             gameBackground = new ScrollingBackground();
-
             gameBackground.Load(graphicsDevice, background);
             soundEffects[8].Play();
         }
@@ -93,7 +90,6 @@ namespace SpaceVulcan.View.States
             DrawHealth(player);
             DrawSoundEffects(player, eventTracker);
             DrawAbilities(player);
-
         }
 
         private void DrawBackGUI()
@@ -175,7 +171,6 @@ namespace SpaceVulcan.View.States
                 {
                     spriteBatch.Draw(projectileList[i].sprite, projectileList[i].position, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
                 }
-
             }
         }
 
@@ -212,8 +207,6 @@ namespace SpaceVulcan.View.States
             {
                 soundEffects[5].Play();
             }
-
-
         }
 
         private void DrawHealth(Player player)

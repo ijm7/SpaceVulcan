@@ -7,10 +7,10 @@ using System.Collections.Generic;
 
 namespace SpaceVulcan.View.States
 {
-    class DrawInstructions
+    public sealed class DrawInstructions
     {
+        private static readonly DrawInstructions instance = new DrawInstructions();
         private ContentManager content = Program.game.Content;
-
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
         private SpriteFont menuOptions;
@@ -18,6 +18,10 @@ namespace SpaceVulcan.View.States
         private SpriteFont mediumStandardFont;
         private SpriteFont largeStandardFont;
         List<SoundEffect> soundEffects;
+        static DrawInstructions()
+        {
+
+        }
         public DrawInstructions()
         {
             soundEffects = new List<SoundEffect>();
@@ -28,6 +32,13 @@ namespace SpaceVulcan.View.States
             this.smallStandardFont = content.Load<SpriteFont>("Fonts/SmallStandard");
             this.mediumStandardFont = content.Load<SpriteFont>("Fonts/MediumStandard");
             this.largeStandardFont = content.Load<SpriteFont>("Fonts/LargeStandard");
+        }
+        public static DrawInstructions Instance
+        {
+            get
+            {
+                return instance;
+            }
         }
 
         public void Draw(ButtonType _buttonType)

@@ -9,10 +9,10 @@ using System.Collections.Generic;
 
 namespace SpaceVulcan.View.States
 {
-    public class DrawShipSelect
+    public sealed class DrawShipSelect
     {
+        private static readonly DrawShipSelect instance = new DrawShipSelect();
         private ContentManager content = Program.game.Content;
-        
         private GraphicsDevice graphicsDevice;
         ScrollingBackground menuBackground;
         private SpriteBatch spriteBatch;
@@ -24,6 +24,10 @@ namespace SpaceVulcan.View.States
         private Texture2D[] backSquares;
         private Texture2D[] ships;
         List<SoundEffect> soundEffects;
+        static DrawShipSelect()
+        {
+
+        }
         public DrawShipSelect()
         {
             soundEffects = new List<SoundEffect>();
@@ -49,6 +53,13 @@ namespace SpaceVulcan.View.States
             }
             menuBackground = new ScrollingBackground();
             menuBackground.Load(graphicsDevice, background);
+        }
+        public static DrawShipSelect Instance
+        {
+            get
+            {
+                return instance;
+            }
         }
         public void Draw(MenuShipSelect _menuShipSelect, ButtonType _buttonType, GameTime gameTime, float elapsed)
         {
