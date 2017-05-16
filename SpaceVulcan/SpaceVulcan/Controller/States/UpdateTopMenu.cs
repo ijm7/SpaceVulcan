@@ -1,20 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Controller.States
 {
     class UpdateTopMenu
     {
-        public UpdateTopMenu()
-        {
-
-        }
         public void Update(KeyboardState keyState, KeyboardState previousState, ref MenuSelection _menuSelection, ref GameState _state, ref ButtonType _buttonType, GameTime gameTime)
         {
             if (keyState.IsKeyDown(Keys.Up) & !previousState.IsKeyDown(Keys.Up))
@@ -22,7 +13,6 @@ namespace SpaceVulcan.Controller.States
                 _buttonType = ButtonType.move;
                 if ((int)_menuSelection > 0)
                 {
-                    //menuList.mainMenu--;
                     _menuSelection = (MenuSelection)(int)_menuSelection - 1;
                 }
                 else
@@ -35,7 +25,6 @@ namespace SpaceVulcan.Controller.States
                 _buttonType = ButtonType.move;
                 if ((int)_menuSelection < 2)
                 {
-                    //menuList.mainMenu++;
                     _menuSelection = (MenuSelection)(int)_menuSelection + 1;
                 }
                 else
@@ -60,8 +49,6 @@ namespace SpaceVulcan.Controller.States
                         break;
                 }
             }
-            
-            //System.Diagnostics.Debug.WriteLine(menuList.mainMenu);
         }
     }
 }

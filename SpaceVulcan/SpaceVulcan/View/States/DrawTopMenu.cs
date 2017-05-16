@@ -2,19 +2,14 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Model;
 using SpaceVulcan.Util;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.View.States
 {
-    
+
     public sealed class DrawTopMenu
     {
         private static readonly DrawTopMenu instance = new DrawTopMenu();
@@ -42,10 +37,8 @@ namespace SpaceVulcan.View.States
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_move1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select2"));
             this.graphicsDevice = Program.game.GraphicsDevice;
-            
             menuBackground = new ScrollingBackground();
             menuBackground.Load(graphicsDevice, background);
-            //menuList.mainMenu = 0;
         }
 
         public static DrawTopMenu Instance
@@ -60,13 +53,11 @@ namespace SpaceVulcan.View.States
         {
             menuBackground.Update(elapsed * 25);
             menuBackground.Draw(spriteBatch);
-            //spriteBatch.Draw(background, new Rectangle(0, 0, graphicsDevice.DisplayMode.Width, graphicsDevice.DisplayMode.Height), Color.White);
             spriteBatch.DrawString(menuTitle, "SPACE", new Vector2(600, 50), Color.Red);
             spriteBatch.DrawString(menuTitle, "VULCAN", new Vector2(545, 215), Color.Red);
             spriteBatch.DrawString(menuOptions, "Play", new Vector2(850, 575), Color.White);
             spriteBatch.DrawString(menuOptions, "Controls", new Vector2(775, 650), Color.White);
             spriteBatch.DrawString(menuOptions, "Exit", new Vector2(850, 725), Color.White);
-            //System.Diagnostics.Debug.WriteLine("Current menu variable = " + menuList.mainMenu);
             switch (_menuSelection)
             {
                 case MenuSelection.Play:

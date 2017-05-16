@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using SpaceVulcan.Model;
 using SpaceVulcan.Model.Abilities;
 using SpaceVulcan.Model.Levels;
@@ -7,10 +6,6 @@ using SpaceVulcan.Model.Players;
 using SpaceVulcan.Util;
 using SpaceVulcan.View.States;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Controller.States
 {
@@ -22,7 +17,6 @@ namespace SpaceVulcan.Controller.States
         {
             levelCreator = new LevelCreator();
         }
-
         public void Update(KeyboardState keyState, KeyboardState prevState, EventTracker eventTracker, ref GameState _state, ref UpdateLevel updateLevel, ref DrawLevel drawLevel, ref Player player)
         {
             if (keyState.IsKeyDown(Keys.Enter) & !prevState.IsKeyDown(Keys.Enter))

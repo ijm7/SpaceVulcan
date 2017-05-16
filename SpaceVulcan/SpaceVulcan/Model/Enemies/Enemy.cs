@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceVulcan.Model.Projectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Model.Enemies
 {
@@ -25,8 +20,8 @@ namespace SpaceVulcan.Model.Enemies
             this.fireRate = fireRate;
             firstDestination = false;
             secondaryDestination = new Vector2 (0);
-            this.lastSpawn = 0;
-            this.nextSpawn = 0;
+            lastSpawn = 0;
+            nextSpawn = 0;
             destroyed = false;
             shots = 1;
         }
@@ -40,15 +35,14 @@ namespace SpaceVulcan.Model.Enemies
             this.speed = speed;
             this.type = type;
             this.score = score;
-
-            this.firstDestination = firstDestination;
+            firstDestination = firstDestination;
             this.projectile = projectile;
             this.id = id;
             this._enemyType = _enemyType;
             firstDestination = false;
             this.fireRate = fireRate;
-            this.lastSpawn = 0;
-            this.nextSpawn = 0;
+            lastSpawn = 0;
+            nextSpawn = 0;
             destroyed = false;
             shots = 1;
         }

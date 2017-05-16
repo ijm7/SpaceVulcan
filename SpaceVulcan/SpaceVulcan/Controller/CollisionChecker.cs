@@ -1,11 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using SpaceVulcan.Model.Enemies;
-using SpaceVulcan.Model.Projectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SpaceVulcan.Model.Projectiles;
 
 namespace SpaceVulcan.Controller
 {
@@ -34,6 +27,5 @@ namespace SpaceVulcan.Controller
                 return true;
             }
         }
-
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SpaceVulcan.Model
+﻿namespace SpaceVulcan.Model
 {
     public class EventTracker
     {
@@ -14,7 +8,6 @@ namespace SpaceVulcan.Model
             enemyHitRecorded = false;
             destroyed = false;
             prevLevel = 0;
-
         }
         public bool playerHitRecorded { get; set; }
         public bool enemyHitRecorded { get; set; }

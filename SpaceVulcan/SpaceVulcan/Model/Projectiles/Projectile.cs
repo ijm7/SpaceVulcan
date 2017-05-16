@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Model.Projectiles
 {
@@ -41,7 +37,6 @@ namespace SpaceVulcan.Model.Projectiles
                 return new Rectangle((int)position.X, (int)position.Y, (sprite.Width/5)*4, (sprite.Height/5)*4);
             }
         }
-
         public object Clone()
         {
             return this.MemberwiseClone();

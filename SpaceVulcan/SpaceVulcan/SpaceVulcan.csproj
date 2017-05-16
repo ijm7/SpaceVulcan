@@ -43,7 +43,6 @@
     <Compile Include="Controller\GameArea.cs" />
     <Compile Include="Controller\GameLoop.cs" />
     <Compile Include="Controller\GameState.cs" />
-    <Compile Include="Controller\Setup.cs" />
     <Compile Include="Controller\States\UpdateEnd.cs" />
     <Compile Include="Controller\States\UpdateGameOver.cs" />
     <Compile Include="Controller\States\UpdateInstructions.cs" />
@@ -69,7 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\EnemyGenerator.cs" />
     <Compile Include="Util\LevelCreator.cs" />
-    <Compile Include="Util\ProjectileGenerator.cs" />
     <Compile Include="Util\ScrollingBackground.cs" />
     <Compile Include="Util\TextureTools.cs" />
     <Compile Include="View\States\DrawEnd.cs" />
@@ -102,11 +100,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Fonts\" />
-    <Folder Include="Model\Interfaces\" />
-    <Folder Include="Model\Obstacles\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

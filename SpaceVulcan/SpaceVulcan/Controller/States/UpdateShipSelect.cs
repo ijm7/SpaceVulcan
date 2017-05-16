@@ -11,10 +11,7 @@ using SpaceVulcan.Util;
 using SpaceVulcan.View.States;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.Controller.States
 {
@@ -28,7 +25,6 @@ namespace SpaceVulcan.Controller.States
                 _buttonType = ButtonType.move;
                 if ((int)_menuShipSelect > 0)
                 {
-                    //menuList.mainMenu--;
                     _menuShipSelect = (MenuShipSelect)(int)_menuShipSelect - 1;
                 }
                 else
@@ -41,7 +37,6 @@ namespace SpaceVulcan.Controller.States
                 _buttonType = ButtonType.move;
                 if ((int)_menuShipSelect < 2)
                 {
-                    //menuList.mainMenu++;
                     _menuShipSelect = (MenuShipSelect)(int)_menuShipSelect + 1;
                 }
                 else
@@ -57,9 +52,7 @@ namespace SpaceVulcan.Controller.States
                 _state = GameState.Level1;
                 GameState copyState = _state;
                 Level firstLevel=null;
-                //Level firstLevel = levelOneCreator.BuildLevel(_state);
                 var thread = new Thread(() => { firstLevel = levelOneCreator.BuildLevel(copyState); });
-                //var thread = new Thread(() => { levelCatalogue = BuildLevelDictionary(_state); });
                 thread.Start();
                 thread.Join();
                 updateLevel = new UpdateLevel(firstLevel);
@@ -69,23 +62,19 @@ namespace SpaceVulcan.Controller.States
                 int initialAbilityIndex = rnd.Next(1, 6);
                 switch (_menuShipSelect)
                 {
-                    
                     case MenuShipSelect.Laser:
                         _projectileType = ProjectileType.Laser;
-                        
-                        player = new Player(defaultPosition, 100, 100, 0, 6, 3, 0.04, 170, 100, _projectileType, false, 0);
-                        
+                        player = new Player(defaultPosition, 100, 100, 0, 6, 3, 0.04, 170, 170, _projectileType, false, 0);
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/Lasership");
-                       
                         break;
                     case MenuShipSelect.Mass:
                         _projectileType = ProjectileType.MassDriver;
-                        player = new Player(defaultPosition, 100, 100, 0, 6, 10, 0.3, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 0, 6, 10, 0.3, 170, 170, _projectileType, false, 0);
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/massdrivership4");
                         break;  
                     case MenuShipSelect.Missile:
                         _projectileType = ProjectileType.Missile;
-                        player = new Player(defaultPosition, 100, 100, 0, 6, 15, 0.6, 170, 100, _projectileType, false, 0);
+                        player = new Player(defaultPosition, 100, 100, 0, 6, 15, 0.6, 170, 170, _projectileType, false, 0);
                         player.sprite = Program.game.Content.Load<Texture2D>("PlayerSprites/missilecruiser2");
                         break;
                 }

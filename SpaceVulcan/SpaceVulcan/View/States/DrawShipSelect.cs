@@ -2,22 +2,17 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 using SpaceVulcan.Controller;
 using SpaceVulcan.Model;
 using SpaceVulcan.Util;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.View.States
 {
-    public class DrawShipSelect
+    public sealed class DrawShipSelect
     {
+        private static readonly DrawShipSelect instance = new DrawShipSelect();
         private ContentManager content = Program.game.Content;
-        
         private GraphicsDevice graphicsDevice;
         ScrollingBackground menuBackground;
         private SpriteBatch spriteBatch;
@@ -28,8 +23,11 @@ namespace SpaceVulcan.View.States
         private Texture2D background;
         private Texture2D[] backSquares;
         private Texture2D[] ships;
-        //private Song song; REMEMBER THAT YOU WILL HAVE TO MAKE THE SONG FOR FIRST LEVEL PLAY HERE TO CUT OFF MEDIAPLAYER
         List<SoundEffect> soundEffects;
+        static DrawShipSelect()
+        {
+
+        }
         public DrawShipSelect()
         {
             soundEffects = new List<SoundEffect>();
@@ -39,13 +37,10 @@ namespace SpaceVulcan.View.States
             this.mediumStandardFont = content.Load<SpriteFont>("Fonts/MediumStandard");
             this.largeStandardFont = content.Load<SpriteFont>("Fonts/LargeStandard");
             this.background = content.Load<Texture2D>("Backgrounds/Stars2");
-            //this.song = content.Load<Song>("Music/TitleScreen");
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_move1"));
             soundEffects.Add(content.Load<SoundEffect>("SoundEffects/sfx_menu_select2"));
             this.graphicsDevice = Program.game.GraphicsDevice;
-            //MediaPlayer.Play(song);
-            //MediaPlayer.IsRepeating = true;
             backSquares = new Texture2D[3];
             ships = new Texture2D[3];
             ships[0] = content.Load<Texture2D>("PlayerSprites/lasership");
@@ -59,17 +54,17 @@ namespace SpaceVulcan.View.States
             menuBackground = new ScrollingBackground();
             menuBackground.Load(graphicsDevice, background);
         }
+        public static DrawShipSelect Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
         public void Draw(MenuShipSelect _menuShipSelect, ButtonType _buttonType, GameTime gameTime, float elapsed)
         {
-
             menuBackground.Update(elapsed * 25);
             menuBackground.Draw(spriteBatch);
-            /*Texture2D rect = new Texture2D(graphicsDevice, 80, 30);
-            Color[] data = new Color[80 * 30];
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate * 0.5f;
-            rect.SetData(data);
-            Vector2 coor = new Vector2(10, 20);
-            spriteBatch.Draw(rect, coor, Color.White);*/
             spriteBatch.DrawString(largeStandardFont, "SHIP SELECT", new Vector2(375, 100), Color.White);
             spriteBatch.DrawString(menuOptions, "VINDICATOR", new Vector2(160, 320), Color.White);
             spriteBatch.DrawString(menuOptions, "AGEMEMNON", new Vector2(780, 320), Color.White);//735
@@ -77,19 +72,15 @@ namespace SpaceVulcan.View.States
             spriteBatch.DrawString(mediumStandardFont, "Laser Guns", new Vector2(195, 645), Color.Red);
             spriteBatch.DrawString(mediumStandardFont, "Giga Cannons", new Vector2(770, 645), Color.Red);
             spriteBatch.DrawString(mediumStandardFont, "Missiles", new Vector2(1440, 645), Color.Red);
-            //LASER SHIP                                
             spriteBatch.DrawString(smallStandardFont, "Laser weaponry has a very ", new Vector2(150, 700), Color.White);
             spriteBatch.DrawString(smallStandardFont, "high fire rate, but also  ", new Vector2(150, 730), Color.White);
             spriteBatch.DrawString(smallStandardFont, "puts out a low amount of ", new Vector2(150, 760), Color.White);
             spriteBatch.DrawString(smallStandardFont, "damage per second.", new Vector2(150, 790), Color.White);
-            //CANNONS                                  Laser ship has a very high
             spriteBatch.DrawString(smallStandardFont, "Giga Cannons provide a", new Vector2(750, 700), Color.White);
             spriteBatch.DrawString(smallStandardFont, "good balance between damage", new Vector2(750, 730), Color.White);
             spriteBatch.DrawString(smallStandardFont, "output and fire rate. Thus", new Vector2(750, 760), Color.White);
             spriteBatch.DrawString(smallStandardFont, "they are well suited for", new Vector2(750, 790), Color.White);
             spriteBatch.DrawString(smallStandardFont, "beginners.", new Vector2(750, 820), Color.White);
-            //MISSILES                                 Laser ship has a very high
-            
             spriteBatch.DrawString(smallStandardFont, "Missiles do very high", new Vector2(1350, 700), Color.White);
             spriteBatch.DrawString(smallStandardFont, "damage but have a low fire", new Vector2(1350, 730), Color.White);
             spriteBatch.DrawString(smallStandardFont, "rate. Missiles are more ", new Vector2(1350, 760), Color.White);

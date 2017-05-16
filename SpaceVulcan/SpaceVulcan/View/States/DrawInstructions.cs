@@ -3,18 +3,14 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceVulcan.Controller;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceVulcan.View.States
 {
-    class DrawInstructions
+    public sealed class DrawInstructions
     {
+        private static readonly DrawInstructions instance = new DrawInstructions();
         private ContentManager content = Program.game.Content;
-
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
         private SpriteFont menuOptions;
@@ -22,6 +18,10 @@ namespace SpaceVulcan.View.States
         private SpriteFont mediumStandardFont;
         private SpriteFont largeStandardFont;
         List<SoundEffect> soundEffects;
+        static DrawInstructions()
+        {
+
+        }
         public DrawInstructions()
         {
             soundEffects = new List<SoundEffect>();
@@ -32,6 +32,13 @@ namespace SpaceVulcan.View.States
             this.smallStandardFont = content.Load<SpriteFont>("Fonts/SmallStandard");
             this.mediumStandardFont = content.Load<SpriteFont>("Fonts/MediumStandard");
             this.largeStandardFont = content.Load<SpriteFont>("Fonts/LargeStandard");
+        }
+        public static DrawInstructions Instance
+        {
+            get
+            {
+                return instance;
+            }
         }
 
         public void Draw(ButtonType _buttonType)
@@ -50,13 +57,16 @@ namespace SpaceVulcan.View.States
             spriteBatch.DrawString(smallStandardFont, "Backspace - Back to previous menu", new Vector2(100, 550), Color.White);
             spriteBatch.DrawString(smallStandardFont, "Number keys 1,2,3 - Utilise special abilities", new Vector2(100, 570), Color.White);
             spriteBatch.DrawString(mediumStandardFont, "Instructions", new Vector2(1000, 420), Color.White);
-            //                                         Number keys 1,2,3 - Utilise special abilitiesddd
             spriteBatch.DrawString(smallStandardFont, "Shoot at the enemy whilst dodging enemy projectiles.", new Vector2(1000, 470), Color.White);
             spriteBatch.DrawString(smallStandardFont, "Destroy all enemies in a level to advance to the next", new Vector2(1000, 490), Color.White);
             spriteBatch.DrawString(smallStandardFont, "level. Use special abilities to enhance your ship's", new Vector2(1000, 510), Color.White);
             spriteBatch.DrawString(smallStandardFont, "abilities.", new Vector2(1000, 530), Color.White);
-
-            spriteBatch.DrawString(mediumStandardFont, "Press backspace to return to the main menu", new Vector2(300, 700), Color.White);
+            spriteBatch.DrawString(mediumStandardFont, "Credits", new Vector2(100, 650), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Art - Skorpio: CC-BY-SA 3.0, FalcoSun: CC-BY 3.0", new Vector2(100, 700), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Fonts - CRYSTAL, Felipe Munoz: CC-BY, Press Start 2P: SIL Open Font License", new Vector2(100, 720), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "Music and Sound Effects - Juhani Junkala: Public Domain", new Vector2(100, 740), Color.White);
+            spriteBatch.DrawString(smallStandardFont, "For more information visit https://github.com/ijm7/SpaceVulcan", new Vector2(100, 760), Color.White);
+            spriteBatch.DrawString(mediumStandardFont, "Press backspace to return to the main menu", new Vector2(300, 1000), Color.White);
         }
     }
 }
